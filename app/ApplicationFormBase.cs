@@ -16,12 +16,14 @@ namespace xwcs.core.ui.app
 {
     public partial class ApplicationFormBase : Form, IPluginHost // DevExpress.XtraEditors.XtraUserControl, IPluginHost
     {
-        private EventProxy _proxy;
+        private SEventProxy     _proxy;         //just local singleton instance copy
+        private SWidgetManager  _widgetManager; //main instance, who do it first it make it, this is just local singleton instance copy
+
+
         private User _user;
         private PluginsLoader _loader = new PluginsLoader();
         private DocumentManagerSupport _managerSupport;
-        private WidgetManager _widgetManager;
-
+       
         public ApplicationFormBase()
         {
             InitializeComponent();
@@ -35,12 +37,14 @@ namespace xwcs.core.ui.app
                 //NESKOR BUDE UROBENY CES LOGIN FORM OD NEJAKEHO USER PROVIDERU
                 _user = new User();
 
-                _proxy = new EventProxy();
+                _proxy = SEventProxy.getInstance();
                 _proxy.addEventHandler(EventType.AddToolBarRequestEvent, HandleAddToolbarRequestEvent);
                 _proxy.addEventHandler(EventType.OpenPanelRequestEvent, HandleOpenPanelRequestEvent);
 
-                _widgetManager = new WidgetManager(_proxy);
+                //do it here before any other plugin will be loaded!!!!!
+                _widgetManager = SWidgetManager.getInstance();
 
+                //now we can load plugins
                 _loader.LoadPlugins(this, "Plugins");
 
                 _managerSupport = new DocumentManagerSupport(documentManager1, _loader);
@@ -97,7 +101,7 @@ namespace xwcs.core.ui.app
             //workspaceManager1.LoadWorkspace("Paly Space", "ws\\workspace1.xml");
         }
 
-        public EventProxy eventProxy
+        public SEventProxy eventProxy
         {
             get { return _proxy; }
         }
