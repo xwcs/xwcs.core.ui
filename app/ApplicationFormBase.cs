@@ -8,6 +8,7 @@ using DevExpress.XtraEditors;
 using xwcs.core.user;
 using DevExpress.XtraBars.Docking2010.Views;
 using xwcs.core.ui.controls;
+using xwcs.core.manager;
 using System.Threading;
 using System.Globalization;
 
@@ -19,6 +20,7 @@ namespace xwcs.core.ui.app
         private User _user;
         private PluginsLoader _loader = new PluginsLoader();
         private DocumentManagerSupport _managerSupport;
+        private WidgetManager _widgetManager;
 
         public ApplicationFormBase()
         {
@@ -36,6 +38,8 @@ namespace xwcs.core.ui.app
                 _proxy = new EventProxy();
                 _proxy.addEventHandler(EventType.AddToolBarRequestEvent, HandleAddToolbarRequestEvent);
                 _proxy.addEventHandler(EventType.OpenPanelRequestEvent, HandleOpenPanelRequestEvent);
+
+                _widgetManager = new WidgetManager(_proxy);
 
                 _loader.LoadPlugins(this, "Plugins");
 

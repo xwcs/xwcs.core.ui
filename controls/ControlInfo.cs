@@ -16,56 +16,29 @@ namespace xwcs.core.ui.controls
         private Guid _GUID;
 
         //Public getters, setters
+        //Public getters, setters
         public string Name
         {
-            get
-            {
-                return _name;
-            }
-
-            set
-            {
-                _name = value;
-            }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public string Version
         {
-            get
-            {
-                return _version;
-            }
-
-            set
-            {
-                _version = value;
-            }
+            get { return _version; }
+            set { _version = value; }
         }
 
         public controlType Type
         {
-            get
-            {
-                return _type;
-            }
-
-            set
-            {
-                _type = value;
-            }
+            get { return _type; }
+            set { _type = value; }
         }
 
         public Guid GUID
         {
-            get
-            {
-                return _GUID;
-            }
-
-            set
-            {
-                _GUID = value;
-            }
+            get { return _GUID; }
+            set { _GUID = value; }
         }
     }
 }
