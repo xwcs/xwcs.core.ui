@@ -10,21 +10,21 @@ namespace xwcs.core.ui.controls
     public class DocumentManagerState : ManagerStateBase
     {
         [XmlArrayAttribute("Items")]
-        public xwcs.core.ui.controls.ControlInfo[] Documents;
+        public xwcs.core.controls.VisualControlInfo[] Documents;
     }
 
     [xwcs.core.cfg.attr.Config("MainAppConfig")]
     public partial class DocumentManagerSupport : ManagerWithStateBase
     {
         private DevExpress.XtraBars.Docking2010.DocumentManager _manager;
-        private PluginsLoader _loader;
+        private SPluginsLoader _loader;
 
         protected DocumentManagerState state { get { return (DocumentManagerState)_managerState; } }
 
-        public DocumentManagerSupport(DevExpress.XtraBars.Docking2010.DocumentManager manager, PluginsLoader loader)
+        public DocumentManagerSupport(DevExpress.XtraBars.Docking2010.DocumentManager manager)
         {
             _manager = manager;
-            _loader = loader;
+            _loader = SPluginsLoader.getInstance();
             _managerState = new DocumentManagerState();
         }
 
@@ -32,22 +32,30 @@ namespace xwcs.core.ui.controls
         {
             DevExpress.XtraBars.Docking2010.Views.BaseDocumentCollection col = _manager.View.Documents;
 
-            state.Documents = new xwcs.core.ui.controls.ControlInfo[col.Count];
+            state.Documents = new xwcs.core.controls.VisualControlInfo[col.Count];
             int i = 0;
             foreach (DevExpress.XtraBars.Docking2010.Views.BaseDocument document in col)
             {
                 VisualControl vc = (VisualControl)document.Control;
                 if (vc != null)
                 {
-                    state.Documents[i++] = vc.controlInfo;
+                    state.Documents[i++] = vc.VisualControlInfo;
                 }
             }
         }
 
         protected override void afterLoad()
         {
-            foreach(ControlInfo ci in state.Documents)
+            foreach(xwcs.core.controls.VisualControlInfo vci in state.Documents)
             {
+                VisualControl pluginControl = (VisualControl)vci.createInstance();
+                _manager.BeginUpdate();
+                BaseDocument document = _manager.View.AddDocument(pluginControl);
+                document.Caption = vci.Name;
+                document.ControlName = vci.Name;
+                _manager.EndUpdate();
+
+                /*
                 IVisualPlugin plugin = (IVisualPlugin)_loader.getPluginByGuid(ci.GUID);
                 if (plugin != null)
                 {
@@ -59,9 +67,9 @@ namespace xwcs.core.ui.controls
                         document.Caption = pluginControl.controlInfo.Name;
                         document.ControlName = pluginControl.controlInfo.Name;
                         _manager.EndUpdate();
-
                     }
                 }
+                */
             }
         }
     }

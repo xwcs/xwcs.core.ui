@@ -18,12 +18,14 @@ namespace xwcs.core.ui.app
     {
         private SEventProxy     _proxy;         //just local singleton instance copy
         private SWidgetManager  _widgetManager; //main instance, who do it first it make it, this is just local singleton instance copy
+        private SPluginsLoader  _loader;
 
 
         private User _user;
-        private PluginsLoader _loader = new PluginsLoader();
         private DocumentManagerSupport _managerSupport;
-       
+        private DockPanel dockPanelProperty;
+        private DockPanel dockPanelOutput;
+
         public ApplicationFormBase()
         {
             InitializeComponent();
@@ -45,38 +47,50 @@ namespace xwcs.core.ui.app
                 _widgetManager = SWidgetManager.getInstance();
 
                 //now we can load plugins
+                _loader = SPluginsLoader.getInstance();
                 _loader.LoadPlugins(this, "Plugins");
 
-                _managerSupport = new DocumentManagerSupport(documentManager1, _loader);
+                _managerSupport = new DocumentManagerSupport(documentManager1);
             }            
         }
 
         private void HandleOpenPanelRequestEvent(Event e)
         {
             OpenPanelRequest ee = (OpenPanelRequest)e.data;
-            VisualControl pluginControl = (VisualControl)ee.control;
+            xwcs.core.controls.VisualControlInfo vci = (xwcs.core.controls.VisualControlInfo)ee.Vci;
 
-            if (pluginControl != null)
+            VisualControl control = (VisualControl)vci.createInstance();
+            if (control != null)
             {
-                if (pluginControl.controlInfo.Type == controlType.PLGT_document)
+                
+                if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_document)
                 {
-                    documentManager1.BeginUpdate();
-                    BaseDocument document = documentManager1.View.AddDocument(pluginControl);
-                    document.Caption = pluginControl.controlInfo.Name;
-                    document.ControlName = pluginControl.controlInfo.Name;
+                    documentManager1.BeginUpdate();                  
+                    BaseDocument document = documentManager1.View.AddDocument(control);
+                    document.Caption = control.VisualControlInfo.Name;
+                    document.ControlName = control.VisualControlInfo.Name;
                     documentManager1.EndUpdate();
-                    //tabbedView1.Controller.Activate(document);
+                    documentManager1.View.Controller.Activate(document);
+                }
+                else if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_status)
+                {
+                    //be sure panel is on
+                    showOutputPanel();
+
+                    dockPanelOutput.ControlContainer.Controls.Add(control);
+
+                    
                 }
                 else
                 {
                     DockPanel dockPanel1 = dockManager1.AddPanel(DockingStyle.Top);
-                    dockPanel1.ID = ee.guid;
-                    dockPanel1.Text = pluginControl.controlInfo.Name;
+                    dockPanel1.ID = ee.Vci.GUID;
+                    dockPanel1.Text = control.VisualControlInfo.Name;
                     dockPanel1.Height = 400;
                     dockPanel1.FloatSize = new Size(500, 400);
 
-                    pluginControl.Dock = DockStyle.Fill;
-                    dockPanel1.ControlContainer.Controls.Add(pluginControl);
+                    control.Dock = DockStyle.Fill;
+                    dockPanel1.ControlContainer.Controls.Add(control);
                 }
             }
         }
@@ -91,7 +105,8 @@ namespace xwcs.core.ui.app
             {
                 switch (mar.destination)
                 {
-                    case MenuDestination.MENU_file_open: barSubItem6.AddItem(mar.content); break;
+                    case MenuDestination.MENU_file_open: barSubItem_FileOpen.AddItem(mar.content); break;
+                    case MenuDestination.MENU_ViewOtherWindows: barSubItem_ViewOtherWindows.AddItem(mar.content); break;
                 }
             }
         }
@@ -118,16 +133,11 @@ namespace xwcs.core.ui.app
         {
             foreach (DockPanel panel in dockManager1.Panels)
             {
-                IVisualPlugin plugin = (IVisualPlugin)_loader.getPluginByGuid(panel.ID);
-
-                if (plugin != null)
+                XtraUserControl control = _loader.getControlByGuid(panel.ID);
+                if (control != null)
                 {
-                    XtraUserControl control = plugin.getControlByGuid(panel.ID);
-                    if (control != null)
-                    {
-                        control.Dock = DockStyle.Fill;
-                        panel.ControlContainer.Controls.Add(control);
-                    }
+                    control.Dock = DockStyle.Fill;
+                    panel.ControlContainer.Controls.Add(control);
                 }
             }
         }
@@ -140,6 +150,53 @@ namespace xwcs.core.ui.app
         private void workspaceManager1_AfterApplyWorkspace(object sender, EventArgs e)
         {
             _managerSupport.load();
+        }
+
+        private void showPropertyPanel()
+        {
+            //if (dockPanelProperty != null) return;
+            int iPos;
+
+            if ((iPos = dockManager1.Panels.IndexOf(dockPanelProperty))  >= 0)
+            {
+                dockManager1.Panels[iPos].Visibility = DockVisibility.Visible;
+            }
+            else
+            {
+                dockPanelProperty = dockManager1.AddPanel(DockingStyle.Left);
+                dockPanelProperty.ID = Guid.Parse("3479629d-d423-4f13-851f-13a89c1293e2");
+                dockPanelProperty.Text = "Property";
+                dockPanelProperty.Width = 200;
+                dockPanelProperty.FloatSize = new Size(200, 500);
+            }
+        }
+
+        private void barButtonItem11_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            showPropertyPanel();
+        }
+
+        private void showOutputPanel()
+        {
+            int iPos;
+
+            if ((iPos = dockManager1.Panels.IndexOf(dockPanelOutput)) >= 0)
+            {
+                dockManager1.Panels[iPos].Visibility = DockVisibility.Visible;
+            }
+            else
+            {
+                dockPanelOutput = dockManager1.AddPanel(DockingStyle.Bottom);
+                dockPanelOutput.ID = Guid.Parse("35f26588-5210-4f31-8d91-428e8d4e5b28");
+                dockPanelOutput.Text = "Output";
+                dockPanelOutput.Height = 200;
+                dockPanelOutput.FloatSize = new Size(500, 200);
+            }
+        }
+
+        private void barButtonItem12_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            showOutputPanel();
         }
     }
 }

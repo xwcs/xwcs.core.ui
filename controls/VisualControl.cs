@@ -10,13 +10,10 @@ using System.Windows.Forms;
 
 namespace xwcs.core.ui.controls
 {
-    public partial class VisualControl : DevExpress.XtraEditors.XtraUserControl, xwcs.core.ui.controls.IControl
+    public class VisualControl : DevExpress.XtraEditors.XtraUserControl, xwcs.core.controls.IVisualControl
     {
-        protected xwcs.core.ui.controls.ControlInfo _controlInfo;
+        private xwcs.core.controls.VisualControlInfo _visualControlInfo;
 
-        public ControlInfo controlInfo
-        {
-            get { return _controlInfo; }
-        }
+        public  xwcs.core.controls.VisualControlInfo VisualControlInfo { get { return _visualControlInfo; } set { _visualControlInfo = value; } }
     }
 }

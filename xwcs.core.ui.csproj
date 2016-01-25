@@ -53,9 +53,7 @@
     <Compile Include="app\ApplicationFormBase.Designer.cs">
       <DependentUpon>ApplicationFormBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="controls\ControlInfo.cs" />
     <Compile Include="controls\DocumentManagerSupport.cs" />
-    <Compile Include="controls\IControl.cs" />
     <Compile Include="controls\VisualControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
