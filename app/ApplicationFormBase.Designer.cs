@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationFormBase));
-            DevExpress.Utils.Animation.PushTransition pushTransition1 = new DevExpress.Utils.Animation.PushTransition();
-            this.barManager1 = new DevExpress.XtraBars.BarManager();
+            DevExpress.Utils.Animation.ShapeTransition shapeTransition1 = new DevExpress.Utils.Animation.ShapeTransition();
+            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.bar2 = new DevExpress.XtraBars.Bar();
             this.barSubItem1 = new DevExpress.XtraBars.BarSubItem();
@@ -48,6 +49,7 @@
             this.barButtonItem10 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem12 = new DevExpress.XtraBars.BarButtonItem();
+            this.barSubItem_ViewOtherWindows = new DevExpress.XtraBars.BarSubItem();
             this.barSubItem_Tools = new DevExpress.XtraBars.BarSubItem();
             this.barButtonItem13 = new DevExpress.XtraBars.BarButtonItem();
             this.barWorkspaceMenuItem1 = new DevExpress.XtraBars.BarWorkspaceMenuItem();
@@ -58,12 +60,12 @@
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager();
+            this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
-            this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager();
-            this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView();
-            this.barSubItem_ViewOtherWindows = new DevExpress.XtraBars.BarSubItem();
+            this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
+            this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).BeginInit();
@@ -106,7 +108,7 @@
             this.barWorkspaceMenuItem1,
             this.barSubItem_ViewOtherWindows});
             this.barManager1.MainMenu = this.bar2;
-            this.barManager1.MaxItemId = 29;
+            this.barManager1.MaxItemId = 30;
             this.barManager1.StatusBar = this.bar3;
             // 
             // bar1
@@ -192,12 +194,14 @@
             resources.ApplyResources(this.barButtonItem7, "barButtonItem7");
             this.barButtonItem7.Id = 20;
             this.barButtonItem7.Name = "barButtonItem7";
+            this.barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem7_ItemClick);
             // 
             // barButtonItem8
             // 
             resources.ApplyResources(this.barButtonItem8, "barButtonItem8");
             this.barButtonItem8.Id = 21;
             this.barButtonItem8.Name = "barButtonItem8";
+            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem8_ItemClick);
             // 
             // barButtonItem9
             // 
@@ -233,14 +237,18 @@
             resources.ApplyResources(this.barButtonItem11, "barButtonItem11");
             this.barButtonItem11.Id = 24;
             this.barButtonItem11.Name = "barButtonItem11";
-            this.barButtonItem11.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem11_ItemClick);
             // 
             // barButtonItem12
             // 
             resources.ApplyResources(this.barButtonItem12, "barButtonItem12");
             this.barButtonItem12.Id = 25;
             this.barButtonItem12.Name = "barButtonItem12";
-            this.barButtonItem12.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem12_ItemClick);
+            // 
+            // barSubItem_ViewOtherWindows
+            // 
+            resources.ApplyResources(this.barSubItem_ViewOtherWindows, "barSubItem_ViewOtherWindows");
+            this.barSubItem_ViewOtherWindows.Id = 29;
+            this.barSubItem_ViewOtherWindows.Name = "barSubItem_ViewOtherWindows";
             // 
             // barSubItem_Tools
             // 
@@ -261,12 +269,13 @@
             resources.ApplyResources(this.barWorkspaceMenuItem1, "barWorkspaceMenuItem1");
             this.barWorkspaceMenuItem1.Id = 27;
             this.barWorkspaceMenuItem1.Name = "barWorkspaceMenuItem1";
+            this.barWorkspaceMenuItem1.ShowSaveLoadCommands = true;
             this.barWorkspaceMenuItem1.WorkspaceManager = this.workspaceManager1;
             // 
             // workspaceManager1
             // 
             this.workspaceManager1.TargetControl = this;
-            this.workspaceManager1.TransitionType = pushTransition1;
+            this.workspaceManager1.TransitionType = shapeTransition1;
             this.workspaceManager1.AfterApplyWorkspace += new System.EventHandler(this.workspaceManager1_AfterApplyWorkspace);
             this.workspaceManager1.WorkspaceSaved += new DevExpress.Utils.WorkspaceEventHandler(this.workspaceManager1_WorkspaceSaved);
             // 
@@ -344,12 +353,6 @@
             this.documentManager1.ViewCollection.AddRange(new DevExpress.XtraBars.Docking2010.Views.BaseView[] {
             this.tabbedView1});
             // 
-            // barSubItem_ViewOtherWindows
-            // 
-            resources.ApplyResources(this.barSubItem_ViewOtherWindows, "barSubItem_ViewOtherWindows");
-            this.barSubItem_ViewOtherWindows.Id = 28;
-            this.barSubItem_ViewOtherWindows.Name = "barSubItem_ViewOtherWindows";
-            // 
             // ApplicationFormBase
             // 
             resources.ApplyResources(this, "$this");
@@ -359,6 +362,8 @@
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
             this.Name = "ApplicationFormBase";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ApplicationFormBase_FormClosing);
+            this.Shown += new System.EventHandler(this.ApplicationFormBase_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).EndInit();
@@ -403,6 +408,7 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem6;
         private DevExpress.XtraBars.BarWorkspaceMenuItem barWorkspaceMenuItem1;
         private DevExpress.Utils.WorkspaceManager workspaceManager1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private DevExpress.XtraBars.BarSubItem barSubItem_ViewOtherWindows;
     }
 }

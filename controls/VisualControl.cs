@@ -12,6 +12,12 @@ namespace xwcs.core.ui.controls
 {
     public class VisualControl : DevExpress.XtraEditors.XtraUserControl, xwcs.core.controls.IVisualControl
     {
+        //TODO
+        //ISerializableComp podobne ako documentManager kuknut, implementnut na uroven VisualControl
+        //2 metody beforeSave, afterLoad
+
+
+
         private xwcs.core.controls.VisualControlInfo _visualControlInfo;
 
         public  xwcs.core.controls.VisualControlInfo VisualControlInfo { get { return _visualControlInfo; } set { _visualControlInfo = value; } }

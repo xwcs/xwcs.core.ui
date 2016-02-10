@@ -11,20 +11,20 @@ namespace xwcs.core.ui.controls
     {
         [XmlArrayAttribute("Items")]
         public xwcs.core.controls.VisualControlInfo[] Documents;
+
+        public DocumentManagerState() {; }
     }
 
     [xwcs.core.cfg.attr.Config("MainAppConfig")]
     public partial class DocumentManagerSupport : ManagerWithStateBase
     {
         private DevExpress.XtraBars.Docking2010.DocumentManager _manager;
-        private SPluginsLoader _loader;
 
         protected DocumentManagerState state { get { return (DocumentManagerState)_managerState; } }
 
         public DocumentManagerSupport(DevExpress.XtraBars.Docking2010.DocumentManager manager)
         {
             _manager = manager;
-            _loader = SPluginsLoader.getInstance();
             _managerState = new DocumentManagerState();
         }
 
@@ -54,22 +54,6 @@ namespace xwcs.core.ui.controls
                 document.Caption = vci.Name;
                 document.ControlName = vci.Name;
                 _manager.EndUpdate();
-
-                /*
-                IVisualPlugin plugin = (IVisualPlugin)_loader.getPluginByGuid(ci.GUID);
-                if (plugin != null)
-                {
-                    VisualControl pluginControl = (VisualControl)plugin.getControlByGuid(ci.GUID);
-                    if (pluginControl != null)
-                    {
-                        _manager.BeginUpdate();
-                        BaseDocument document = _manager.View.AddDocument(pluginControl);
-                        document.Caption = pluginControl.controlInfo.Name;
-                        document.ControlName = pluginControl.controlInfo.Name;
-                        _manager.EndUpdate();
-                    }
-                }
-                */
             }
         }
     }

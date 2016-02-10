@@ -46,6 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controls\DockPanelBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="controls\DockPanelBase.Designer.cs">
+      <DependentUpon>DockPanelBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="controls\XwBarButtonItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="app\ApplicationFormBase.cs">
       <SubType>Form</SubType>
@@ -70,6 +79,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="app\ApplicationFormBase.resx">
       <DependentUpon>ApplicationFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="controls\DockPanelBase.resx">
+      <DependentUpon>DockPanelBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>

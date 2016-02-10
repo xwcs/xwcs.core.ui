@@ -11,6 +11,7 @@ using xwcs.core.ui.controls;
 using xwcs.core.manager;
 using System.Threading;
 using System.Globalization;
+using System.IO;
 
 namespace xwcs.core.ui.app
 {
@@ -19,12 +20,18 @@ namespace xwcs.core.ui.app
         private SEventProxy     _proxy;         //just local singleton instance copy
         private SWidgetManager  _widgetManager; //main instance, who do it first it make it, this is just local singleton instance copy
         private SPluginsLoader  _loader;
-
-
         private User _user;
         private DocumentManagerSupport _managerSupport;
-        private DockPanel dockPanelProperty;
-        private DockPanel dockPanelOutput;
+
+        public SEventProxy eventProxy
+        {
+            get { return _proxy; }
+        }
+
+        public IUser currentUser
+        {
+            get { return _user; }
+        }
 
         public ApplicationFormBase()
         {
@@ -51,8 +58,9 @@ namespace xwcs.core.ui.app
                 _loader.LoadPlugins(this, "Plugins");
 
                 _managerSupport = new DocumentManagerSupport(documentManager1);
-            }            
+            }
         }
+
 
         private void HandleOpenPanelRequestEvent(Event e)
         {
@@ -62,10 +70,10 @@ namespace xwcs.core.ui.app
             VisualControl control = (VisualControl)vci.createInstance();
             if (control != null)
             {
-                
+
                 if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_document)
                 {
-                    documentManager1.BeginUpdate();                  
+                    documentManager1.BeginUpdate();
                     BaseDocument document = documentManager1.View.AddDocument(control);
                     document.Caption = control.VisualControlInfo.Name;
                     document.ControlName = control.VisualControlInfo.Name;
@@ -74,12 +82,39 @@ namespace xwcs.core.ui.app
                 }
                 else if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_status)
                 {
-                    //be sure panel is on
-                    showOutputPanel();
+                    DockPanel pb = null;
 
-                    dockPanelOutput.ControlContainer.Controls.Add(control);
+                    if (dockManager1.Panels.Count == 0)
+                    {
+                        pb = dockManager1.AddPanel(DockingStyle.Bottom);
+                    }
+                    else
+                    if (dockManager1.Panels.Count == 1)
+                    {
+                        pb = dockManager1.AddPanel(DockingStyle.Bottom);
+                        DockPanel panelX = dockManager1.Panels[0];
+                        pb.DockAsTab(panelX);
+                    }
+                    else
+                    if (dockManager1.Panels.Count > 1)
+                    {
+                        pb = dockManager1.AddPanel(DockingStyle.Bottom);
+                        DockPanel container = dockManager1.Panels[0].ParentPanel;
+                        if (container != null) pb.DockAsTab(container);
+                    }
 
-                    
+                    pb.ClosedPanel += (senderX, eX) =>
+                    {
+                        dockManager1.RemovePanel(pb);
+                    };
+
+                    control.Dock = DockStyle.Fill;
+                    pb.ControlContainer.Controls.Add(control);
+                    pb.ID = vci.GUID;
+                    pb.Text = vci.Name;
+                    pb.Height = 200;
+                    pb.FloatSize = new Size(500, 200);
+
                 }
                 else
                 {
@@ -106,26 +141,13 @@ namespace xwcs.core.ui.app
                 switch (mar.destination)
                 {
                     case MenuDestination.MENU_file_open: barSubItem_FileOpen.AddItem(mar.content); break;
-                    case MenuDestination.MENU_ViewOtherWindows: barSubItem_ViewOtherWindows.AddItem(mar.content); break;
+                    case MenuDestination.MENU_ViewOtherWindows:
+                        {
+                            Console.WriteLine(mar.content.Caption);
+                            barSubItem_ViewOtherWindows.AddItem(mar.content);
+                            break;
+                        }                        
                 }
-            }
-        }
-
-        private void LoadWorkSpaces()
-        {
-            //workspaceManager1.LoadWorkspace("Paly Space", "ws\\workspace1.xml");
-        }
-
-        public SEventProxy eventProxy
-        {
-            get { return _proxy; }
-        }
-
-        public IUser currentUser
-        {
-            get
-            {
-                return _user;
             }
         }
 
@@ -138,6 +160,11 @@ namespace xwcs.core.ui.app
                 {
                     control.Dock = DockStyle.Fill;
                     panel.ControlContainer.Controls.Add(control);
+
+                    panel.ClosedPanel += (senderX, eX) =>
+                    {
+                        dockManager1.RemovePanel(panel);
+                    };
                 }
             }
         }
@@ -152,51 +179,112 @@ namespace xwcs.core.ui.app
             _managerSupport.load();
         }
 
-        private void showPropertyPanel()
+        private void loadWorkSpace()
         {
-            //if (dockPanelProperty != null) return;
-            int iPos;
+            if (DesignMode) return;
 
-            if ((iPos = dockManager1.Panels.IndexOf(dockPanelProperty))  >= 0)
+            Stream reader = null;
+            try
             {
-                dockManager1.Panels[iPos].Visibility = DockVisibility.Visible;
+                reader = xwcs.core.manager.SPersistenceManager.getInstance().getReader("DefaultWorkspace");
+                workspaceManager1.LoadWorkspace("DefaultWorkspace", reader);
+                workspaceManager1.ApplyWorkspace("DefaultWorkspace");                
             }
-            else
+            catch (Exception ex)
             {
-                dockPanelProperty = dockManager1.AddPanel(DockingStyle.Left);
-                dockPanelProperty.ID = Guid.Parse("3479629d-d423-4f13-851f-13a89c1293e2");
-                dockPanelProperty.Text = "Property";
-                dockPanelProperty.Width = 200;
-                dockPanelProperty.FloatSize = new Size(200, 500);
+                
+                SLogManager.getInstance().log(ex.Message);
             }
-        }
-
-        private void barButtonItem11_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            showPropertyPanel();
-        }
-
-        private void showOutputPanel()
-        {
-            int iPos;
-
-            if ((iPos = dockManager1.Panels.IndexOf(dockPanelOutput)) >= 0)
+            finally
             {
-                dockManager1.Panels[iPos].Visibility = DockVisibility.Visible;
-            }
-            else
-            {
-                dockPanelOutput = dockManager1.AddPanel(DockingStyle.Bottom);
-                dockPanelOutput.ID = Guid.Parse("35f26588-5210-4f31-8d91-428e8d4e5b28");
-                dockPanelOutput.Text = "Output";
-                dockPanelOutput.Height = 200;
-                dockPanelOutput.FloatSize = new Size(500, 200);
+                if (reader != null) reader.Close();
             }
         }
 
-        private void barButtonItem12_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void saveWorkspace()
         {
-            showOutputPanel();
+            if (DesignMode) return;
+
+            Stream writer = null;
+            try
+            {
+                writer = xwcs.core.manager.SPersistenceManager.getInstance().getWriter("DefaultWorkspace");
+                workspaceManager1.SaveWorkspace("DefaultWorkspace", writer, true);
+            }
+            catch (Exception ex)
+            {
+
+                SLogManager.getInstance().log(ex.Message);
+            }
+            finally
+            {
+                if (writer != null) writer.Close();
+            }
+        }
+
+        protected void ApplicationFormBase_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            saveWorkspace();
+        }
+
+        protected void ApplicationFormBase_Shown(object sender, EventArgs e)
+        {
+            loadWorkSpace();
+        }
+
+        protected void barButtonItem7_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            //Create new workspace
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    documentManager1.View.Controller.CloseAll();
+                    workspaceManager1.RemoveWorkspace("DefaultWorkspace");
+
+                    xwcs.core.manager.SPersistenceManager.getInstance().createWorkSpace(folderBrowserDialog1.SelectedPath);                    
+                }
+                catch(Exception ex)
+                {
+                    SLogManager.getInstance().log(ex.Message);
+                }                
+            }
+        }
+
+        protected void barButtonItem8_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            //Change workspace
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    xwcs.core.manager.SPersistenceManager.getInstance().setWorkSpace(folderBrowserDialog1.SelectedPath);
+
+                    DockPanel[] p = new DockPanel[dockManager1.Count];
+                    int i = 0;
+                    foreach (DockPanel dp in dockManager1.Panels)
+                    {
+                        p[i++] = dp;
+                    }
+                    foreach (DockPanel dp in p)
+                    {
+                        dp.Close();
+                    }
+
+                    documentManager1.View.Controller.CloseAll();
+                    workspaceManager1.RemoveWorkspace("DefaultWorkspace");
+                    loadWorkSpace();
+                }
+                catch(IOException ex)
+                {
+                    MessageBox.Show("This is not workspace's folder!");
+                    SLogManager.getInstance().log(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    SLogManager.getInstance().log(ex.Message);
+                }
+            }
         }
     }
 }

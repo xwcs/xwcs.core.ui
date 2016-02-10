@@ -169,7 +169,7 @@
     <value>Status</value>
   </data>
   <data name="barSubItem_ViewOtherWindows.Caption" xml:space="preserve">
-    <value>Other windows</value>
+    <value>Other Windows</value>
   </data>
   <data name="barSubItem_Tools.Caption" xml:space="preserve">
     <value>Tools</value>
@@ -389,6 +389,12 @@
   <data name="&gt;&gt;barButtonItem12.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
+  <data name="&gt;&gt;barSubItem_ViewOtherWindows.Name" xml:space="preserve">
+    <value>barSubItem_ViewOtherWindows</value>
+  </data>
+  <data name="&gt;&gt;barSubItem_ViewOtherWindows.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
   <data name="&gt;&gt;barSubItem_Tools.Name" xml:space="preserve">
     <value>barSubItem_Tools</value>
   </data>
@@ -455,11 +461,11 @@
   <data name="&gt;&gt;tabbedView1.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView, DevExpress.XtraBars.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;barSubItem_ViewOtherWindows.Name" xml:space="preserve">
-    <value>barSubItem_ViewOtherWindows</value>
+  <data name="&gt;&gt;folderBrowserDialog1.Name" xml:space="preserve">
+    <value>folderBrowserDialog1</value>
   </data>
-  <data name="&gt;&gt;barSubItem_ViewOtherWindows.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ApplicationFormBase</value>
@@ -487,5 +493,8 @@
   </data>
   <metadata name="documentManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>142, 17</value>
+  </metadata>
+  <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>601, 17</value>
   </metadata>
 </root>
