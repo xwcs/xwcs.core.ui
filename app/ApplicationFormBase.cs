@@ -57,7 +57,9 @@ namespace xwcs.core.ui.app
                 _loader = SPluginsLoader.getInstance();
                 _loader.LoadPlugins(this, "Plugins");
 
-                _managerSupport = new DocumentManagerSupport(documentManager1);
+                _managerSupport = new DocumentManagerSupport(   documentManager1,
+                                                                new DevExpress.XtraBars.BarItem[] { barButtonSave },
+                                                                new DevExpress.XtraBars.BarItem[] { barButtonSaveAll });
             }
         }
 
@@ -191,9 +193,8 @@ namespace xwcs.core.ui.app
                 workspaceManager1.ApplyWorkspace("DefaultWorkspace");                
             }
             catch (Exception ex)
-            {
-                
-                SLogManager.getInstance().log(ex.Message);
+            {                
+                SLogManager.getInstance().Error(ex.Message);
             }
             finally
             {
@@ -214,7 +215,7 @@ namespace xwcs.core.ui.app
             catch (Exception ex)
             {
 
-                SLogManager.getInstance().log(ex.Message);
+                SLogManager.getInstance().Error(ex.Message);
             }
             finally
             {
@@ -246,7 +247,7 @@ namespace xwcs.core.ui.app
                 }
                 catch(Exception ex)
                 {
-                    SLogManager.getInstance().log(ex.Message);
+                    SLogManager.getInstance().Error(ex.Message);
                 }                
             }
         }
@@ -278,13 +279,23 @@ namespace xwcs.core.ui.app
                 catch(IOException ex)
                 {
                     MessageBox.Show("This is not workspace's folder!");
-                    SLogManager.getInstance().log(ex.Message);
+                    SLogManager.getInstance().Info(ex.Message);
                 }
                 catch (Exception ex)
                 {
-                    SLogManager.getInstance().log(ex.Message);
+                    SLogManager.getInstance().Error(ex.Message);
                 }
             }
+        }
+
+        private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            _managerSupport.SaveChangedControls();
+        }
+
+        private void barButtonSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            _managerSupport.saveSelectedControl();
         }
     }
 }

@@ -129,10 +129,10 @@
   <data name="barSubItem_FileOpen.Caption" xml:space="preserve">
     <value>Open</value>
   </data>
-  <data name="barButtonItem1.Caption" xml:space="preserve">
+  <data name="barButtonSave.Caption" xml:space="preserve">
     <value>Save</value>
   </data>
-  <data name="barButtonItem2.Caption" xml:space="preserve">
+  <data name="barButtonSaveAll.Caption" xml:space="preserve">
     <value>Save All</value>
   </data>
   <data name="barButtonItem3.Caption" xml:space="preserve">
@@ -311,16 +311,16 @@
   <data name="&gt;&gt;barSubItem_FileOpen.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;barButtonItem1.Name" xml:space="preserve">
-    <value>barButtonItem1</value>
+  <data name="&gt;&gt;barButtonSave.Name" xml:space="preserve">
+    <value>barButtonSave</value>
   </data>
-  <data name="&gt;&gt;barButtonItem1.Type" xml:space="preserve">
+  <data name="&gt;&gt;barButtonSave.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;barButtonItem2.Name" xml:space="preserve">
-    <value>barButtonItem2</value>
+  <data name="&gt;&gt;barButtonSaveAll.Name" xml:space="preserve">
+    <value>barButtonSaveAll</value>
   </data>
-  <data name="&gt;&gt;barButtonItem2.Type" xml:space="preserve">
+  <data name="&gt;&gt;barButtonSaveAll.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barButtonItem3.Name" xml:space="preserve">

@@ -28,16 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationFormBase));
             DevExpress.Utils.Animation.ShapeTransition shapeTransition1 = new DevExpress.Utils.Animation.ShapeTransition();
-            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
+            this.barManager1 = new DevExpress.XtraBars.BarManager();
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.bar2 = new DevExpress.XtraBars.Bar();
             this.barSubItem1 = new DevExpress.XtraBars.BarSubItem();
             this.barSubItem_FileOpen = new DevExpress.XtraBars.BarSubItem();
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonSave = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonSaveAll = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barSubItem7 = new DevExpress.XtraBars.BarSubItem();
@@ -60,11 +59,11 @@
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
+            this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
-            this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
-            this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
+            this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager();
+            this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
@@ -91,8 +90,8 @@
             this.barSubItem_Tools,
             this.barSubItem5,
             this.barSubItem_FileOpen,
-            this.barButtonItem1,
-            this.barButtonItem2,
+            this.barButtonSave,
+            this.barButtonSaveAll,
             this.barButtonItem3,
             this.barButtonItem4,
             this.barButtonItem5,
@@ -142,8 +141,8 @@
             this.barSubItem1.Id = 6;
             this.barSubItem1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_FileOpen),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem1),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem2),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonSave),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonSaveAll),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem3),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem4),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem7),
@@ -156,17 +155,21 @@
             this.barSubItem_FileOpen.Id = 12;
             this.barSubItem_FileOpen.Name = "barSubItem_FileOpen";
             // 
-            // barButtonItem1
+            // barButtonSave
             // 
-            resources.ApplyResources(this.barButtonItem1, "barButtonItem1");
-            this.barButtonItem1.Id = 13;
-            this.barButtonItem1.Name = "barButtonItem1";
+            resources.ApplyResources(this.barButtonSave, "barButtonSave");
+            this.barButtonSave.Enabled = false;
+            this.barButtonSave.Id = 13;
+            this.barButtonSave.Name = "barButtonSave";
+            this.barButtonSave.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonSave_ItemClick);
             // 
-            // barButtonItem2
+            // barButtonSaveAll
             // 
-            resources.ApplyResources(this.barButtonItem2, "barButtonItem2");
-            this.barButtonItem2.Id = 14;
-            this.barButtonItem2.Name = "barButtonItem2";
+            resources.ApplyResources(this.barButtonSaveAll, "barButtonSaveAll");
+            this.barButtonSaveAll.Enabled = false;
+            this.barButtonSaveAll.Id = 14;
+            this.barButtonSaveAll.Name = "barButtonSaveAll";
+            this.barButtonSaveAll.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
             // 
             // barButtonItem3
             // 
@@ -388,12 +391,12 @@
         private DevExpress.XtraBars.Docking.DockManager dockManager1;
         private DevExpress.XtraBars.BarSubItem barSubItem1;
         private DevExpress.XtraBars.BarSubItem barSubItem_FileOpen;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.BarButtonItem barButtonSave;
         private DevExpress.XtraBars.BarSubItem barSubItem2;
         private DevExpress.XtraBars.BarSubItem barSubItem3;
         private DevExpress.XtraBars.BarSubItem barSubItem_Tools;
         private DevExpress.XtraBars.BarSubItem barSubItem5;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraBars.BarButtonItem barButtonSaveAll;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarSubItem barSubItem7;
