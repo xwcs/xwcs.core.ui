@@ -114,9 +114,8 @@ namespace xwcs.core.ui.app
                     pb.ControlContainer.Controls.Add(control);
                     pb.ID = vci.GUID;
                     pb.Text = vci.Name;
-                    pb.Height = 200;
-                    pb.FloatSize = new Size(500, 200);
-
+                    //pb.Height = 200;
+                    //pb.FloatSize = new Size(500, 200);
                 }
                 else
                 {
@@ -132,9 +131,22 @@ namespace xwcs.core.ui.app
             }
         }
 
+        private void addItemToMenu(DevExpress.XtraBars.BarSubItem sourceItem, DevExpress.XtraBars.BarItem newItem)
+        {
+            DevExpress.XtraBars.BarItemLink linkForDelete = null;
+            foreach (DevExpress.XtraBars.BarItemLink link in sourceItem.ItemLinks)
+            {
+                if (link.Caption == newItem.Caption) { linkForDelete = link; break; }
+            }
+            if (linkForDelete != null) sourceItem.RemoveLink(linkForDelete);
+
+            int newID = sourceItem.ItemLinks.Count;
+            newItem.Id = newID;
+            sourceItem.AddItem(newItem);
+        }
+
         private void HandleAddToolbarRequestEvent(Event e)
         {
-            //TODO : dorobit
             AddToolBarRequest ee = (AddToolBarRequest)e.data;
             MenuAddRequest[] menu = ee.content;
 
@@ -142,13 +154,16 @@ namespace xwcs.core.ui.app
             {
                 switch (mar.destination)
                 {
-                    case MenuDestination.MENU_file_open: barSubItem_FileOpen.AddItem(mar.content); break;
+                    case MenuDestination.MENU_file_open:
+                    {
+                        addItemToMenu(barSubItem_FileOpen, mar.content);
+                        break;
+                    }                        
                     case MenuDestination.MENU_ViewOtherWindows:
-                        {
-                            Console.WriteLine(mar.content.Caption);
-                            barSubItem_ViewOtherWindows.AddItem(mar.content);
-                            break;
-                        }                        
+                    {
+                        addItemToMenu(barSubItem_ViewOtherWindows, mar.content);
+                        break;
+                    }                        
                 }
             }
         }
@@ -189,6 +204,7 @@ namespace xwcs.core.ui.app
             try
             {
                 reader = xwcs.core.manager.SPersistenceManager.getInstance().getReader("DefaultWorkspace");
+                reader.Seek(0, SeekOrigin.Begin);
                 workspaceManager1.LoadWorkspace("DefaultWorkspace", reader);
                 workspaceManager1.ApplyWorkspace("DefaultWorkspace");                
             }
@@ -231,6 +247,7 @@ namespace xwcs.core.ui.app
         protected void ApplicationFormBase_Shown(object sender, EventArgs e)
         {
             loadWorkSpace();
+            _proxy.fireEvent(new Event(this, EventType.WorkSpaceLoadedEvent, null));
         }
 
         protected void barButtonItem7_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

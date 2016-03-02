@@ -24,7 +24,8 @@ namespace xwcs.core.ui.controls
 
         public VisualControl()
         {
-            Enter += VisualControl_Enter; 
+            Enter += VisualControl_Enter;
+        } 
 
         public void VisualControl_Enter(object sender, EventArgs e)
         {

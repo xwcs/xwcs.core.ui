@@ -8,10 +8,9 @@ namespace xwcs.core.ui.controls
 {
     public class XwBarButtonItem : DevExpress.XtraBars.BarButtonItem
     {
-        public XwBarButtonItem(string c, int id)
+        public XwBarButtonItem(string c)
         {
-            Id = id;
-            Caption = c;
+            Caption = c;            
         }
     }
 }

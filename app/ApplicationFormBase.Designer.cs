@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationFormBase));
-            DevExpress.Utils.Animation.ShapeTransition shapeTransition1 = new DevExpress.Utils.Animation.ShapeTransition();
-            this.barManager1 = new DevExpress.XtraBars.BarManager();
+            DevExpress.Utils.Animation.PushTransition pushTransition1 = new DevExpress.Utils.Animation.PushTransition();
+            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.bar2 = new DevExpress.XtraBars.Bar();
             this.barSubItem1 = new DevExpress.XtraBars.BarSubItem();
@@ -59,11 +60,11 @@
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager();
+            this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
-            this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager();
-            this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView();
+            this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
+            this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
@@ -278,7 +279,7 @@
             // workspaceManager1
             // 
             this.workspaceManager1.TargetControl = this;
-            this.workspaceManager1.TransitionType = shapeTransition1;
+            this.workspaceManager1.TransitionType = pushTransition1;
             this.workspaceManager1.AfterApplyWorkspace += new System.EventHandler(this.workspaceManager1_AfterApplyWorkspace);
             this.workspaceManager1.WorkspaceSaved += new DevExpress.Utils.WorkspaceEventHandler(this.workspaceManager1_WorkspaceSaved);
             // 
