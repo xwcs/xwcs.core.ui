@@ -20,7 +20,7 @@ namespace xwcs.core.ui.app
         private SEventProxy     _proxy;         //just local singleton instance copy
         private SWidgetManager  _widgetManager; //main instance, who do it first it make it, this is just local singleton instance copy
         private SPluginsLoader  _loader;
-        private User _user;
+        private IUser _user;
         private DocumentManagerSupport _managerSupport;
 
         public SEventProxy eventProxy
@@ -43,8 +43,9 @@ namespace xwcs.core.ui.app
                 documentManager1.View.UseDocumentSelector = DevExpress.Utils.DefaultBoolean.True;
                 tabbedView1.FloatingDocumentContainer = FloatingDocumentContainer.DocumentsHost;
 
-                //NESKOR BUDE UROBENY CES LOGIN FORM OD NEJAKEHO USER PROVIDERU
-                _user = new User();
+                // Security context must be caal first time in main app and 
+				// must have providers set
+                _user = SecurityContext.getInstance().CurrentUser;
 
                 _proxy = SEventProxy.getInstance();
                 _proxy.addEventHandler(EventType.AddToolBarRequestEvent, HandleAddToolbarRequestEvent);
