@@ -84,7 +84,7 @@ namespace xwcs.core.ui.app
                 }
                 else if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_status)
                 {
-                    DockPanel pb = null;
+                    DockPanel pb = new DockPanel();
 
                     if (dockManager1.Panels.Count == 0)
                     {
@@ -94,28 +94,27 @@ namespace xwcs.core.ui.app
                     if (dockManager1.Panels.Count == 1)
                     {
                         pb = dockManager1.AddPanel(DockingStyle.Bottom);
-                        DockPanel panelX = dockManager1.Panels[0];
+                        DockPanel panelX = dockManager1.Panels[0] as DockPanel;
                         pb.DockAsTab(panelX);
                     }
                     else
                     if (dockManager1.Panels.Count > 1)
                     {
                         pb = dockManager1.AddPanel(DockingStyle.Bottom);
-                        DockPanel container = dockManager1.Panels[0].ParentPanel;
+                        DockPanel container = dockManager1.Panels[0].ParentPanel as DockPanel;
                         if (container != null) pb.DockAsTab(container);
                     }
 
                     pb.ClosedPanel += (senderX, eX) =>
                     {
-                        dockManager1.RemovePanel(pb);
+                        dockManager1.RemovePanel(pb);                        
                     };
+                    
 
                     control.Dock = DockStyle.Fill;
                     pb.ControlContainer.Controls.Add(control);
                     pb.ID = vci.GUID;
                     pb.Text = vci.Name;
-                    //pb.Height = 200;
-                    //pb.FloatSize = new Size(500, 200);
                 }
                 else
                 {
@@ -180,7 +179,11 @@ namespace xwcs.core.ui.app
 
                     panel.ClosedPanel += (senderX, eX) =>
                     {
+                        SLogManager.getInstance().Info("Panels count = " + dockManager1.Panels.Count);
                         dockManager1.RemovePanel(panel);
+                        dockManager1.Clear();                        
+                        SLogManager.getInstance().Info("Deleting panel ID=" + panel.ID);
+                        SLogManager.getInstance().Info("Panels count = " + dockManager1.Panels.Count);
                     };
                 }
             }
@@ -188,12 +191,12 @@ namespace xwcs.core.ui.app
 
         private void workspaceManager1_WorkspaceSaved(object sender, DevExpress.Utils.WorkspaceEventArgs args)
         {
-            _managerSupport.save();
+            //_managerSupport.save();
         }
 
         private void workspaceManager1_AfterApplyWorkspace(object sender, EventArgs e)
         {
-            _managerSupport.load();
+            //_managerSupport.load();
         }
 
         private void loadWorkSpace()
@@ -220,17 +223,18 @@ namespace xwcs.core.ui.app
 
         private void saveWorkspace()
         {
+            //https://www.devexpress.com/Support/Center/Example/Details/T190543
             if (DesignMode) return;
 
             Stream writer = null;
             try
             {
                 writer = xwcs.core.manager.SPersistenceManager.getInstance().getWriter("DefaultWorkspace");
-                workspaceManager1.SaveWorkspace("DefaultWorkspace", writer, true);
+                workspaceManager1.CaptureWorkspace("DefaultWorkspace");
+                workspaceManager1.SaveWorkspace(workspaceManager1.Workspaces[0].Name, writer, true);
             }
             catch (Exception ex)
             {
-
                 SLogManager.getInstance().Error(ex.Message);
             }
             finally
@@ -241,12 +245,12 @@ namespace xwcs.core.ui.app
 
         protected void ApplicationFormBase_FormClosing(object sender, FormClosingEventArgs e)
         {
-            saveWorkspace();
+            //saveWorkspace();
         }
 
         protected void ApplicationFormBase_Shown(object sender, EventArgs e)
         {
-            loadWorkSpace();
+            //loadWorkSpace();
             _proxy.fireEvent(new Event(this, EventType.WorkSpaceLoadedEvent, null));
         }
 

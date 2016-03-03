@@ -14,7 +14,7 @@ namespace xwcs.core.ui.controls
     {
         public DockPanelBase() : base(true, DevExpress.XtraBars.Docking.DockingStyle.Float, null)
         {
-            this.ClosedPanel += DockPanelBase_ClosedPanel; ;
+            this.ClosedPanel += DockPanelBase_ClosedPanel;
         }
 
         private void DockPanelBase_ClosedPanel(object sender, DevExpress.XtraBars.Docking.DockPanelEventArgs e)
@@ -24,6 +24,8 @@ namespace xwcs.core.ui.controls
 
         public DockPanelBase(bool createControlContainer, DevExpress.XtraBars.Docking.DockingStyle dock, DevExpress.XtraBars.Docking.DockManager dockManager)
             : base(createControlContainer, dock, dockManager)
-        { }
+        {
+            this.ClosedPanel += DockPanelBase_ClosedPanel;
+        }
     }
 }
