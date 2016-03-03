@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using DevExpress.XtraDataLayout;
 using System.ComponentModel.DataAnnotations;
+using System.Collections;
+using System.Data;
 
 namespace xwcs.core.ui.datalayout
 {
@@ -25,33 +27,68 @@ namespace xwcs.core.ui.datalayout
 		private bool _attributesLoaded;
 
 		public EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
-        private Type _entityType;
+      
 
 
 
-		public DataLayoutExtender(DataLayoutControl dest, Type entityType) {
+		public DataLayoutExtender(DataLayoutControl dest) {
 			_customAttributes = new Dictionary<string, List<attributes.CustomAttribute>>();
 			_cnt = dest;
 			_cnt.AllowGeneratingNestedGroups = DevExpress.Utils.DefaultBoolean.True;
 			_attributesLoaded = false;
-            _entityType = entityType;
+           
 
 
             _cnt.AutoRetrieveFields = true;
 			_cnt.FieldRetrieving += (sender, e) =>
 			{
-				if(!_attributesLoaded) {
+                if (!_attributesLoaded)
+                {
                     //read annotations
-                    //scanCustomAttributes((_cnt.DataSource as BindingSource).DataSource as Type, "");
-                    scanCustomAttributes(_entityType, "");
+                    //here it depends what we have as DataSource, it can be Object, Type or IList Other we will ignore
+                    BindingSource bs = _cnt.DataSource as BindingSource;
+                    if (bs == null)
+                    {
+                        Console.WriteLine("Missing BindingSource for data layout");
+                        return; // no valid binding arrived so we skip 
+                    }
+                    Type t = bs.DataSource as Type;
+                    if (t == null)
+                    {
+                        //lets try another way, maby IList
+                        IList someList = bs.DataSource as IList;
+                        if (someList != null)
+                        {
+                            //try to obtain element type
+                            t = someList.GetType().GetGenericArguments()[0];
+                        }
+                        else {
+                            //it should be plain object and try to take type
+                            if ((bs.DataSource as DataSet) == null &&
+                               (bs.DataSource as DataTable) == null &&
+                               (bs.DataSource as DataView) == null &&
+                               (bs.DataSource as DataViewManager) == null &&
+                               (bs.DataSource as object) != null
+                            )
+                            {
+                                t = bs.DataSource.GetType();
+                            }
+                            else {
+                                Console.WriteLine("Missing BindingSource for data layout");
+                                return; // no valid binding arrived so we skip 
+                            }
+                        }
+                    }
+
+                    scanCustomAttributes(t, "");
                     _attributesLoaded = true;
-				}
-				applyRetrivingPhase(e);
-				onFieldRetrieving(e);
-				// fixed things
-				e.DataSourceUpdateMode = System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged;
-				e.Handled = true;
-			};
+                }
+                applyRetrivingPhase(e);
+                onFieldRetrieving(e);
+                // fixed things
+                e.DataSourceUpdateMode = System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged;
+                e.Handled = true;
+            };
 			_cnt.FieldRetrieved += (sender, e) =>
 			{
 				applyRetrivedPhase(e);
