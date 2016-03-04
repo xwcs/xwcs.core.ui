@@ -28,18 +28,50 @@ namespace xwcs.core.ui.datalayout
 
 		public EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
       
+		private class scan_context {
+			private class ctx_elem {
+				public Type type;
+				public string name;
+			}
+		
+			private Stack<ctx_elem> _curentTypesChain;
 
+			public scan_context() {
+				_curentTypesChain = new Stack<ctx_elem>();
+			}
 
+			public string Name { get { string n = _curentTypesChain.Peek().name;  return n != "" ? n + "." : n; } }
+			public Type Type { get { return _curentTypesChain.Peek().type; } }
+
+			public bool pushContext(Type t, string name) {
+				if(_curentTypesChain.Count == 0) {
+					_curentTypesChain.Push(new ctx_elem { type = t, name = name });
+				}
+				else {
+					if ((from e in _curentTypesChain where e.type == t select e).Count() > 0) return false; //cycle
+					_curentTypesChain.Push(new ctx_elem { type = t, name = Name + name });
+				}
+				
+				return true;				
+			}
+
+			public void popContext() {
+				_curentTypesChain.Pop();
+			}
+		
+		}
+
+		private scan_context _ctx;
 
 		public DataLayoutExtender(DataLayoutControl dest) {
 			_customAttributes = new Dictionary<string, List<attributes.CustomAttribute>>();
 			_cnt = dest;
 			_cnt.AllowGeneratingNestedGroups = DevExpress.Utils.DefaultBoolean.True;
 			_attributesLoaded = false;
-           
+			_ctx = new scan_context();
 
 
-            _cnt.AutoRetrieveFields = true;
+			_cnt.AutoRetrieveFields = true;
 			_cnt.FieldRetrieving += (sender, e) =>
 			{
                 if (!_attributesLoaded)
@@ -111,7 +143,10 @@ namespace xwcs.core.ui.datalayout
 
 
 		/* PRIVATE */
-		private void scanCustomAttributes(Type t, string nameContext) {
+		private void scanCustomAttributes(Type t, string name) {
+			// make context 
+			if (!_ctx.pushContext(t, name)) return;	
+		
 			//handle eventual MetadataType annotation which will add annotations from surrogate object
 			try {
 				MetadataTypeAttribute mt = t.GetCustomAttributes(typeof(MetadataTypeAttribute), true)
@@ -124,7 +159,7 @@ namespace xwcs.core.ui.datalayout
 					PropertyInfo[] mpis = metaType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
 					foreach (PropertyInfo pi in mpis)
 					{
-						handleOneProperty(pi, nameContext);
+						handleOneProperty(pi);
 					}
 				}
 			}catch(Exception ex) {
@@ -135,18 +170,21 @@ namespace xwcs.core.ui.datalayout
 			PropertyInfo[] pis = t.GetProperties(BindingFlags.Instance | BindingFlags.Public);
 			foreach (PropertyInfo pi in pis)
 			{
-				handleOneProperty(pi, nameContext);
+				handleOneProperty(pi);
 			}
+
+			// remove one context level
+			_ctx.popContext();
 		}
 
 
-		private void handleOneProperty(System.Reflection.PropertyInfo pi, string nameContext) {
+		private void handleOneProperty(System.Reflection.PropertyInfo pi) {
 			//we can have complex types
 			if (pi.PropertyType.FullName == "System.String"	|| pi.PropertyType.IsPrimitive || pi.PropertyType.FullName == "System.DateTime" || pi.PropertyType.IsValueType)
             {
 				if (pi != null)
 				{
-					string key = nameContext + pi.Name;
+					string key = _ctx.Name + pi.Name;
 					Console.WriteLine("Examine attrs for : " + key);
 
 					List<attributes.CustomAttribute> goodAtts = pi.GetCustomAttributes(typeof(attributes.CustomAttribute), true)
@@ -167,7 +205,7 @@ namespace xwcs.core.ui.datalayout
 			}
 			else if(pi.PropertyType.IsClass) //do recursion only for classes
 			{
-				scanCustomAttributes(pi.PropertyType, pi.Name + ".");
+				scanCustomAttributes(pi.PropertyType, pi.Name); //here inside it will handle eventual cycles!!!
 			}			
 		}
 
