@@ -10,6 +10,7 @@ namespace xwcs.core.ui.controls
     {
         public XwBarButtonItem(string c)
         {
+            Name = c.Replace(' ', '_');
             Caption = c;            
         }
     }

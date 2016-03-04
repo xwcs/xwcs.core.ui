@@ -30,31 +30,31 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationFormBase));
-            DevExpress.Utils.Animation.PushTransition pushTransition1 = new DevExpress.Utils.Animation.PushTransition();
+            DevExpress.Utils.Animation.PushTransition pushTransition2 = new DevExpress.Utils.Animation.PushTransition();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.bar2 = new DevExpress.XtraBars.Bar();
-            this.barSubItem1 = new DevExpress.XtraBars.BarSubItem();
+            this.barSubItem_File = new DevExpress.XtraBars.BarSubItem();
             this.barSubItem_FileOpen = new DevExpress.XtraBars.BarSubItem();
-            this.barButtonSave = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonSaveAll = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-            this.barSubItem7 = new DevExpress.XtraBars.BarSubItem();
-            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem9 = new DevExpress.XtraBars.BarButtonItem();
-            this.barSubItem2 = new DevExpress.XtraBars.BarSubItem();
-            this.barSubItem3 = new DevExpress.XtraBars.BarSubItem();
-            this.barButtonItem10 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem12 = new DevExpress.XtraBars.BarButtonItem();
-            this.barSubItem_ViewOtherWindows = new DevExpress.XtraBars.BarSubItem();
+            this.barButton_Save = new DevExpress.XtraBars.BarButtonItem();
+            this.barButton_SaveAll = new DevExpress.XtraBars.BarButtonItem();
+            this.barButton_Close = new DevExpress.XtraBars.BarButtonItem();
+            this.barButton_CloseAll = new DevExpress.XtraBars.BarButtonItem();
+            this.barSubItem_Workspace = new DevExpress.XtraBars.BarSubItem();
+            this.barButton_Createnew = new DevExpress.XtraBars.BarButtonItem();
+            this.barButton_Change = new DevExpress.XtraBars.BarButtonItem();
+            this.barButton_Exit = new DevExpress.XtraBars.BarButtonItem();
+            this.barSubItem_Edit = new DevExpress.XtraBars.BarSubItem();
+            this.barSubItem_View = new DevExpress.XtraBars.BarSubItem();
+            this.barButton_Startpage = new DevExpress.XtraBars.BarButtonItem();
+            this.barButton_Properties = new DevExpress.XtraBars.BarButtonItem();
+            this.barButton_Status = new DevExpress.XtraBars.BarButtonItem();
+            this.barSubItem_OtherWindows = new DevExpress.XtraBars.BarSubItem();
             this.barSubItem_Tools = new DevExpress.XtraBars.BarSubItem();
-            this.barButtonItem13 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButton_Options = new DevExpress.XtraBars.BarButtonItem();
             this.barWorkspaceMenuItem1 = new DevExpress.XtraBars.BarWorkspaceMenuItem();
             this.workspaceManager1 = new DevExpress.Utils.WorkspaceManager();
-            this.barSubItem5 = new DevExpress.XtraBars.BarSubItem();
+            this.barSubItem_About = new DevExpress.XtraBars.BarSubItem();
             this.bar3 = new DevExpress.XtraBars.Bar();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
@@ -85,28 +85,28 @@
             this.barManager1.DockManager = this.dockManager1;
             this.barManager1.Form = this;
             this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.barSubItem1,
-            this.barSubItem2,
-            this.barSubItem3,
+            this.barSubItem_File,
+            this.barSubItem_Edit,
+            this.barSubItem_View,
             this.barSubItem_Tools,
-            this.barSubItem5,
+            this.barSubItem_About,
             this.barSubItem_FileOpen,
-            this.barButtonSave,
-            this.barButtonSaveAll,
-            this.barButtonItem3,
-            this.barButtonItem4,
+            this.barButton_Save,
+            this.barButton_SaveAll,
+            this.barButton_Close,
+            this.barButton_CloseAll,
             this.barButtonItem5,
             this.barButtonItem6,
-            this.barSubItem7,
-            this.barButtonItem7,
-            this.barButtonItem8,
-            this.barButtonItem9,
-            this.barButtonItem10,
-            this.barButtonItem11,
-            this.barButtonItem12,
-            this.barButtonItem13,
+            this.barSubItem_Workspace,
+            this.barButton_Createnew,
+            this.barButton_Change,
+            this.barButton_Exit,
+            this.barButton_Startpage,
+            this.barButton_Properties,
+            this.barButton_Status,
+            this.barButton_Options,
             this.barWorkspaceMenuItem1,
-            this.barSubItem_ViewOtherWindows});
+            this.barSubItem_OtherWindows});
             this.barManager1.MainMenu = this.bar2;
             this.barManager1.MaxItemId = 30;
             this.barManager1.StatusBar = this.bar3;
@@ -126,29 +126,29 @@
             this.bar2.DockRow = 0;
             this.bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
             this.bar2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem1),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem2),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem3),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_File),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_Edit),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_View),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_Tools),
             new DevExpress.XtraBars.LinkPersistInfo(this.barWorkspaceMenuItem1),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem5)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_About)});
             this.bar2.OptionsBar.MultiLine = true;
             this.bar2.OptionsBar.UseWholeRow = true;
             resources.ApplyResources(this.bar2, "bar2");
             // 
-            // barSubItem1
+            // barSubItem_File
             // 
-            resources.ApplyResources(this.barSubItem1, "barSubItem1");
-            this.barSubItem1.Id = 6;
-            this.barSubItem1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            resources.ApplyResources(this.barSubItem_File, "barSubItem_File");
+            this.barSubItem_File.Id = 6;
+            this.barSubItem_File.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_FileOpen),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonSave),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonSaveAll),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem3),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem4),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem7),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem9)});
-            this.barSubItem1.Name = "barSubItem1";
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Save),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_SaveAll),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Close),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_CloseAll),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_Workspace),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Exit)});
+            this.barSubItem_File.Name = "barSubItem_File";
             // 
             // barSubItem_FileOpen
             // 
@@ -156,117 +156,118 @@
             this.barSubItem_FileOpen.Id = 12;
             this.barSubItem_FileOpen.Name = "barSubItem_FileOpen";
             // 
-            // barButtonSave
+            // barButton_Save
             // 
-            resources.ApplyResources(this.barButtonSave, "barButtonSave");
-            this.barButtonSave.Enabled = false;
-            this.barButtonSave.Id = 13;
-            this.barButtonSave.Name = "barButtonSave";
-            this.barButtonSave.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonSave_ItemClick);
+            resources.ApplyResources(this.barButton_Save, "barButton_Save");
+            this.barButton_Save.Enabled = false;
+            this.barButton_Save.Id = 13;
+            this.barButton_Save.Name = "barButton_Save";
+            this.barButton_Save.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonSave_ItemClick);
             // 
-            // barButtonSaveAll
+            // barButton_SaveAll
             // 
-            resources.ApplyResources(this.barButtonSaveAll, "barButtonSaveAll");
-            this.barButtonSaveAll.Enabled = false;
-            this.barButtonSaveAll.Id = 14;
-            this.barButtonSaveAll.Name = "barButtonSaveAll";
-            this.barButtonSaveAll.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
+            resources.ApplyResources(this.barButton_SaveAll, "barButton_SaveAll");
+            this.barButton_SaveAll.Enabled = false;
+            this.barButton_SaveAll.Id = 14;
+            this.barButton_SaveAll.Name = "barButton_SaveAll";
+            this.barButton_SaveAll.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButton_SaveAll_ItemClick);
             // 
-            // barButtonItem3
+            // barButton_Close
             // 
-            resources.ApplyResources(this.barButtonItem3, "barButtonItem3");
-            this.barButtonItem3.Id = 15;
-            this.barButtonItem3.Name = "barButtonItem3";
+            resources.ApplyResources(this.barButton_Close, "barButton_Close");
+            this.barButton_Close.Id = 15;
+            this.barButton_Close.Name = "barButton_Close";
             // 
-            // barButtonItem4
+            // barButton_CloseAll
             // 
-            resources.ApplyResources(this.barButtonItem4, "barButtonItem4");
-            this.barButtonItem4.Id = 16;
-            this.barButtonItem4.Name = "barButtonItem4";
+            resources.ApplyResources(this.barButton_CloseAll, "barButton_CloseAll");
+            this.barButton_CloseAll.Id = 16;
+            this.barButton_CloseAll.Name = "barButton_CloseAll";
             // 
-            // barSubItem7
+            // barSubItem_Workspace
             // 
-            resources.ApplyResources(this.barSubItem7, "barSubItem7");
-            this.barSubItem7.Id = 19;
-            this.barSubItem7.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem7),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem8)});
-            this.barSubItem7.Name = "barSubItem7";
+            resources.ApplyResources(this.barSubItem_Workspace, "barSubItem_Workspace");
+            this.barSubItem_Workspace.Id = 19;
+            this.barSubItem_Workspace.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Createnew),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Change)});
+            this.barSubItem_Workspace.Name = "barSubItem_Workspace";
             // 
-            // barButtonItem7
+            // barButton_Createnew
             // 
-            resources.ApplyResources(this.barButtonItem7, "barButtonItem7");
-            this.barButtonItem7.Id = 20;
-            this.barButtonItem7.Name = "barButtonItem7";
-            this.barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem7_ItemClick);
+            resources.ApplyResources(this.barButton_Createnew, "barButton_Createnew");
+            this.barButton_Createnew.Id = 20;
+            this.barButton_Createnew.Name = "barButton_Createnew";
+            this.barButton_Createnew.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButton_Createnew_ItemClick);
             // 
-            // barButtonItem8
+            // barButton_Change
             // 
-            resources.ApplyResources(this.barButtonItem8, "barButtonItem8");
-            this.barButtonItem8.Id = 21;
-            this.barButtonItem8.Name = "barButtonItem8";
-            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem8_ItemClick);
+            resources.ApplyResources(this.barButton_Change, "barButton_Change");
+            this.barButton_Change.Id = 21;
+            this.barButton_Change.Name = "barButton_Change";
+            this.barButton_Change.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButton_Change_ItemClick);
             // 
-            // barButtonItem9
+            // barButton_Exit
             // 
-            resources.ApplyResources(this.barButtonItem9, "barButtonItem9");
-            this.barButtonItem9.Id = 22;
-            this.barButtonItem9.Name = "barButtonItem9";
+            resources.ApplyResources(this.barButton_Exit, "barButton_Exit");
+            this.barButton_Exit.Id = 22;
+            this.barButton_Exit.Name = "barButton_Exit";
+            this.barButton_Exit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButton_Exit_ItemClick);
             // 
-            // barSubItem2
+            // barSubItem_Edit
             // 
-            resources.ApplyResources(this.barSubItem2, "barSubItem2");
-            this.barSubItem2.Id = 7;
-            this.barSubItem2.Name = "barSubItem2";
+            resources.ApplyResources(this.barSubItem_Edit, "barSubItem_Edit");
+            this.barSubItem_Edit.Id = 7;
+            this.barSubItem_Edit.Name = "barSubItem_Edit";
             // 
-            // barSubItem3
+            // barSubItem_View
             // 
-            resources.ApplyResources(this.barSubItem3, "barSubItem3");
-            this.barSubItem3.Id = 8;
-            this.barSubItem3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem10),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem11),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem12),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_ViewOtherWindows)});
-            this.barSubItem3.Name = "barSubItem3";
+            resources.ApplyResources(this.barSubItem_View, "barSubItem_View");
+            this.barSubItem_View.Id = 8;
+            this.barSubItem_View.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Startpage),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Properties),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Status),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_OtherWindows)});
+            this.barSubItem_View.Name = "barSubItem_View";
             // 
-            // barButtonItem10
+            // barButton_Startpage
             // 
-            resources.ApplyResources(this.barButtonItem10, "barButtonItem10");
-            this.barButtonItem10.Id = 23;
-            this.barButtonItem10.Name = "barButtonItem10";
+            resources.ApplyResources(this.barButton_Startpage, "barButton_Startpage");
+            this.barButton_Startpage.Id = 23;
+            this.barButton_Startpage.Name = "barButton_Startpage";
             // 
-            // barButtonItem11
+            // barButton_Properties
             // 
-            resources.ApplyResources(this.barButtonItem11, "barButtonItem11");
-            this.barButtonItem11.Id = 24;
-            this.barButtonItem11.Name = "barButtonItem11";
+            resources.ApplyResources(this.barButton_Properties, "barButton_Properties");
+            this.barButton_Properties.Id = 24;
+            this.barButton_Properties.Name = "barButton_Properties";
             // 
-            // barButtonItem12
+            // barButton_Status
             // 
-            resources.ApplyResources(this.barButtonItem12, "barButtonItem12");
-            this.barButtonItem12.Id = 25;
-            this.barButtonItem12.Name = "barButtonItem12";
+            resources.ApplyResources(this.barButton_Status, "barButton_Status");
+            this.barButton_Status.Id = 25;
+            this.barButton_Status.Name = "barButton_Status";
             // 
-            // barSubItem_ViewOtherWindows
+            // barSubItem_OtherWindows
             // 
-            resources.ApplyResources(this.barSubItem_ViewOtherWindows, "barSubItem_ViewOtherWindows");
-            this.barSubItem_ViewOtherWindows.Id = 29;
-            this.barSubItem_ViewOtherWindows.Name = "barSubItem_ViewOtherWindows";
+            resources.ApplyResources(this.barSubItem_OtherWindows, "barSubItem_OtherWindows");
+            this.barSubItem_OtherWindows.Id = 29;
+            this.barSubItem_OtherWindows.Name = "barSubItem_OtherWindows";
             // 
             // barSubItem_Tools
             // 
             resources.ApplyResources(this.barSubItem_Tools, "barSubItem_Tools");
             this.barSubItem_Tools.Id = 9;
             this.barSubItem_Tools.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem13)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Options)});
             this.barSubItem_Tools.Name = "barSubItem_Tools";
             // 
-            // barButtonItem13
+            // barButton_Options
             // 
-            resources.ApplyResources(this.barButtonItem13, "barButtonItem13");
-            this.barButtonItem13.Id = 26;
-            this.barButtonItem13.Name = "barButtonItem13";
+            resources.ApplyResources(this.barButton_Options, "barButton_Options");
+            this.barButton_Options.Id = 26;
+            this.barButton_Options.Name = "barButton_Options";
             // 
             // barWorkspaceMenuItem1
             // 
@@ -274,20 +275,21 @@
             this.barWorkspaceMenuItem1.Id = 27;
             this.barWorkspaceMenuItem1.Name = "barWorkspaceMenuItem1";
             this.barWorkspaceMenuItem1.ShowSaveLoadCommands = true;
+            this.barWorkspaceMenuItem1.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
             this.barWorkspaceMenuItem1.WorkspaceManager = this.workspaceManager1;
             // 
             // workspaceManager1
             // 
             this.workspaceManager1.TargetControl = this;
-            this.workspaceManager1.TransitionType = pushTransition1;
+            this.workspaceManager1.TransitionType = pushTransition2;
             this.workspaceManager1.AfterApplyWorkspace += new System.EventHandler(this.workspaceManager1_AfterApplyWorkspace);
             this.workspaceManager1.WorkspaceSaved += new DevExpress.Utils.WorkspaceEventHandler(this.workspaceManager1_WorkspaceSaved);
             // 
-            // barSubItem5
+            // barSubItem_About
             // 
-            resources.ApplyResources(this.barSubItem5, "barSubItem5");
-            this.barSubItem5.Id = 10;
-            this.barSubItem5.Name = "barSubItem5";
+            resources.ApplyResources(this.barSubItem_About, "barSubItem_About");
+            this.barSubItem_About.Id = 10;
+            this.barSubItem_About.Name = "barSubItem_About";
             // 
             // bar3
             // 
@@ -390,29 +392,29 @@
         private DevExpress.XtraBars.Docking2010.DocumentManager documentManager1;
         private DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView tabbedView1;
         private DevExpress.XtraBars.Docking.DockManager dockManager1;
-        private DevExpress.XtraBars.BarSubItem barSubItem1;
+        private DevExpress.XtraBars.BarSubItem barSubItem_File;
         private DevExpress.XtraBars.BarSubItem barSubItem_FileOpen;
-        private DevExpress.XtraBars.BarButtonItem barButtonSave;
-        private DevExpress.XtraBars.BarSubItem barSubItem2;
-        private DevExpress.XtraBars.BarSubItem barSubItem3;
+        private DevExpress.XtraBars.BarButtonItem barButton_Save;
+        private DevExpress.XtraBars.BarSubItem barSubItem_Edit;
+        private DevExpress.XtraBars.BarSubItem barSubItem_View;
         private DevExpress.XtraBars.BarSubItem barSubItem_Tools;
-        private DevExpress.XtraBars.BarSubItem barSubItem5;
-        private DevExpress.XtraBars.BarButtonItem barButtonSaveAll;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem3;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem4;
-        private DevExpress.XtraBars.BarSubItem barSubItem7;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem7;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem8;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem9;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem10;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem11;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem12;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem13;
+        private DevExpress.XtraBars.BarSubItem barSubItem_About;
+        private DevExpress.XtraBars.BarButtonItem barButton_SaveAll;
+        private DevExpress.XtraBars.BarButtonItem barButton_Close;
+        private DevExpress.XtraBars.BarButtonItem barButton_CloseAll;
+        private DevExpress.XtraBars.BarSubItem barSubItem_Workspace;
+        private DevExpress.XtraBars.BarButtonItem barButton_Createnew;
+        private DevExpress.XtraBars.BarButtonItem barButton_Change;
+        private DevExpress.XtraBars.BarButtonItem barButton_Exit;
+        private DevExpress.XtraBars.BarButtonItem barButton_Startpage;
+        private DevExpress.XtraBars.BarButtonItem barButton_Properties;
+        private DevExpress.XtraBars.BarButtonItem barButton_Status;
+        private DevExpress.XtraBars.BarButtonItem barButton_Options;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.BarButtonItem barButtonItem6;
         private DevExpress.XtraBars.BarWorkspaceMenuItem barWorkspaceMenuItem1;
         private DevExpress.Utils.WorkspaceManager workspaceManager1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private DevExpress.XtraBars.BarSubItem barSubItem_ViewOtherWindows;
+        private DevExpress.XtraBars.BarSubItem barSubItem_OtherWindows;
     }
 }
