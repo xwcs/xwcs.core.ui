@@ -7,6 +7,7 @@ using DevExpress.XtraDataLayout;
 using System.ComponentModel.DataAnnotations;
 using System.Collections;
 using System.Data;
+using System.ComponentModel;
 
 namespace xwcs.core.ui.datalayout
 {
@@ -149,63 +150,54 @@ namespace xwcs.core.ui.datalayout
 		
 			//handle eventual MetadataType annotation which will add annotations from surrogate object
 			try {
-				MetadataTypeAttribute mt = t.GetCustomAttributes(typeof(MetadataTypeAttribute), true)
-											.Cast<MetadataTypeAttribute>()
-											.Single();
-				if (mt != null)
-				{
-					//we have MetadataType forwarding so handle it first
-					Type metaType = mt.MetadataClassType;
-					PropertyInfo[] mpis = metaType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-					foreach (PropertyInfo pi in mpis)
-					{
-						handleOneProperty(pi);
-					}
+				foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(
+																  //take MetadataType properties
+																  TypeDescriptor.GetAttributes(t)
+																				.OfType<MetadataTypeAttribute>()
+																				.Single()
+																				.MetadataClassType
+												  )
+				){
+					handleOneProperty(pd);
 				}
 			}catch(Exception ex) {
 				Console.WriteLine(ex.Message);
 			}
 			
 			//now own properties => these are later then those from surrogated so locals will do override
-			PropertyInfo[] pis = t.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-			foreach (PropertyInfo pi in pis)
+			// t.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+			foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(t))
 			{
-				handleOneProperty(pi);
+				handleOneProperty(pd);
 			}
 
 			// remove one context level
 			_ctx.popContext();
 		}
 
-
-		private void handleOneProperty(System.Reflection.PropertyInfo pi) {
+		private void handleOneProperty(PropertyDescriptor t) {
 			//we can have complex types
-			if (pi.PropertyType.FullName == "System.String"	|| pi.PropertyType.IsPrimitive || pi.PropertyType.FullName == "System.DateTime" || pi.PropertyType.IsValueType)
+			if (t.PropertyType.FullName == "System.String"	|| t.PropertyType.IsPrimitive || t.PropertyType.FullName == "System.DateTime" || t.PropertyType.IsValueType)
             {
-				if (pi != null)
-				{
-					string key = _ctx.Name + pi.Name;
-					Console.WriteLine("Examine attrs for : " + key);
-
-					List<attributes.CustomAttribute> goodAtts = pi.GetCustomAttributes(typeof(attributes.CustomAttribute), true)
-																		  .Cast<attributes.CustomAttribute>()
-																		  .ToList();
+				string key = _ctx.Name + t.Name;
+				Console.WriteLine("Examine attrs for : " + key);
+				
+				List<attributes.CustomAttribute> goodAtts = t.Attributes.OfType<attributes.CustomAttribute>().ToList();
 					
-					if (goodAtts.Count > 0) {
-						Console.WriteLine("Attr for : " + key);
-						//mix with existing attrs for that name
-						if(_customAttributes.ContainsKey(key)) {
-							_customAttributes[key].AddRange(goodAtts);	
-						}
-						else {
-							_customAttributes.Add(key, goodAtts);
-						}						
+				if (goodAtts.Count > 0) {
+					Console.WriteLine("Attr for : " + key);
+					//mix with existing attrs for that name
+					if(_customAttributes.ContainsKey(key)) {
+						_customAttributes[key].AddRange(goodAtts);	
 					}
+					else {
+						_customAttributes.Add(key, goodAtts);
+					}						
 				}
 			}
-			else if(pi.PropertyType.IsClass) //do recursion only for classes
+			else if(t.PropertyType.IsClass) //do recursion only for classes
 			{
-				scanCustomAttributes(pi.PropertyType, pi.Name); //here inside it will handle eventual cycles!!!
+				scanCustomAttributes(t.PropertyType, t.Name); //here inside it will handle eventual cycles!!!
 			}			
 		}
 
