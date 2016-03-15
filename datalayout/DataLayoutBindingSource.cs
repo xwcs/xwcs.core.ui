@@ -175,6 +175,13 @@ namespace xwcs.core.ui.datalayout
 			}
 		}
 
+        public void addNewRecord(object rec)
+        {
+            AddNew();
+            base.Current.CopyFrom(rec);
+           
+        }
+
 		private void handleCurrentChanged(object sender, object args)
 		{
 			if (_oldCurrent == base.Current) return;	
