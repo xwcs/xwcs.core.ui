@@ -146,6 +146,20 @@ namespace xwcs.core.ui.app
             sourceItem.AddItem(newItem);
         }
 
+        private void addItemToBar(DevExpress.XtraBars.Bar sourceItem, DevExpress.XtraBars.BarItem newItem)
+        {
+            DevExpress.XtraBars.BarItemLink linkForDelete = null;
+            foreach (DevExpress.XtraBars.BarItemLink link in sourceItem.ItemLinks)
+            {
+                if (link.Caption == newItem.Caption) { linkForDelete = link; break; }
+            }
+            if (linkForDelete != null) sourceItem.RemoveLink(linkForDelete);
+
+            int newID = sourceItem.ItemLinks.Count;
+            newItem.Id = newID;
+            sourceItem.AddItem(newItem);
+        }
+
         private void HandleAddToolbarRequestEvent(Event e)
         {
             AddToolBarRequest ee = (AddToolBarRequest)e.data;
@@ -158,13 +172,19 @@ namespace xwcs.core.ui.app
                     case MenuDestination.MENU_file_open:
                     {
                         addItemToMenu(barSubItem_FileOpen, mar.content);
+
                         break;
                     }                        
                     case MenuDestination.MENU_ViewOtherWindows:
                     {
                         addItemToMenu(barSubItem_OtherWindows, mar.content);
                         break;
-                    }                        
+                    }
+                    case MenuDestination.MENU_tool_bar:
+                    {
+                        addItemToBar(bar1, mar.content);
+                        break;
+                    }
                 }
             }
         }
@@ -242,12 +262,12 @@ namespace xwcs.core.ui.app
 
         protected void ApplicationFormBase_FormClosing(object sender, FormClosingEventArgs e)
         {
-            saveWorkspace();
+            //saveWorkspace();
         }
 
         protected void ApplicationFormBase_Shown(object sender, EventArgs e)
         {
-            loadWorkSpace();
+            //loadWorkSpace();
             _proxy.fireEvent(new Event(this, EventType.WorkSpaceLoadedEvent, null));
         }
 
