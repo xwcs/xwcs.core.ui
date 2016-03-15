@@ -57,11 +57,16 @@
     <Compile Include="controls\XwBarButtonItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="datalayout\attributes\FlagAttribute.cs" />
     <Compile Include="datalayout\attributes\CustomAttribute.cs" />
     <Compile Include="datalayout\attributes\Layout.cs" />
     <Compile Include="datalayout\attributes\DbLookup.cs" />
+    <Compile Include="datalayout\attributes\PolymorphFlag.cs" />
     <Compile Include="datalayout\attributes\Style.cs" />
-    <Compile Include="datalayout\DataLayoutExtender.cs" />
+    <Compile Include="datalayout\ChainingPropertyDescriptor.cs" />
+    <Compile Include="datalayout\DataLayoutBindingSource.cs" />
+    <Compile Include="datalayout\HyperTypeDescriptionProvider.cs" />
+    <Compile Include="datalayout\HyperTypeDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="app\ApplicationFormBase.cs">
       <SubType>Form</SubType>
