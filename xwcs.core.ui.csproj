@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="datalayout\attributes\FlagAttribute.cs" />
     <Compile Include="datalayout\attributes\CustomAttribute.cs" />
+    <Compile Include="datalayout\attributes\Layout.cs" />
     <Compile Include="datalayout\attributes\DbLookup.cs" />
     <Compile Include="datalayout\attributes\PolymorphFlag.cs" />
     <Compile Include="datalayout\attributes\Style.cs" />
@@ -76,6 +77,11 @@
     <Compile Include="controls\DocumentManagerSupport.cs" />
     <Compile Include="controls\VisualControl.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +101,10 @@
       <DependentUpon>DockPanelBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

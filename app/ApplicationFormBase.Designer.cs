@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationFormBase));
-            DevExpress.Utils.Animation.PushTransition pushTransition2 = new DevExpress.Utils.Animation.PushTransition();
+            DevExpress.Utils.Animation.PushTransition pushTransition1 = new DevExpress.Utils.Animation.PushTransition();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.bar2 = new DevExpress.XtraBars.Bar();
@@ -63,6 +63,10 @@
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -106,9 +110,13 @@
             this.barButton_Status,
             this.barButton_Options,
             this.barWorkspaceMenuItem1,
-            this.barSubItem_OtherWindows});
+            this.barSubItem_OtherWindows,
+            this.barButtonItem1,
+            this.barButtonItem2,
+            this.barButtonItem3,
+            this.barButtonItem4});
             this.barManager1.MainMenu = this.bar2;
-            this.barManager1.MaxItemId = 30;
+            this.barManager1.MaxItemId = 34;
             this.barManager1.StatusBar = this.bar3;
             // 
             // bar1
@@ -281,7 +289,7 @@
             // workspaceManager1
             // 
             this.workspaceManager1.TargetControl = this;
-            this.workspaceManager1.TransitionType = pushTransition2;
+            this.workspaceManager1.TransitionType = pushTransition1;
             this.workspaceManager1.AfterApplyWorkspace += new System.EventHandler(this.workspaceManager1_AfterApplyWorkspace);
             this.workspaceManager1.WorkspaceSaved += new DevExpress.Utils.WorkspaceEventHandler(this.workspaceManager1_WorkspaceSaved);
             // 
@@ -351,6 +359,34 @@
             this.barButtonItem6.Id = 18;
             this.barButtonItem6.Name = "barButtonItem6";
             // 
+            // barButtonItem1
+            // 
+            resources.ApplyResources(this.barButtonItem1, "barButtonItem1");
+            this.barButtonItem1.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem1.Glyph")));
+            this.barButtonItem1.Id = 30;
+            this.barButtonItem1.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem1.LargeGlyph")));
+            this.barButtonItem1.Name = "barButtonItem1";
+            // 
+            // barButtonItem2
+            // 
+            resources.ApplyResources(this.barButtonItem2, "barButtonItem2");
+            this.barButtonItem2.Id = 31;
+            this.barButtonItem2.ImageUri.Uri = "SendTXT";
+            this.barButtonItem2.Name = "barButtonItem2";
+            // 
+            // barButtonItem3
+            // 
+            resources.ApplyResources(this.barButtonItem3, "barButtonItem3");
+            this.barButtonItem3.Id = 32;
+            this.barButtonItem3.Name = "barButtonItem3";
+            // 
+            // barButtonItem4
+            // 
+            resources.ApplyResources(this.barButtonItem4, "barButtonItem4");
+            this.barButtonItem4.Id = 33;
+            this.barButtonItem4.ImageIndex = 0;
+            this.barButtonItem4.Name = "barButtonItem4";
+            // 
             // documentManager1
             // 
             this.documentManager1.ContainerControl = this;
@@ -416,5 +452,9 @@
         private DevExpress.Utils.WorkspaceManager workspaceManager1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private DevExpress.XtraBars.BarSubItem barSubItem_OtherWindows;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem3;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem4;
     }
 }
