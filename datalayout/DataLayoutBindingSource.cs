@@ -216,7 +216,7 @@ namespace xwcs.core.ui.datalayout
 				if (val == null && entry.Value.attribute.Kind != attributes.PolymorphKind.Undef)
 				{
 					string strValue = (string)base.Current.GetPropValueByPathUsingReflection(entry.Value.attribute.SourcePropertyName);
-					val = strValue.TypedDeserialize(entry.Value.attribute.Kind);
+					val = strValue.TypedDeserialize(entry.Value.attribute.SourcePropertyName, entry.Value.attribute.Kind);
 					if(val != null) {
 						base.Current.SetPropValueByPathUsingReflection(entry.Key, val);
 					}
@@ -249,7 +249,7 @@ namespace xwcs.core.ui.datalayout
 				{
 					object oldVal = _oldCurrent.GetPropValueByPathUsingReflection(entry.Key);
 					//here use eventual events, cause we set field which can be saved in DB
-					SetPropertyInternal(_oldCurrent, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.Kind));
+					SetPropertyInternal(_oldCurrent, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.SourcePropertyName, entry.Value.attribute.Kind));
 				}
 			}
 
