@@ -19,10 +19,23 @@ namespace xwcs.core.ui.datalayout
 		public string FieldName { get; set; }
 	}
 
-	public interface IDataLayoutExtender
+    public class KeyValuePair
+    {
+        public object Key;
+        public string Value;
+    }
+
+    public class GetFieldOptionsListEventData
+    {
+        public List<KeyValuePair> List { get; set; }
+        public string FieldName { get; set; }
+    }
+
+    public interface IDataLayoutExtender
 	{
 		void onGetQueryable(GetFieldQueryableEventData qd);
-	}
+        void onGetOptionsList(GetFieldOptionsListEventData qd);
+    }
 
 
 	public class DataLayoutBindingSource : BindingSource, IDataLayoutExtender, IDisposable
@@ -37,8 +50,9 @@ namespace xwcs.core.ui.datalayout
 		private HashSet<string> _examinedTypes;
 
 		public EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
+        public EventHandler<GetFieldOptionsListEventData> GetFieldOptionsList;
 
-		private object _oldCurrent = null;
+        private object _oldCurrent = null;
 
 
 		private class scan_context
@@ -166,8 +180,11 @@ namespace xwcs.core.ui.datalayout
 					if (entry.Value.attribute.Kind != attributes.PolymorphKind.Undef)
 					{
 						object oldVal = cc.GetPropValueByPathUsingReflection(entry.Key);
-						//here use eventual events, cause we set field which can be saved in DB
-						SetPropertyInternal(cc, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.Kind));
+                        //here use eventual events, cause we set field which can be saved in DB
+                        if (oldVal != null)
+                        {
+                            SetPropertyInternal(cc, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.Kind));
+                        }
 					}
 				}
 
@@ -487,7 +504,15 @@ namespace xwcs.core.ui.datalayout
 			}
 		}
 
-		protected virtual void onFieldRetrieving(FieldRetrievingEventArgs e) { }
+        public void onGetOptionsList(GetFieldOptionsListEventData qd)
+        {
+            if (GetFieldOptionsList != null)
+            {
+                GetFieldOptionsList(this, qd);
+            }
+        }
+
+        protected virtual void onFieldRetrieving(FieldRetrievingEventArgs e) { }
 		protected virtual void onFieldRetrieved(FieldRetrievedEventArgs e) { }
 
 
