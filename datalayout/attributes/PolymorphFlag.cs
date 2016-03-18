@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Xml;
 
 namespace xwcs.core.ui.datalayout.attributes
 {
@@ -26,52 +27,73 @@ namespace xwcs.core.ui.datalayout.attributes
 	{
 		
 
-		public static string TypedSerialize(this object objectInstance, PolymorphKind kind = PolymorphKind.XmlSerialization)
+		/*
+			this method serialize some object into xml with full type name in xmlns:type="<object type" name space
+			so we can reread it later and it use also specific root element name
+		*/
+		public static string TypedSerialize(this object objectInstance, string objectName, PolymorphKind kind = PolymorphKind.XmlSerialization)
 		{
 			if (objectInstance == null) return null;
 
-			if(kind == PolymorphKind.XmlSerialization) {
-				var serializer = new XmlSerializer(objectInstance.GetType());
-				var sb = new StringBuilder();
-
-				using (TextWriter writer = new StringWriter(sb))
-				{
-					writer.WriteLine(objectInstance.GetType().FullName);
-					serializer.Serialize(writer, objectInstance);
-				}
-
-				return sb.ToString();
+            if (kind == PolymorphKind.XmlSerialization) {
+				
+				XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+				ns.Add("typename", oType.FullName);
+				var serializer = new XmlSerializer(oType, new XmlRootAttribute(objectName));
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = false;
+				settings.OmitXmlDeclaration = true;
+				settings.Encoding = Encoding.UTF8;
+				StringWriter sw = new StringWriter();
+				serializer.Serialize(XmlWriter.Create(sw, settings), objectInstance, ns);
+				return sw.ToString();
 			}
 			else {
 				return objectInstance.ToString();
             }
 		}
 
-		public static object TypedDeserialize(this string objectData, PolymorphKind kind = PolymorphKind.XmlSerialization)
+		public static object TypedDeserialize(this string objectData, string objectName, PolymorphKind kind = PolymorphKind.XmlSerialization)
 		{
 			if (objectData == null || objectData.Length == 0) return null;
 
 			if (kind == PolymorphKind.XmlSerialization)
 			{
 				try {
-					using (TextReader reader = new StringReader(objectData))
+					string nsVal = "";
+					using (XmlReader reader = XmlReader.Create(new StringReader(objectData)))
 					{
-						string tn = reader.ReadLine();
-						Type tt;
-						if(plgs.SPluginsLoader.getInstance().TryFindType(tn, out tt)){
-							var serializer = new XmlSerializer(tt);
-							return serializer.Deserialize(reader);
-						}
-						else {
-							return objectData;
+						reader.MoveToContent();
+
+						if (reader.NodeType == XmlNodeType.Element && reader.Name == objectName)
+						{
+							reader.MoveToAttribute("xmlns:typename");
+							nsVal = reader.Value;
 						}
 					}
-				}catch(Exception) {
-					return objectData;
+					//de-serialize
+					XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+					ns.Add("typename", nsVal);
+					Type tt;
+					if (xwcs.core.plgs.SPluginsLoader.getInstance().TryFindType(nsVal, out tt))
+					{
+						XmlSerializer s = new XmlSerializer(tt, new XmlRootAttribute(objectName));
+
+						using (XmlReader reader = XmlReader.Create(new StringReader(objectData)))
+						{
+							return s.Deserialize(reader);
+						}
+					}
+					else {
+						return null;
+					}
+				}
+				catch(Exception) {
+					return null;
 				}				
 			}
 			else {
-				return objectData;
+				return null;
 			}
 		}
 	}

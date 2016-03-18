@@ -19,10 +19,23 @@ namespace xwcs.core.ui.datalayout
 		public string FieldName { get; set; }
 	}
 
-	public interface IDataLayoutExtender
+    public class KeyValuePair
+    {
+        public object Key;
+        public string Value;
+    }
+
+    public class GetFieldOptionsListEventData
+    {
+        public List<KeyValuePair> List { get; set; }
+        public string FieldName { get; set; }
+    }
+
+    public interface IDataLayoutExtender
 	{
 		void onGetQueryable(GetFieldQueryableEventData qd);
-	}
+        void onGetOptionsList(GetFieldOptionsListEventData qd);
+    }
 
 
 	public class DataLayoutBindingSource : BindingSource, IDataLayoutExtender, IDisposable
@@ -37,8 +50,11 @@ namespace xwcs.core.ui.datalayout
 		private HashSet<string> _examinedTypes;
 
 		public EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
+        public EventHandler<GetFieldOptionsListEventData> GetFieldOptionsList;
 
-		private object _oldCurrent = null;
+        private object _oldCurrent = null;
+
+		private bool _layoutIsValid;
 
 
 		private class scan_context
@@ -105,9 +121,9 @@ namespace xwcs.core.ui.datalayout
 		private scan_context _ctx;
 
 		public DataLayoutBindingSource() : base()
-		{
+        {
 			start();
-		}
+        }
 		public DataLayoutBindingSource(IContainer c) : base(c)
 		{
 			start();
@@ -121,36 +137,60 @@ namespace xwcs.core.ui.datalayout
 		{
 			//register handlers
 			CurrentChanged += handleCurrentChanged;
+
 			_examinedTypes = new HashSet<string>();
 			_logger = xwcs.core.manager.SLogManager.getInstance().getClassLogger(GetType());// System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 		}
 
-		
+		private void resetDataLayout() {
+			if (_cnt != null && DataSource != null)
+			{
+				if (_logger != null && CurrencyManager.Position >= 0)
+					_logger.Debug("Reset layout: " + (base.Current != null ? base.Current.GetPropValueByPathUsingReflection("id") : "null"));
+				
+				_cnt.DataSource = null;
+				_cnt.DataBindings.Clear();
+				_cnt.Clear();
+				_cnt.DataSource = this;
+				_layoutIsValid = true;
+            }
+		}
 
 		protected override void OnListChanged(ListChangedEventArgs e)
 		{
+			if(_logger!= null && CurrencyManager.Position >= 0)
+				_logger.Debug("LC-Current: " + (base.Current != null ? base.Current.GetPropValueByPathUsingReflection("id") : "null"));
+
 			switch (e.ListChangedType)
 			{
 				case ListChangedType.PropertyDescriptorChanged:
-					//we have to refresh attributes cache
-					if (DataSource != null && e.PropertyDescriptor == null)
 					{
-						init();
-					}
+						//we have to refresh attributes cache
+						if (DataSource != null && e.PropertyDescriptor == null)
+						{
+							init();
+						}
 
-					if (_cnt != null && DataSource != null && e.PropertyDescriptor != null)
-					{
-						//we have something inside data changed so redo form
-						_cnt.DataSource = null;
-						_cnt.DataBindings.Clear();
-						_cnt.Clear();
-						_cnt.DataSource = this;
-					}
-
-					break;
+						break;
+					}	
 			}
+
+			//orig call
+			try {
+				base.OnListChanged(e);
+			}catch(Exception ex) {
+				// we can have problems to bind at form cause it can not match new data
+				// so stop exception here, cause we are moving to new record
+				if (_logger != null && CurrencyManager.Position >= 0) {
+					_logger.Debug("LC-EXCEPT-Current: (" + ex.Message + ") " + (base.Current != null ? base.Current.GetPropValueByPathUsingReflection("id") : "null"));
+				}
+            }
 			
-			base.OnListChanged(e);
+
+			if (_logger != null && CurrencyManager.Position >= 0)
+				_logger.Debug("LC-OUT-Current: " +  (base.Current != null ? base.Current.GetPropValueByPathUsingReflection("id") : "null"));
+
+			
 		}
 
 		[Browsable(false)]
@@ -165,9 +205,16 @@ namespace xwcs.core.ui.datalayout
 				{
 					if (entry.Value.attribute.Kind != attributes.PolymorphKind.Undef)
 					{
-						object oldVal = cc.GetPropValueByPathUsingReflection(entry.Key);
-						//here use eventual events, cause we set field which can be saved in DB
-						SetPropertyInternal(cc, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.Kind));
+						object actualComplexValue = cc.GetPropValueByPathUsingReflection(entry.Key);
+						if(actualComplexValue != null) {
+							// here use eventual events, cause we set field which can be saved in DB
+							SetPropertyInternal(cc, entry.Value.attribute.SourcePropertyName, actualComplexValue.TypedSerialize(entry.Value.attribute.SourcePropertyName, entry.Value.attribute.Kind));
+						}
+						else {
+							// do not reset serialized value, this value always win, it can be not recognized by de serializer
+							// so don't touch original value !!!!
+							// SetPropertyInternal(cc, entry.Value.attribute.SourcePropertyName, "");
+						}
 					}
 				}
 
@@ -184,6 +231,9 @@ namespace xwcs.core.ui.datalayout
 
 		private void handleCurrentChanged(object sender, object args)
 		{
+			_logger.Debug("CC-Current: " + (base.Current != null ? base.Current.GetPropValueByPathUsingReflection("id") : "null"));
+			
+			
 			if (_oldCurrent == base.Current) return;	
 
 			// handle serialization / de-serialization of morph able objects
@@ -199,44 +249,66 @@ namespace xwcs.core.ui.datalayout
 				if (val == null && entry.Value.attribute.Kind != attributes.PolymorphKind.Undef)
 				{
 					string strValue = (string)base.Current.GetPropValueByPathUsingReflection(entry.Value.attribute.SourcePropertyName);
-					val = strValue.TypedDeserialize(entry.Value.attribute.Kind);
+					val = strValue.TypedDeserialize(entry.Value.attribute.SourcePropertyName, entry.Value.attribute.Kind);
 					if(val != null) {
 						base.Current.SetPropValueByPathUsingReflection(entry.Key, val);
 					}
 				}
 
-				if (val != null)
+				
+				Type valT = val == null ? typeof(object) : val.GetType();
+				if (valT != entry.Value.currentObjectType)
 				{
-					Type valT = val.GetType();
-					if (valT != entry.Value.currentObjectType)
-					{
-						entry.Value.currentObjectType = valT;
-						// notify PropertyDescriptor change
+					entry.Value.currentObjectType = valT;
+					// notify PropertyDescriptor change
 						
-						//take correct PD from types
-						ChainingPropertyDescriptor cd = TypeDescriptor.GetProperties(base.Current).Find(entry.Value.name, false) as ChainingPropertyDescriptor;
-						if (cd != null && cd.PropertyType != valT)
-						{
-							cd.ForcedPropertyType = valT;
+					//take correct PD from types
+					ChainingPropertyDescriptor cd = TypeDescriptor.GetProperties(base.Current).Find(entry.Value.name, false) as ChainingPropertyDescriptor;
+					if (cd != null && cd.PropertyType != valT)
+					{
+						cd.ForcedPropertyType = valT;
+						
+						if(val != null) {
 							//restore context
 							_ctx = entry.Value.ctx;
 							//append type in scanned attributes
 							scanCustomAttributes(valT, entry.Key);
-
-							OnListChanged(new ListChangedEventArgs(ListChangedType.PropertyDescriptorChanged, cd));
 						}
 					}
+					// and if cd is not null notify change
+					if(cd != null) {
+						_layoutIsValid = false;
+						//OnListChanged(new ListChangedEventArgs(ListChangedType.PropertyDescriptorChanged, cd));
+					}					
 				}
+				
 
 				if (doSerialize && entry.Value.attribute.Kind != attributes.PolymorphKind.Undef)
 				{
 					object oldVal = _oldCurrent.GetPropValueByPathUsingReflection(entry.Key);
-					//here use eventual events, cause we set field which can be saved in DB
-					SetPropertyInternal(_oldCurrent, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.Kind));
+					if (oldVal != null)
+					{
+						// here use eventual events, cause we set field which can be saved in DB
+						SetPropertyInternal(_oldCurrent, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.SourcePropertyName, entry.Value.attribute.Kind));
+					}
+					else
+					{
+						// do not reset serialized value, this value always win, it can be not recognized by de serializer
+						// so don't touch original value !!!!
+						// SetPropertyInternal(cc, entry.Value.attribute.SourcePropertyName, "");
+					}
 				}
 			}
 
 			_oldCurrent = base.Current;
+
+			//if there is no more valid layout reset is
+			if (!_layoutIsValid)
+			{
+				resetDataLayout();
+			}
+
+			_logger.Debug("CC-OUT-Current: " + (base.Current != null ? base.Current.GetPropValueByPathUsingReflection("id") : "null"));
 		}
 
 		private bool SetPropertyInternal(object target, string name, object value)
@@ -255,8 +327,6 @@ namespace xwcs.core.ui.datalayout
 
 			return false;
 		}
-
-
 		public void SetProperty(string name, object value)
 		{
 			if (SetPropertyInternal(base.Current, name, value))
@@ -446,10 +516,13 @@ namespace xwcs.core.ui.datalayout
 				_cnt = value;
 				_cnt.AllowGeneratingNestedGroups = DevExpress.Utils.DefaultBoolean.True;
 				_cnt.AutoRetrieveFields = true;
+				_cnt.AllowCustomization = false;
+				//_cnt.AllowCustomizationMenu = false;
 				_cnt.FieldRetrieved += FieldRetrievedHandler;
 				_cnt.FieldRetrieving += FieldRetrievingHandler;
 				_cnt.DataSource = this;
-			}
+				_layoutIsValid = true;
+            }
 		}
 
 		private void FieldRetrievedHandler(object sender, FieldRetrievedEventArgs e)
@@ -487,7 +560,15 @@ namespace xwcs.core.ui.datalayout
 			}
 		}
 
-		protected virtual void onFieldRetrieving(FieldRetrievingEventArgs e) { }
+        public void onGetOptionsList(GetFieldOptionsListEventData qd)
+        {
+            if (GetFieldOptionsList != null)
+            {
+                GetFieldOptionsList(this, qd);
+            }
+        }
+
+        protected virtual void onFieldRetrieving(FieldRetrievingEventArgs e) { }
 		protected virtual void onFieldRetrieved(FieldRetrievedEventArgs e) { }
 
 
