@@ -54,7 +54,7 @@ namespace xwcs.core.ui.datalayout.attributes
 
 		public static object TypedDeserialize(this string objectData, string objectName, PolymorphKind kind = PolymorphKind.XmlSerialization)
 		{
-			if (objectData.Length == 0) return null;
+			if (objectData == null || objectData.Length == 0) return null;
 
 			if (kind == PolymorphKind.XmlSerialization)
 			{
@@ -84,15 +84,15 @@ namespace xwcs.core.ui.datalayout.attributes
 						}
 					}
 					else {
-						return objectData;
+						return null;
 					}
 				}
 				catch(Exception) {
-					return objectData;
+					return null;
 				}				
 			}
 			else {
-				return objectData;
+				return null;
 			}
 		}
 	}
