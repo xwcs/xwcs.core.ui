@@ -57,6 +57,7 @@
     <Compile Include="controls\XwBarButtonItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="datalayout\attributes\TokenEdit.cs" />
     <Compile Include="datalayout\attributes\FlagAttribute.cs" />
     <Compile Include="datalayout\attributes\CustomAttribute.cs" />
     <Compile Include="datalayout\attributes\Layout.cs" />
