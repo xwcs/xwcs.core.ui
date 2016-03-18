@@ -28,6 +28,8 @@ namespace xwcs.core.ui.datalayout.attributes
 
 		public static string TypedSerialize(this object objectInstance, PolymorphKind kind = PolymorphKind.XmlSerialization)
 		{
+			if (objectInstance == null) return null;
+
 			if(kind == PolymorphKind.XmlSerialization) {
 				var serializer = new XmlSerializer(objectInstance.GetType());
 				var sb = new StringBuilder();
@@ -47,7 +49,7 @@ namespace xwcs.core.ui.datalayout.attributes
 
 		public static object TypedDeserialize(this string objectData, PolymorphKind kind = PolymorphKind.XmlSerialization)
 		{
-			if (objectData.Length == 0) return null;
+			if (objectData == null || objectData.Length == 0) return null;
 
 			if (kind == PolymorphKind.XmlSerialization)
 			{
