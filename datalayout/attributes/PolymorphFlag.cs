@@ -35,6 +35,8 @@ namespace xwcs.core.ui.datalayout.attributes
 		*/
 		public static string TypedSerialize(this object objectInstance, string objectName, PolymorphKind kind = PolymorphKind.XmlSerialization)
 		{
+			if (objectInstance == null) return null;
+
 			Type oType = objectInstance.GetType();
             if (kind == PolymorphKind.XmlSerialization) {
 				
