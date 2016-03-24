@@ -6,6 +6,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
+using xwcs.core.ui.datalayout.serialize;
 
 namespace xwcs.core.ui.datalayout.attributes
 {
@@ -25,10 +26,11 @@ namespace xwcs.core.ui.datalayout.attributes
 
 	static class ExtensionMethods
 	{
-		
+
 
 		/*
-			this method serialize some object into xml with full type name in xmlns:type="<object type" name space
+			this method serialize some object into xml with full type name in 
+			__content_type__="<object type>" attribute
 			so we can reread it later and it use also specific root element name
 		*/
 		public static string TypedSerialize(this object objectInstance, string objectName, PolymorphKind kind = PolymorphKind.XmlSerialization)
@@ -37,14 +39,14 @@ namespace xwcs.core.ui.datalayout.attributes
             if (kind == PolymorphKind.XmlSerialization) {
 				
 				XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-				ns.Add("typename", oType.FullName);
+				ns.Add("", "");
 				var serializer = new XmlSerializer(oType, new XmlRootAttribute(objectName));
 				XmlWriterSettings settings = new XmlWriterSettings();
 				settings.Indent = false;
 				settings.OmitXmlDeclaration = true;
 				settings.Encoding = Encoding.UTF8;
 				StringWriter sw = new StringWriter();
-				serializer.Serialize(XmlWriter.Create(sw, settings), objectInstance, ns);
+				serializer.Serialize(new XmlWriterExt(XmlWriter.Create(sw, settings), oType, "__content_type__"), objectInstance, ns);
 				return sw.ToString();
 			}
 			else {
@@ -66,7 +68,7 @@ namespace xwcs.core.ui.datalayout.attributes
 
 						if (reader.NodeType == XmlNodeType.Element && reader.Name == objectName)
 						{
-							reader.MoveToAttribute("xmlns:typename");
+							reader.MoveToAttribute("__content_type__");
 							nsVal = reader.Value;
 						}
 					}

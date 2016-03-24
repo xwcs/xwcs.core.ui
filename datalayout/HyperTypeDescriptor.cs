@@ -183,7 +183,8 @@ namespace Hyper.ComponentModel
                     tb.DefineMethodOverride(mb, baseMethod);
 
                     // for classes, implement write (would be lost in unbox for structs)
-                    if (!property.DeclaringType.IsValueType)
+                    
+					if (!property.DeclaringType.IsValueType)
                     {
                         if (!isReadOnly && property.CanWrite)
                         {
@@ -244,6 +245,7 @@ namespace Hyper.ComponentModel
                         }
 
                     }
+					
                     PropertyDescriptor newDesc =
                         tb.CreateType()
                             .GetConstructor(new Type[] {typeof (PropertyDescriptor)})

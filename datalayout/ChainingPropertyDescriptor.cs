@@ -182,7 +182,7 @@
 
         public override object GetValue(object component)
         {
-            return Root.GetValue(component);
+			return Root.GetValue(component);
         }
 
         public override bool IsBrowsable

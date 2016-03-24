@@ -137,7 +137,7 @@ namespace xwcs.core.ui.datalayout
 		{
 			//register handlers
 			CurrentChanged += handleCurrentChanged;
-
+			
 			_examinedTypes = new HashSet<string>();
 			_logger = xwcs.core.manager.SLogManager.getInstance().getClassLogger(GetType());// System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 		}
@@ -231,6 +231,9 @@ namespace xwcs.core.ui.datalayout
 
 		private void handleCurrentChanged(object sender, object args)
 		{
+			
+			
+
 			_logger.Debug("CC-Current: " + (base.Current != null ? base.Current.GetPropValueByPathUsingReflection("id") : "null"));
 			
 			
@@ -271,6 +274,8 @@ namespace xwcs.core.ui.datalayout
 						if(val != null) {
 							//restore context
 							_ctx = entry.Value.ctx;
+							//add sub type in hyper
+							HyperTypeDescriptionProvider.Add(valT);
 							//append type in scanned attributes
 							scanCustomAttributes(valT, entry.Key);
 						}
@@ -521,7 +526,7 @@ namespace xwcs.core.ui.datalayout
 				_cnt.FieldRetrieved += FieldRetrievedHandler;
 				_cnt.FieldRetrieving += FieldRetrievingHandler;
 				_cnt.DataSource = this;
-				_layoutIsValid = true;
+				_layoutIsValid = false;
             }
 		}
 
