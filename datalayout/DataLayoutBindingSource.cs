@@ -532,6 +532,7 @@ namespace xwcs.core.ui.datalayout
 
 		private void FieldRetrievedHandler(object sender, FieldRetrievedEventArgs e)
 		{
+			_logger.Debug("Retrieving for field:" + e.FieldName);
 			if (_customAttributes.ContainsKey(e.FieldName))
 			{
 				foreach (attributes.CustomAttribute a in _customAttributes[e.FieldName])
@@ -544,6 +545,10 @@ namespace xwcs.core.ui.datalayout
 
 		private void FieldRetrievingHandler(object sender, FieldRetrievingEventArgs e)
 		{
+			if(Current != null) {
+				PropertyDescriptor pd = ReflectionHelper.GetPropertyDescriptorFromPath(Current.GetType(), e.FieldName);
+			}
+			
 			if (_customAttributes.ContainsKey(e.FieldName))
 			{
 				foreach (attributes.CustomAttribute a in _customAttributes[e.FieldName])
