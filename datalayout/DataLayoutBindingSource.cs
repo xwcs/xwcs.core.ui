@@ -183,7 +183,7 @@ namespace xwcs.core.ui.datalayout
                         //here use eventual events, cause we set field which can be saved in DB
                         if (oldVal != null)
                         {
-                            SetPropertyInternal(cc, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.Kind));
+                            SetPropertyInternal(cc, entry.Value.attribute.SourcePropertyName, oldVal.TypedSerialize(entry.Value.attribute.SourcePropertyName, entry.Value.attribute.Kind));
                         }
 					}
 				}
