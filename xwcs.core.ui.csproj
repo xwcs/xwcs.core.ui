@@ -76,12 +76,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\xwcs.core\xwcs.core.csproj">
-      <Project>{64dd06ea-e442-4101-99b5-351c6a160472}</Project>
-      <Name>xwcs.core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="app\ApplicationFormBase.it-IT.resx">
       <DependentUpon>ApplicationFormBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,6 +90,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xwcs.core\xwcs.core.csproj">
+      <Project>{64dd06ea-e442-4101-99b5-351c6a160472}</Project>
+      <Name>xwcs.core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
