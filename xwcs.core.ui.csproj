@@ -36,6 +36,7 @@
     <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -55,6 +56,8 @@
     <Compile Include="controls\DockPanelBase.Designer.cs">
       <DependentUpon>DockPanelBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="controls\FloatDocumentsHost.cs" />
+    <Compile Include="controls\support\ViewBaseEventsHandler.cs" />
     <Compile Include="controls\XwBarButtonItem.cs">
       <SubType>Component</SubType>
     </Compile>

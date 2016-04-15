@@ -12,6 +12,7 @@ using xwcs.core.manager;
 using System.Threading;
 using System.Globalization;
 using System.IO;
+using System.Collections.Generic;
 
 namespace xwcs.core.ui.app
 {
@@ -23,7 +24,8 @@ namespace xwcs.core.ui.app
         private IUser _user;
         private DocumentManagerSupport _managerSupport;
 
-        public SEventProxy eventProxy
+		
+		public SEventProxy eventProxy
         {
             get { return _proxy; }
         }
@@ -33,17 +35,19 @@ namespace xwcs.core.ui.app
             get { return _user; }
         }
 
+		
+
         public ApplicationFormBase()
         {
             InitializeComponent();
 
             if (!DesignMode)
             {
-                documentManager1.View.DocumentProperties.UseFormIconAsDocumentImage = false;
-                documentManager1.View.UseDocumentSelector = DevExpress.Utils.DefaultBoolean.True;
-                tabbedView1.FloatingDocumentContainer = FloatingDocumentContainer.DocumentsHost;
+                documentManager.View.DocumentProperties.UseFormIconAsDocumentImage = true;
+                documentManager.View.UseDocumentSelector = DevExpress.Utils.DefaultBoolean.True;
+				tabbedView.FloatingDocumentContainer = FloatingDocumentContainer.DocumentsHost;
 
-                // Security context must be caal first time in main app and 
+                // Security context must be call first time in main app and 
 				// must have providers set
                 _user = SecurityContext.getInstance().CurrentUser;
 
@@ -58,16 +62,18 @@ namespace xwcs.core.ui.app
                 _loader = SPluginsLoader.getInstance();
                 _loader.LoadPlugins(this, "Plugins");
 
-                _managerSupport = new DocumentManagerSupport(   documentManager1,
+				controls.ViewBaseEventsHandler.AttachToView(documentManager.View);
+				
+				_managerSupport = new DocumentManagerSupport(   documentManager,
                                                                 new DevExpress.XtraBars.BarItem[] { barButton_Save },
                                                                 new DevExpress.XtraBars.BarItem[] { barButton_SaveAll });
             }
         }
 
-
-        private void HandleOpenPanelRequestEvent(Event e)
+		
+		private void HandleOpenPanelRequestEvent(Event e)
         {
-            OpenPanelRequest ee = (OpenPanelRequest)e.data;
+            OpenPanelRequest ee = (OpenPanelRequest)e.Data;
             xwcs.core.controls.VisualControlInfo vci = (xwcs.core.controls.VisualControlInfo)ee.Vci;
 
             VisualControl control = (VisualControl)vci.createInstance();
@@ -76,39 +82,40 @@ namespace xwcs.core.ui.app
 
                 if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_document)
                 {
-                    documentManager1.BeginUpdate();
-                    BaseDocument document = documentManager1.View.AddDocument(control);
+                    documentManager.BeginUpdate();
+                    BaseDocument document = documentManager.View.AddDocument(control);
                     document.Caption = control.VisualControlInfo.Name;
                     document.ControlName = control.VisualControlInfo.Name;
-                    documentManager1.EndUpdate();
-                    documentManager1.View.Controller.Activate(document);
-                }
+                    documentManager.EndUpdate();
+                    documentManager.View.Controller.Activate(document);
+					
+				}
                 else if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_status)
                 {
                     DockPanel pb = new DockPanel();
 
-                    if (dockManager1.Panels.Count == 0)
+                    if (dockManager.Panels.Count == 0)
                     {
-                        pb = dockManager1.AddPanel(DockingStyle.Bottom);
+                        pb = dockManager.AddPanel(DockingStyle.Bottom);
                     }
                     else
-                    if (dockManager1.Panels.Count == 1)
+                    if (dockManager.Panels.Count == 1)
                     {
-                        pb = dockManager1.AddPanel(DockingStyle.Bottom);
-                        DockPanel panelX = dockManager1.Panels[0] as DockPanel;
+                        pb = dockManager.AddPanel(DockingStyle.Bottom);
+                        DockPanel panelX = dockManager.Panels[0] as DockPanel;
                         pb.DockAsTab(panelX);
                     }
                     else
-                    if (dockManager1.Panels.Count > 1)
+                    if (dockManager.Panels.Count > 1)
                     {
-                        pb = dockManager1.AddPanel(DockingStyle.Bottom);
-                        DockPanel container = dockManager1.Panels[0].ParentPanel as DockPanel;
+                        pb = dockManager.AddPanel(DockingStyle.Bottom);
+                        DockPanel container = dockManager.Panels[0].ParentPanel as DockPanel;
                         if (container != null) pb.DockAsTab(container);
                     }
 
                     pb.ClosedPanel += (senderX, eX) =>
                     {
-                        dockManager1.RemovePanel(pb);                        
+                        dockManager.RemovePanel(pb);                        
                     };
                     
 
@@ -120,7 +127,7 @@ namespace xwcs.core.ui.app
                 }
                 else
                 {
-                    DockPanel dockPanel1 = dockManager1.AddPanel(DockingStyle.Top);
+                    DockPanel dockPanel1 = dockManager.AddPanel(DockingStyle.Top);
                     dockPanel1.ID = ee.Vci.GUID;
                     dockPanel1.Text = control.VisualControlInfo.Name;
                     dockPanel1.Height = 400;
@@ -129,6 +136,9 @@ namespace xwcs.core.ui.app
                     control.Dock = DockStyle.Fill;
                     dockPanel1.ControlContainer.Controls.Add(control);
                 }
+
+				//start control
+				control.Start(core.controls.VisualControlStartingKind.StartingNew);
             }
         }
 
@@ -162,7 +172,7 @@ namespace xwcs.core.ui.app
 
         private void HandleAddToolbarRequestEvent(Event e)
         {
-            AddToolBarRequest ee = (AddToolBarRequest)e.data;
+            AddToolBarRequest ee = (AddToolBarRequest)e.Data;
             MenuAddRequest[] menu = ee.content;
 
             foreach (MenuAddRequest mar in menu)
@@ -182,7 +192,7 @@ namespace xwcs.core.ui.app
                     }
                     case MenuDestination.MENU_tool_bar:
                     {
-                        addItemToBar(bar1, mar.content);
+                        addItemToBar(barToolButtons, mar.content);
                         break;
                     }
                 }
@@ -191,7 +201,7 @@ namespace xwcs.core.ui.app
 
         private void dockManager1_Load(object sender, EventArgs e)
         {
-            foreach (DockPanel panel in dockManager1.Panels)
+            foreach (DockPanel panel in dockManager.Panels)
             {
                 XtraUserControl control = _loader.getControlByGuid(panel.ID);
                 if (control != null)
@@ -201,7 +211,7 @@ namespace xwcs.core.ui.app
 
                     panel.ClosedPanel += (senderX, eX) =>
                     {
-                        dockManager1.RemovePanel(panel);                        
+                        dockManager.RemovePanel(panel);                        
                     };
                 }
             }
@@ -209,12 +219,12 @@ namespace xwcs.core.ui.app
 
         private void workspaceManager1_WorkspaceSaved(object sender, DevExpress.Utils.WorkspaceEventArgs args)
         {
-            _managerSupport.save();
+            _managerSupport.SaveState();
         }
 
         private void workspaceManager1_AfterApplyWorkspace(object sender, EventArgs e)
         {
-            _managerSupport.load();
+            _managerSupport.LoadState();
         }
 
         private void loadWorkSpace()
@@ -224,9 +234,12 @@ namespace xwcs.core.ui.app
             Stream reader = null;
             try
             {
-                reader = xwcs.core.manager.SPersistenceManager.getInstance().getReader("DefaultWorkspace");
-                workspaceManager1.LoadWorkspace("DefaultWorkspace", reader);
-                workspaceManager1.ApplyWorkspace("DefaultWorkspace");                
+                reader = SPersistenceManager.getInstance().GetReader("DefaultWorkspace");
+                workspaceManager.LoadWorkspace("DefaultWorkspace", reader);
+				workspaceManager.CloseStreamOnWorkspaceLoading = DevExpress.Utils.DefaultBoolean.True;
+				workspaceManager.TransitionType = new DevExpress.Utils.Animation.ShapeTransition();
+				workspaceManager.TransitionType.Parameters.FrameCount = 1000;
+				workspaceManager.ApplyWorkspace("DefaultWorkspace");                
             }
             catch (Exception ex)
             {                
@@ -246,9 +259,10 @@ namespace xwcs.core.ui.app
             Stream writer = null;
             try
             {
-                writer = xwcs.core.manager.SPersistenceManager.getInstance().getWriter("DefaultWorkspace");                
-                workspaceManager1.CaptureWorkspace("DefaultWorkspace");
-                workspaceManager1.SaveWorkspace(workspaceManager1.Workspaces[0].Name, writer, true);
+                writer = SPersistenceManager.getInstance().GetWriter("DefaultWorkspace");                
+                workspaceManager.CaptureWorkspace("DefaultWorkspace");
+				workspaceManager.CloseStreamOnWorkspaceSaving = DevExpress.Utils.DefaultBoolean.True;
+				workspaceManager.SaveWorkspace(workspaceManager.Workspaces[0].Name, writer, true);
             }
             catch (Exception ex)
             {
@@ -262,26 +276,26 @@ namespace xwcs.core.ui.app
 
         protected void ApplicationFormBase_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //saveWorkspace();
+            saveWorkspace();
         }
 
         protected void ApplicationFormBase_Shown(object sender, EventArgs e)
         {
-            //loadWorkSpace();
+            loadWorkSpace();
             _proxy.fireEvent(new Event(this, EventType.WorkSpaceLoadedEvent, null));
         }
 
         private void barButton_Createnew_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             //Create new workspace
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    documentManager1.View.Controller.CloseAll();
-                    workspaceManager1.RemoveWorkspace("DefaultWorkspace");
+                    documentManager.View.Controller.CloseAll();
+                    workspaceManager.RemoveWorkspace("DefaultWorkspace");
 
-                    xwcs.core.manager.SPersistenceManager.getInstance().createWorkSpace(folderBrowserDialog1.SelectedPath);
+                    SPersistenceManager.getInstance().CreateWorkSpace(folderBrowserDialog.SelectedPath);
                 }
                 catch (Exception ex)
                 {
@@ -293,15 +307,15 @@ namespace xwcs.core.ui.app
         private void barButton_Change_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             //Change workspace
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    xwcs.core.manager.SPersistenceManager.getInstance().setWorkSpace(folderBrowserDialog1.SelectedPath);
+                    SPersistenceManager.getInstance().SetWorkSpace(folderBrowserDialog.SelectedPath);
 
-                    DockPanel[] p = new DockPanel[dockManager1.Count];
+                    DockPanel[] p = new DockPanel[dockManager.Count];
                     int i = 0;
-                    foreach (DockPanel dp in dockManager1.Panels)
+                    foreach (DockPanel dp in dockManager.Panels)
                     {
                         p[i++] = dp;
                     }
@@ -310,8 +324,8 @@ namespace xwcs.core.ui.app
                         dp.Close();
                     }
 
-                    documentManager1.View.Controller.CloseAll();
-                    workspaceManager1.RemoveWorkspace("DefaultWorkspace");
+                    documentManager.View.Controller.CloseAll();
+                    workspaceManager.RemoveWorkspace("DefaultWorkspace");
                     loadWorkSpace();
                 }
                 catch (IOException ex)
