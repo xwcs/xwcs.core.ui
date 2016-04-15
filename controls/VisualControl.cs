@@ -14,11 +14,18 @@ using System.Reflection;
 namespace xwcs.core.ui.controls
 {
 	
-	public abstract class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
+	public class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
 	{
 		public core.controls.VisualControlInfo VisualControlInfo { get; private set; }
 
 		public string ControlName { get { return VisualControlInfo.Name;  } }
+
+		/// <summary>
+		/// Need just for designer
+		/// </summary>
+		public VisualControl() {
+
+		}
 
 		public VisualControl(core.controls.VisualControlInfo vci)
 		{
@@ -34,7 +41,10 @@ namespace xwcs.core.ui.controls
 			};
 		}
 
-		public virtual void Start(core.controls.VisualControlStartingKind startingKind = core.controls.VisualControlStartingKind.StartingNew) {
+		public virtual void Start(
+			core.controls.VisualControlStartingKind startingKind = core.controls.VisualControlStartingKind.StartingNew,
+			object data = null
+		) {
 
 		}
 
