@@ -180,5 +180,15 @@ namespace xwcs.core.ui.controls
 				}
 			}			
         }
-    }
+
+		public BaseDocument getDocumentByVCI(xwcs.core.controls.VisualControlInfo visualControlInfo)
+		{
+			foreach (DevExpress.XtraBars.Docking2010.Views.BaseDocument document in _manager.View.Documents)
+			{
+				VisualControl vc = (VisualControl)document.Control;
+				if ((vc != null) && (vc.VisualControlInfo.GUID == visualControlInfo.GUID)) return document;
+			}
+			return null;
+		}
+	}
 }

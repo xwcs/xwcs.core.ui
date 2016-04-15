@@ -235,3 +235,5 @@ _Pvt_Extensions
 datalayout/DataLayoutBindingSource.cs.orig
 
 datalayout/attributes/PolymorphFlag.cs.orig
+*.orig
+*.orig

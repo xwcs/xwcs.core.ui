@@ -75,8 +75,20 @@ namespace xwcs.core.ui.app
         {
             OpenPanelRequest ee = (OpenPanelRequest)e.Data;
             xwcs.core.controls.VisualControlInfo vci = (xwcs.core.controls.VisualControlInfo)ee.Vci;
+			
+			BaseDocument existingDocument = _managerSupport.getDocumentByVCI(vci);
+			if (existingDocument != null)
+			{
+				documentManager1.View.Controller.Activate(existingDocument);
+				VisualControl existingVisualControl = (VisualControl)existingDocument.Control;
+				if ((existingVisualControl != null) && (ee.DataObject != null))
+				{
+					existingVisualControl.initialize(ee.DataObject);
+				}
+				return;
+			}
 
-            VisualControl control = (VisualControl)vci.createInstance();
+			VisualControl control = (VisualControl)vci.createInstance();
             if (control != null)
             {
 
@@ -89,6 +101,10 @@ namespace xwcs.core.ui.app
                     documentManager.EndUpdate();
                     documentManager.View.Controller.Activate(document);
 					
+					if (ee.DataObject != null)
+					{
+						control.initialize(ee.DataObject);
+					}
 				}
                 else if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_status)
                 {
