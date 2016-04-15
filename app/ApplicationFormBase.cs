@@ -79,7 +79,7 @@ namespace xwcs.core.ui.app
 			BaseDocument existingDocument = _managerSupport.getDocumentByVCI(vci);
 			if (existingDocument != null)
 			{
-				documentManager1.View.Controller.Activate(existingDocument);
+				documentManager.View.Controller.Activate(existingDocument);
 				VisualControl existingVisualControl = (VisualControl)existingDocument.Control;
 				if ((existingVisualControl != null) && (ee.DataObject != null))
 				{
