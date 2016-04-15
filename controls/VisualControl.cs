@@ -34,5 +34,7 @@ namespace xwcs.core.ui.controls
             SEventProxy.getInstance().fireEvent(documentActivatedEvent);
         }
 
+		virtual public void initialize(object dataObject) {;}
+
     }
 }

@@ -69,8 +69,20 @@ namespace xwcs.core.ui.app
         {
             OpenPanelRequest ee = (OpenPanelRequest)e.data;
             xwcs.core.controls.VisualControlInfo vci = (xwcs.core.controls.VisualControlInfo)ee.Vci;
+			
+			BaseDocument existingDocument = _managerSupport.getDocumentByVCI(vci);
+			if (existingDocument != null)
+			{
+				documentManager1.View.Controller.Activate(existingDocument);
+				VisualControl existingVisualControl = (VisualControl)existingDocument.Control;
+				if ((existingVisualControl != null) && (ee.DataObject != null))
+				{
+					existingVisualControl.initialize(ee.DataObject);
+				}
+				return;
+			}
 
-            VisualControl control = (VisualControl)vci.createInstance();
+			VisualControl control = (VisualControl)vci.createInstance();
             if (control != null)
             {
 
@@ -82,6 +94,11 @@ namespace xwcs.core.ui.app
                     document.ControlName = control.VisualControlInfo.Name;
                     documentManager1.EndUpdate();
                     documentManager1.View.Controller.Activate(document);
+
+					if (ee.DataObject != null)
+					{
+						control.initialize(ee.DataObject);
+					}
                 }
                 else if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_status)
                 {
@@ -262,12 +279,12 @@ namespace xwcs.core.ui.app
 
         protected void ApplicationFormBase_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //saveWorkspace();
+            saveWorkspace();
         }
 
         protected void ApplicationFormBase_Shown(object sender, EventArgs e)
         {
-            //loadWorkSpace();
+            loadWorkSpace();
             _proxy.fireEvent(new Event(this, EventType.WorkSpaceLoadedEvent, null));
         }
 
