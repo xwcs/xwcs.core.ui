@@ -1,82 +1,103 @@
 ﻿using System.Xml.Serialization;
 using xwcs.core.manager;
-using xwcs.core.plgs;
 using DevExpress.XtraBars.Docking2010.Views;
 using xwcs.core.evt;
 using System.Collections.Generic;
+using xwcs.core.plgs.persistent;
+using System;
+using xwcs.core.controls;
 
 namespace xwcs.core.ui.controls
 {
 
-    [XmlRootAttribute("Documents", Namespace = "http://www.cpandl.com", IsNullable = false)]
-    public class DocumentManagerState : ManagerStateBase
+	[XmlRoot("Documents", Namespace = "http://www.cpandl.com", IsNullable = false)]
+    public class DocumentManagerState
     {
-        [XmlArrayAttribute("Items")]
-        public xwcs.core.controls.VisualControlInfo[] Documents;
+        [XmlArray("Items")]
+        public core.controls.VisualControlInfo[] Documents;
 
-        public DocumentManagerState() {; }
+        public DocumentManagerState() {}
     }
 
-    [xwcs.core.cfg.attr.Config("MainAppConfig")]
-    public partial class DocumentManagerSupport : ManagerWithStateBase
+    [cfg.attr.Config("MainAppConfig")]
+    public partial class DocumentManagerSupport : PersistentStateBase
     {
         private DevExpress.XtraBars.Docking2010.DocumentManager _manager;
         private SEventProxy _proxy;
-        protected DocumentManagerState state { get { return (DocumentManagerState)_managerState; } }
-        private List<xwcs.core.controls.IVisualControl> _controlsForSave = new List<xwcs.core.controls.IVisualControl>();
+		// Cast internal state
+        protected DocumentManagerState state { get { return (DocumentManagerState)_State; } }
+        private List<core.controls.IVisualControl> _controlsForSave = new List<core.controls.IVisualControl>();
         private DevExpress.XtraBars.BarItem[] _saveComponents;
         private DevExpress.XtraBars.BarItem[] _saveAllComponents;
+
+
+		/// <summary>
+		/// Each time some document is activated this is set
+		/// So we can route global button events to correct document
+		/// </summary>
         private xwcs.core.controls.IVisualControl _activeControl;
 
         public DocumentManagerSupport(DevExpress.XtraBars.Docking2010.DocumentManager manager, DevExpress.XtraBars.BarItem[] saveComponents, DevExpress.XtraBars.BarItem[] saveAllComponents)
         {
             _manager = manager;
-            _managerState = new DocumentManagerState();
+            _State = new DocumentManagerState();
 
             _proxy = SEventProxy.getInstance();
-            _proxy.addEventHandler(EventType.DocumentChangedEvent, HandleDocumentChanged);
-            _proxy.addEventHandler(EventType.DocumentActivatedEvent, HandleDocumentActivated);
+            _proxy.addEventHandler<DocumentChangedEvent>(EventType.DocumentChangedEvent, HandleDocumentChanged);
+            _proxy.addEventHandler<VisualControlActionEvent>(EventType.VisualControlActionEvent, HandleVisualControlAction);
             _saveComponents = saveComponents;
             _saveAllComponents = saveAllComponents;
         }
 
-        private void HandleDocumentChanged(Event e)
+        private void HandleDocumentChanged(DocumentChangedEvent e)
         {
             SLogManager.getInstance().Info("HandleDocumentChanged received in DocumentManagerSupport");
-            DocumentChangedRequest ee = (DocumentChangedRequest)e.data;
-            _controlsForSave.Add(ee.visualControl);
+            _controlsForSave.Add(e.RequestData.VisualControl);
             foreach (DevExpress.XtraBars.BarItem item in _saveAllComponents) item.Enabled = true;
 
-            if (ee.visualControl == _activeControl)
+            if (e.RequestData.VisualControl == _activeControl)
             {
                 foreach (DevExpress.XtraBars.BarItem item in _saveComponents) item.Enabled = true;
             }
         }
 
-        private void HandleDocumentActivated(Event e)
+        private void HandleVisualControlAction(VisualControlActionEvent e)
         {
-            SLogManager.getInstance().Info("HandleDocumentActivated received in DocumentManagerSupport");
+            SLogManager.getInstance().Info("HandleVisualControlAction received in DocumentManagerSupport");
 
-            _activeControl = null;
-            foreach (DevExpress.XtraBars.BarItem item in _saveComponents) item.Enabled = false;
-            DocumentActivatedRequest ee = (DocumentActivatedRequest)e.data;
-            xwcs.core.controls.VisualControlInfo vci = ee.visualControl.VisualControlInfo; 
+			switch(e.RequestData.ActionKind) {
+				case VisualControlActionKind.Activated:
+					_activeControl = null;
 
-            if (vci != null)
-            {
-                if (_controlsForSave.Find(x => x.VisualControlInfo == vci) != null)
-                {
-                    foreach (DevExpress.XtraBars.BarItem item in _saveComponents) item.Enabled = true;
-                }
-                _activeControl = ee.visualControl;
-            }
+					foreach (DevExpress.XtraBars.BarItem item in _saveComponents) item.Enabled = false;
+
+					core.controls.IVisualControl vc = e.RequestData.VisualControl;
+					core.controls.VisualControlInfo vci = vc.VisualControlInfo;
+
+					if (vci != null)
+					{
+						if (_controlsForSave.Find(x => x.VisualControlInfo == vci) != null)
+						{
+							foreach (DevExpress.XtraBars.BarItem item in _saveComponents) item.Enabled = true;
+						}
+						_activeControl = vc;
+					}
+					break;
+				case VisualControlActionKind.Disposed:
+				default:
+
+					_activeControl = null;
+					foreach (DevExpress.XtraBars.BarItem item in _saveComponents) item.Enabled = false;
+					break;
+			}
+            
         }
 
         public void SaveChangedControls()
         {
-            DevExpress.XtraBars.Docking2010.Views.BaseDocumentCollection col = _manager.View.Documents;
+            BaseDocumentCollection col = _manager.View.Documents;
 
-            foreach (DevExpress.XtraBars.Docking2010.Views.BaseDocument document in col)
+            foreach (BaseDocument document in col)
             {
                 VisualControl vc = (VisualControl)document.Control;
                 if (vc != null)
@@ -97,9 +118,9 @@ namespace xwcs.core.ui.controls
         {
             if (_activeControl != null)
             {
-                DevExpress.XtraBars.Docking2010.Views.BaseDocumentCollection col = _manager.View.Documents;
+                BaseDocumentCollection col = _manager.View.Documents;
 
-                foreach (DevExpress.XtraBars.Docking2010.Views.BaseDocument document in col)
+                foreach (BaseDocument document in col)
                 {
                     VisualControl vc = (VisualControl)document.Control;
                     if (vc.VisualControlInfo == _activeControl.VisualControlInfo)
@@ -116,33 +137,48 @@ namespace xwcs.core.ui.controls
             }
         }
 
-        protected override void beforeSave()
+        protected override void BeforeSaveState()
         {
-            DevExpress.XtraBars.Docking2010.Views.BaseDocumentCollection col = _manager.View.Documents;
+            BaseDocumentCollection col = _manager.View.Documents;
 
-            state.Documents = new xwcs.core.controls.VisualControlInfo[col.Count];
-            int i = 0;
-            foreach (DevExpress.XtraBars.Docking2010.Views.BaseDocument document in col)
-            {
-                VisualControl vc = (VisualControl)document.Control;
-                if (vc != null)
-                {
-                    state.Documents[i++] = vc.VisualControlInfo;
-                }
-            }
+			try {
+				state.Documents = new core.controls.VisualControlInfo[col.Count];
+				int i = 0;
+				foreach (BaseDocument document in col)
+				{
+					VisualControl vc = (VisualControl)document.Control;
+					if (vc != null)
+					{
+						// save control state
+						(vc as IPersistentState)?.SaveState();
+						state.Documents[i++] = vc.VisualControlInfo;
+					}
+				}
+			}catch(Exception ex) {
+				SLogManager.getInstance().Error(ex.Message);
+			}            
         }
 
-        protected override void afterLoad()
+        protected override void AfterLoadState()
         {
-            foreach(xwcs.core.controls.VisualControlInfo vci in state.Documents)
-            {
-                VisualControl pluginControl = (VisualControl)vci.createInstance();
-                _manager.BeginUpdate();
-                BaseDocument document = _manager.View.AddDocument(pluginControl);
-                document.Caption = vci.Name;
-                document.ControlName = vci.Name;
-                _manager.EndUpdate();
-            }
+			//state can be not loaded!!!!
+            if(_State == null) {
+				_State = new DocumentManagerState();
+			}else {
+				foreach (core.controls.VisualControlInfo vci in state.Documents)
+				{
+					VisualControl pluginControl = (VisualControl)vci.restoreInstance();
+					_manager.BeginUpdate();
+					BaseDocument document = _manager.View.AddDocument(pluginControl);
+					document.Caption = vci.Name;
+					document.ControlName = vci.Name;
+					_manager.EndUpdate();
+
+					// restore control state
+					(pluginControl as IPersistentState)?.LoadState();
+					(pluginControl as IVisualControl)?.Start(VisualControlStartingKind.StartingPersisted);
+				}
+			}			
         }
     }
 }

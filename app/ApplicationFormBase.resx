@@ -117,83 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="barManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="barManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="bar1.Text" xml:space="preserve">
+  <data name="barToolButtons.Text" xml:space="preserve">
     <value>Tools</value>
   </data>
-  <data name="barSubItem_File.Caption" xml:space="preserve">
-    <value>File</value>
+  <data name="barMenu.Text" xml:space="preserve">
+    <value>Main menu</value>
   </data>
-  <data name="barSubItem_FileOpen.Caption" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="barButton_Save.Caption" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="barButton_SaveAll.Caption" xml:space="preserve">
-    <value>Save All</value>
-  </data>
-  <data name="barButton_Close.Caption" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="barButton_CloseAll.Caption" xml:space="preserve">
-    <value>Close All</value>
-  </data>
-  <data name="barSubItem_Workspace.Caption" xml:space="preserve">
-    <value>Workspace</value>
-  </data>
-  <data name="barButton_Createnew.Caption" xml:space="preserve">
-    <value>Create new</value>
-  </data>
-  <data name="barButton_Change.Caption" xml:space="preserve">
-    <value>Change</value>
-  </data>
-  <data name="barButton_Exit.Caption" xml:space="preserve">
-    <value>Exit</value>
-  </data>
-  <data name="barSubItem_Edit.Caption" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="barSubItem_View.Caption" xml:space="preserve">
-    <value>View</value>
-  </data>
-  <data name="barButton_Startpage.Caption" xml:space="preserve">
-    <value>Start page</value>
-  </data>
-  <data name="barButton_Properties.Caption" xml:space="preserve">
-    <value>Properties</value>
-  </data>
-  <data name="barButton_Status.Caption" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="barSubItem_OtherWindows.Caption" xml:space="preserve">
-    <value>Other Windows</value>
-  </data>
-  <data name="barSubItem_Tools.Caption" xml:space="preserve">
-    <value>Tools</value>
-  </data>
-  <data name="barButton_Options.Caption" xml:space="preserve">
-    <value>Options</value>
-  </data>
-  <data name="barWorkspaceMenuItem1.Caption" xml:space="preserve">
-    <value>Layout</value>
-  </data>
-  <metadata name="workspaceManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>437, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>813, 482</value>
+  <data name="barStatus.Text" xml:space="preserve">
+    <value>Status bar</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="barDockControlTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="barDockControlTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="barDockControlTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>813, 51</value>
+  </data>
+  <data name="&gt;&gt;barDockControlTop.Name" xml:space="preserve">
+    <value>barDockControlTop</value>
+  </data>
+  <data name="&gt;&gt;barDockControlTop.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;barDockControlTop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;barDockControlTop.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="barDockControlBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="barDockControlBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 459</value>
+  </data>
+  <data name="barDockControlBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>813, 23</value>
+  </data>
+  <data name="&gt;&gt;barDockControlBottom.Name" xml:space="preserve">
+    <value>barDockControlBottom</value>
+  </data>
+  <data name="&gt;&gt;barDockControlBottom.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;barDockControlBottom.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;barDockControlBottom.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="barDockControlLeft.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Left</value>
   </data>
@@ -236,14 +215,44 @@
   <data name="&gt;&gt;barDockControlRight.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="barDockControlBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
+  <metadata name="dockManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>304, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>158</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
   </data>
-  <data name="barDockControlBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 459</value>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>813, 482</value>
   </data>
-  <data name="barDockControlBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>813, 23</value>
+  <data name="&gt;&gt;barDockControlLeft.Name" xml:space="preserve">
+    <value>barDockControlLeft</value>
+  </data>
+  <data name="&gt;&gt;barDockControlLeft.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;barDockControlLeft.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;barDockControlLeft.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;barDockControlRight.Name" xml:space="preserve">
+    <value>barDockControlRight</value>
+  </data>
+  <data name="&gt;&gt;barDockControlRight.Type" xml:space="preserve">
+    <value>DevExpress.XtraBars.BarDockControl, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+  </data>
+  <data name="&gt;&gt;barDockControlRight.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;barDockControlRight.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;barDockControlBottom.Name" xml:space="preserve">
     <value>barDockControlBottom</value>
@@ -256,15 +265,6 @@
   </data>
   <data name="&gt;&gt;barDockControlBottom.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="barDockControlTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="barDockControlTop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="barDockControlTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>813, 51</value>
   </data>
   <data name="&gt;&gt;barDockControlTop.Name" xml:space="preserve">
     <value>barDockControlTop</value>
@@ -281,22 +281,22 @@
   <data name="$this.Text" xml:space="preserve">
     <value>ApplicationFormBase</value>
   </data>
-  <data name="&gt;&gt;barManager1.Name" xml:space="preserve">
-    <value>barManager1</value>
+  <data name="&gt;&gt;barManager.Name" xml:space="preserve">
+    <value>barManager</value>
   </data>
-  <data name="&gt;&gt;barManager1.Type" xml:space="preserve">
+  <data name="&gt;&gt;barManager.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.BarManager, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;bar1.Name" xml:space="preserve">
-    <value>bar1</value>
+  <data name="&gt;&gt;barToolButtons.Name" xml:space="preserve">
+    <value>barToolButtons</value>
   </data>
-  <data name="&gt;&gt;bar1.Type" xml:space="preserve">
+  <data name="&gt;&gt;barToolButtons.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;bar2.Name" xml:space="preserve">
-    <value>bar2</value>
+  <data name="&gt;&gt;barMenu.Name" xml:space="preserve">
+    <value>barMenu</value>
   </data>
-  <data name="&gt;&gt;bar2.Type" xml:space="preserve">
+  <data name="&gt;&gt;barMenu.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem_File.Name" xml:space="preserve">
@@ -413,10 +413,10 @@
   <data name="&gt;&gt;barWorkspaceMenuItem1.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.BarWorkspaceMenuItem, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;workspaceManager1.Name" xml:space="preserve">
-    <value>workspaceManager1</value>
+  <data name="&gt;&gt;workspaceManager.Name" xml:space="preserve">
+    <value>workspaceManager</value>
   </data>
-  <data name="&gt;&gt;workspaceManager1.Type" xml:space="preserve">
+  <data name="&gt;&gt;workspaceManager.Type" xml:space="preserve">
     <value>DevExpress.Utils.WorkspaceManager, DevExpress.Utils.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="&gt;&gt;barSubItem_About.Name" xml:space="preserve">
@@ -425,70 +425,34 @@
   <data name="&gt;&gt;barSubItem_About.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.BarSubItem, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;bar3.Name" xml:space="preserve">
-    <value>bar3</value>
+  <data name="&gt;&gt;barStatus.Name" xml:space="preserve">
+    <value>barStatus</value>
   </data>
-  <data name="&gt;&gt;bar3.Type" xml:space="preserve">
+  <data name="&gt;&gt;barStatus.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.Bar, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;dockManager1.Name" xml:space="preserve">
-    <value>dockManager1</value>
+  <data name="&gt;&gt;dockManager.Name" xml:space="preserve">
+    <value>dockManager</value>
   </data>
-  <data name="&gt;&gt;dockManager1.Type" xml:space="preserve">
+  <data name="&gt;&gt;dockManager.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.Docking.DockManager, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;barButtonItem5.Name" xml:space="preserve">
-    <value>barButtonItem5</value>
+  <data name="&gt;&gt;documentManager.Name" xml:space="preserve">
+    <value>documentManager</value>
   </data>
-  <data name="&gt;&gt;barButtonItem5.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem6.Name" xml:space="preserve">
-    <value>barButtonItem6</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem6.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem1.Name" xml:space="preserve">
-    <value>barButtonItem1</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem1.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem2.Name" xml:space="preserve">
-    <value>barButtonItem2</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem2.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem3.Name" xml:space="preserve">
-    <value>barButtonItem3</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem3.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem4.Name" xml:space="preserve">
-    <value>barButtonItem4</value>
-  </data>
-  <data name="&gt;&gt;barButtonItem4.Type" xml:space="preserve">
-    <value>DevExpress.XtraBars.BarButtonItem, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;documentManager1.Name" xml:space="preserve">
-    <value>documentManager1</value>
-  </data>
-  <data name="&gt;&gt;documentManager1.Type" xml:space="preserve">
+  <data name="&gt;&gt;documentManager.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.Docking2010.DocumentManager, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;tabbedView1.Name" xml:space="preserve">
-    <value>tabbedView1</value>
+  <data name="&gt;&gt;tabbedView.Name" xml:space="preserve">
+    <value>tabbedView</value>
   </data>
-  <data name="&gt;&gt;tabbedView1.Type" xml:space="preserve">
+  <data name="&gt;&gt;tabbedView.Type" xml:space="preserve">
     <value>DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView, DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;folderBrowserDialog1.Name" xml:space="preserve">
-    <value>folderBrowserDialog1</value>
+  <data name="&gt;&gt;folderBrowserDialog.Name" xml:space="preserve">
+    <value>folderBrowserDialog</value>
   </data>
-  <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
+  <data name="&gt;&gt;folderBrowserDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
@@ -497,61 +461,88 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="barSubItem_File.Caption" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="barSubItem_Edit.Caption" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="barSubItem_View.Caption" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="barSubItem_Tools.Caption" xml:space="preserve">
+    <value>Tools</value>
+  </data>
   <data name="barSubItem_About.Caption" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="bar2.Text" xml:space="preserve">
-    <value>Main menu</value>
+  <data name="barSubItem_FileOpen.Caption" xml:space="preserve">
+    <value>Open</value>
   </data>
-  <data name="bar3.Text" xml:space="preserve">
-    <value>Status bar</value>
+  <data name="barButton_Save.Caption" xml:space="preserve">
+    <value>Save</value>
   </data>
-  <metadata name="dockManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>304, 17</value>
-  </metadata>
-  <data name="barButtonItem5.Caption" xml:space="preserve">
+  <data name="barButton_SaveAll.Caption" xml:space="preserve">
+    <value>Save All</value>
+  </data>
+  <data name="barButton_Close.Caption" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="barButton_CloseAll.Caption" xml:space="preserve">
+    <value>Close All</value>
+  </data>
+  <data name="barSubItem_Workspace.Caption" xml:space="preserve">
     <value>Workspace</value>
   </data>
-  <data name="barButtonItem6.Caption" xml:space="preserve">
-    <value>barButtonItem6</value>
+  <data name="barButton_Createnew.Caption" xml:space="preserve">
+    <value>Create new</value>
   </data>
-  <data name="barButtonItem1.Caption" xml:space="preserve">
-    <value>barButtonItem1</value>
+  <data name="barButton_Change.Caption" xml:space="preserve">
+    <value>Change</value>
   </data>
-  <data name="barButtonItem1.Glyph" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
-        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAldEVYdFRpdGxlAENsZWFyO0VyYXNlO1JlbW92ZTtC
-        YXJzO1JpYmJvbjuHgINzAAAAjElEQVQ4T6WQ2w2AIBAE7ckW/KUKO7EqS7GbkyV3eMCCBj8mvnYmwUVE
-        fkFfXvvmCRFRcF9siwcDI8XLNFKIBgY6rGUjRxoZ6ICJnoDtrJzAfloGLECHHdojkFGP5yeG41wjgqt+
-        YIInycACkI23SJYBC4wijVwfYRQpZOAD3YiNRliARuoxg778jiw3qLGCwJyNBO4AAAAASUVORK5CYII=
-</value>
+  <data name="barButton_Exit.Caption" xml:space="preserve">
+    <value>Exit</value>
   </data>
-  <data name="barButtonItem1.LargeGlyph" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
-        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAldEVYdFRpdGxlAENsZWFyO0VyYXNlO1JlbW92ZTtC
-        YXJzO1JpYmJvbjuHgINzAAABNUlEQVRYR8WR0W3DMAxEs1NX6K+n6CadqqNkG1Vn6ASSPtmSJTgfD7EJ
-        8t4hfqWUPoocPokcWt4/3yNsmVTAs8y0yKEFIZ1YeXcJObQgoAMlJ3uJCPOdTKGOA2dycijBfCdTxMNA
-        j5y4Esx3MoU9CozISS3BfCdT8CBwR072Esx3MgWWAzNysjH/IIzk5dXyHeYfhJG8vFwOmH8QRvLycnlm
-        6BMsl2dqvpNFyrIKucsuB3Q4oaUsq5C7VDmgx0kt5WgVUg7ci6UcrsDJgfW4l+337yuT8FsOVeAIBzmw
-        TiUnsyWkHLQKWPlsiaYcjBQAoyVO5aBVIH4CS2+JSzloFZgt0SUHZwXuluiWg6sCoyWG5KCnwGUJGzJD
-        fcihimYJ3s1SH3JoC1Vi/T/wKeTwSeTwOdLrH2+P6VJXa4e4AAAAAElFTkSuQmCC
-</value>
+  <data name="barButton_Startpage.Caption" xml:space="preserve">
+    <value>Start page</value>
   </data>
-  <data name="barButtonItem2.Caption" xml:space="preserve">
-    <value>barButtonItem2</value>
+  <data name="barButton_Properties.Caption" xml:space="preserve">
+    <value>Properties</value>
   </data>
-  <data name="barButtonItem3.Caption" xml:space="preserve">
-    <value>barButtonItem3</value>
+  <data name="barButton_Status.Caption" xml:space="preserve">
+    <value>Status</value>
   </data>
-  <data name="barButtonItem4.Caption" xml:space="preserve">
-    <value>barButtonItem4</value>
+  <data name="barButton_Options.Caption" xml:space="preserve">
+    <value>Options</value>
   </data>
-  <metadata name="documentManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="barWorkspaceMenuItem1.Caption" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <metadata name="workspaceManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>437, 17</value>
+  </metadata>
+  <data name="barSubItem_OtherWindows.Caption" xml:space="preserve">
+    <value>Other Windows</value>
+  </data>
+  <metadata name="documentManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>142, 17</value>
   </metadata>
-  <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="tabbedView1.AppearancePage.Header.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>ForwardDiagonal</value>
+  </data>
+  <data name="tabbedView1.AppearancePage.HeaderActive.BackColor" type="System.Drawing.Color, System.Drawing">
+    <value>128, 255, 128</value>
+  </data>
+  <data name="tabbedView1.AppearancePage.HeaderActive.BackColor2" type="System.Drawing.Color, System.Drawing">
+    <value>Lime</value>
+  </data>
+  <data name="tabbedView1.AppearancePage.HeaderActive.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Bold</value>
+  </data>
+  <data name="tabbedView1.AppearancePage.HeaderActive.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>ForwardDiagonal</value>
+  </data>
+  <metadata name="folderBrowserDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>601, 17</value>
   </metadata>
 </root>
