@@ -16,6 +16,11 @@ namespace xwcs.core.ui.controls
 	
 	public class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
 	{
+		
+		#region CONSTANTS 
+		public const bool ALLOW_MULTI = false;
+		#endregion
+
 		public core.controls.VisualControlInfo VisualControlInfo { get; private set; }
 
 		public string ControlName { get { return VisualControlInfo.Name;  } }
