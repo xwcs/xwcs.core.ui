@@ -6,15 +6,16 @@ using System.Collections.Generic;
 using xwcs.core.plgs.persistent;
 using System;
 using xwcs.core.controls;
+using System.Runtime.Serialization;
 
 namespace xwcs.core.ui.controls
 {
 
-	[XmlRoot("Documents", Namespace = "http://www.cpandl.com", IsNullable = false)]
-    public class DocumentManagerState
+	[DataContract]
+	public class DocumentManagerState
     {
-        [XmlArray("Items")]
-        public core.controls.VisualControlInfo[] Documents;
+        [DataMember]
+        public VisualControlInfo[] Documents;
 
         public DocumentManagerState() {}
     }
@@ -142,7 +143,7 @@ namespace xwcs.core.ui.controls
             BaseDocumentCollection col = _manager.View.Documents;
 
 			try {
-				state.Documents = new core.controls.VisualControlInfo[col.Count];
+				state.Documents = new VisualControlInfo[col.Count];
 				int i = 0;
 				foreach (BaseDocument document in col)
 				{
@@ -165,7 +166,7 @@ namespace xwcs.core.ui.controls
             if(_State == null) {
 				_State = new DocumentManagerState();
 			}else {
-				foreach (core.controls.VisualControlInfo vci in state.Documents)
+				foreach (VisualControlInfo vci in state.Documents)
 				{
 					VisualControl pluginControl = (VisualControl)vci.restoreInstance();
 					_manager.BeginUpdate();

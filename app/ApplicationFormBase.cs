@@ -41,6 +41,10 @@ namespace xwcs.core.ui.app
         {
             InitializeComponent();
 
+			/*
+			 * Assembly locating
+			 */
+
             if (!DesignMode)
             {
                 documentManager.View.DocumentProperties.UseFormIconAsDocumentImage = true;

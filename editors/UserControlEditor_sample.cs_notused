@@ -1,0 +1,481 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using DevExpress.XtraEditors;
+using DevExpress.XtraEditors.Drawing;
+using DevExpress.XtraEditors.Registrator;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraEditors.ViewInfo;
+using DevExpress.XtraEditors.Popup;
+using System.Windows.Forms;
+using System.Reflection;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.Utils.Drawing;
+using xwcs.core.db.binding;
+
+namespace xwcs.core.ui.editors
+{
+	public interface IEditValue
+	{
+		object EditValue { get; set; }
+		event EventHandler EditValueChanged;
+		event EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
+	}
+
+	[UserRepositoryItem("Register")]
+	public class RepositoryItemUserControlEditor : RepositoryItem
+	{
+		private static readonly object drawControlInit = new object();
+		private static readonly object editorControlInit = new object();
+		private static readonly object controlTypeChanged = new object();
+
+		public event EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
+
+		public event EventHandler ControlTypeChanged
+		{
+			add { this.Events.AddHandler(controlTypeChanged, value); }
+			remove { this.Events.RemoveHandler(controlTypeChanged, value); }
+		}
+		public event EventHandler EditorControlInitialized
+		{
+			add { this.Events.AddHandler(editorControlInit, value); }
+			remove { this.Events.RemoveHandler(editorControlInit, value); }
+		}
+		public event EventHandler DrawControlInitialized
+		{
+			add { this.Events.AddHandler(drawControlInit, value); }
+			remove { this.Events.RemoveHandler(drawControlInit, value); }
+		}
+		UserControl _drawControl;
+		internal UserControl DrawControl
+		{
+			get
+			{
+				if (_drawControl == null)
+				{
+					if (ControlType == null)
+						return null;
+					ConstructorInfo cConstructor = ControlType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.CreateInstance | BindingFlags.NonPublic, null, new Type[] { }, null);
+					_drawControl = cConstructor.Invoke(null) as UserControl;
+					if (cConstructor == null)
+						return null;
+					OnDrawControlInitialized();
+
+				}
+				return _drawControl;
+			}
+		}
+		UserControl _editorControl;
+		internal UserControl EditorControl
+		{
+			get
+			{
+				if (_editorControl == null)
+				{
+					if (ControlType == null)
+						return null;
+					ConstructorInfo cConstructor = ControlType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.CreateInstance | BindingFlags.NonPublic, null, new Type[] { }, null);
+					if (cConstructor == null)
+						return null;
+					_editorControl = cConstructor.Invoke(null) as UserControl;
+					_editorControl.Dock = DockStyle.Fill;
+					OnEditorControlInitialized();
+				}
+				return _editorControl;
+			}
+		}
+
+		Type _controlType;
+		public Type ControlType
+		{
+			get { return _controlType; }
+			set
+			{
+				if (_controlType == value)
+					return;
+				_controlType = value;
+				_drawControl = null;
+				_editorControl = null;
+				this.OnControlTypeChanged();
+				this.OnPropertiesChanged();
+			}
+		}
+		void OnControlTypeChanged()
+		{
+			if ((OwnerEdit as UserControlEditor) != null)
+				(OwnerEdit as UserControlEditor).UpdateControls();
+			((EventHandler)this.Events[controlTypeChanged])?.Invoke(this, EventArgs.Empty);
+
+		}
+		void OnEditorControlInitialized()
+		{
+			((EventHandler)this.Events[editorControlInit])?.Invoke(_editorControl, EventArgs.Empty);
+
+		}
+		void OnDrawControlInitialized()
+		{
+			((EventHandler)this.Events[drawControlInit])?.Invoke(_drawControl, EventArgs.Empty);
+
+		}
+		public void onGetQueryable(GetFieldQueryableEventData qd)
+		{
+			GetFieldQueryable?.Invoke(this, qd);
+		}
+
+
+		static RepositoryItemUserControlEditor()
+		{
+			RegisterUserControlEditor();
+		}
+
+		public const string EditorName = "UserControlEditor";
+
+		public RepositoryItemUserControlEditor()
+		 : base()
+		{
+			AutoHeight = true;
+		}
+
+		
+		public override string EditorTypeName
+		{
+			get
+			{
+				return EditorName;
+			}
+		}
+
+		public static void RegisterUserControlEditor()
+		{
+			Image img = null;
+			EditorRegistrationInfo.Default.Editors.Add(new EditorClassInfo(EditorName, typeof(UserControlEditor), typeof(RepositoryItemUserControlEditor), typeof(UserControlEditorViewInfo), new UserControlEditorPainter(), true, img));
+		}
+
+		public override void Assign(RepositoryItem item)
+		{
+			BeginUpdate();
+			try
+			{
+				base.Assign(item);
+				RepositoryItemUserControlEditor source = item as RepositoryItemUserControlEditor;
+				if (source != null)
+				{
+					Events.AddHandler(drawControlInit, source.Events[drawControlInit]);
+					Events.AddHandler(editorControlInit, source.Events[editorControlInit]);
+					Events.AddHandler(controlTypeChanged, source.Events[controlTypeChanged]);
+					ControlType = source.ControlType;
+				}
+			}
+			finally
+			{
+				EndUpdate();
+			}
+		}
+
+		public override void ResetEvents()
+		{
+			base.ResetEvents();
+		}
+
+		protected override bool NeededKeysContains(Keys key)
+		{
+			switch (key)
+			{
+				case Keys.F2:
+				case Keys.A:
+				case Keys.Add:
+				case Keys.B:
+				case Keys.Back:
+				case Keys.C:
+				case Keys.Clear:
+				case Keys.D:
+				case Keys.D0:
+				case Keys.D1:
+				case Keys.D2:
+				case Keys.D3:
+				case Keys.D4:
+				case Keys.D5:
+				case Keys.D6:
+				case Keys.D7:
+				case Keys.D8:
+				case Keys.D9:
+				case Keys.Decimal:
+				case Keys.Delete:
+				case Keys.Divide:
+				case Keys.E:
+				case Keys.End:
+				case Keys.F:
+				case Keys.F20:
+				case Keys.G:
+				case Keys.H:
+				case Keys.Home:
+				case Keys.I:
+				case Keys.Insert:
+				case Keys.J:
+				case Keys.K:
+				case Keys.L:
+				case Keys.Left:
+				case Keys.M:
+				case Keys.Multiply:
+				case Keys.N:
+				case Keys.NumPad0:
+				case Keys.NumPad1:
+				case Keys.NumPad2:
+				case Keys.NumPad3:
+				case Keys.NumPad4:
+				case Keys.NumPad5:
+				case Keys.NumPad6:
+				case Keys.NumPad7:
+				case Keys.NumPad8:
+				case Keys.NumPad9:
+				case Keys.Alt:
+				case (Keys.RButton | Keys.ShiftKey):
+				case Keys.O:
+				case Keys.Oem8:
+				case Keys.OemBackslash:
+				case Keys.OemCloseBrackets:
+				case Keys.Oemcomma:
+				case Keys.OemMinus:
+				case Keys.OemOpenBrackets:
+				case Keys.OemPeriod:
+				case Keys.OemPipe:
+				case Keys.Oemplus:
+				case Keys.OemQuestion:
+				case Keys.OemQuotes:
+				case Keys.OemSemicolon:
+				case Keys.Oemtilde:
+				case Keys.P:
+				case Keys.Q:
+				case Keys.R:
+				case Keys.Right:
+				case Keys.S:
+				case Keys.Space:
+				case Keys.Subtract:
+				case Keys.T:
+				case Keys.U:
+				case Keys.V:
+				case Keys.W:
+				case Keys.X:
+				case Keys.Y:
+				case Keys.Z:
+					return true;
+			}
+			return base.NeededKeysContains(key);
+		}
+	}
+		
+	public class UserControlEditor : BaseEdit, IAutoHeightControl
+	{
+		#region IAutoHeightControl implement
+		bool IAutoHeightControl.SupportsAutoHeight { get { return true; } }
+
+		public event EventHandler heightChanged;
+		event EventHandler IAutoHeightControl.HeightChanged
+		{
+			add { heightChanged += value; }
+			remove { heightChanged -= value; }
+		}
+		protected void RaiseHeightChanged()
+		{
+			heightChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		int IAutoHeightControl.CalcHeight(GraphicsCache cache)
+		{
+			if (ViewInfo.IsReady)
+			{
+				IHeightAdaptable ih = ViewInfo as IHeightAdaptable;
+				if (ih != null) return ih.CalcHeight(cache, Width);
+			}
+			return Height;
+
+		}
+		#endregion
+
+		static UserControlEditor()
+		{
+			RepositoryItemUserControlEditor.RegisterUserControlEditor();
+		}
+
+		public UserControlEditor()
+		: base()
+		{
+			UpdateControls();
+		}
+
+		internal void UpdateControls()
+		{
+			Controls.Clear();
+			if (Properties.ControlType == null)
+				return;
+			Controls.Add(Properties.EditorControl);
+			(Properties.EditorControl as IEditValue).EditValueChanged += new EventHandler(this.editor_EditValueChanged);
+			(Properties.EditorControl as IEditValue).GetFieldQueryable += (object s, GetFieldQueryableEventData e) => { 
+				Properties.onGetQueryable(e);
+			};
+			(Properties.EditorControl as IEditValue).EditValue = EditValue;
+		}
+
+		
+
+		void editor_EditValueChanged(object sender, EventArgs e)
+		{
+
+			EditValue = (Properties.EditorControl as IEditValue).EditValue;
+			IsModified = true;
+		}
+
+		public override string EditorTypeName
+		{
+			get { return RepositoryItemUserControlEditor.EditorName; }
+		}
+
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+		public new RepositoryItemUserControlEditor Properties
+		{
+			get
+			{
+				return base.Properties as RepositoryItemUserControlEditor;
+			}
+		}
+
+		protected override void OnPropertiesChanged()
+		{
+			base.OnPropertiesChanged();
+			this.RaiseHeightChanged();
+		}
+		public override object EditValue
+		{
+			get
+			{
+				return base.EditValue;
+			}
+			set
+			{
+				base.EditValue = value;
+				if (Properties.EditorControl != null)
+					(Properties.EditorControl as IEditValue).EditValue = EditValue;
+			}
+		}
+		public override bool AllowMouseClick(Control control, Point p)
+		{
+			if (base.AllowMouseClick(control, p))
+				return true;
+			foreach (Control c in this.Controls)
+			{
+				if (c == control)
+					return true;
+				if (AllowMouseClickNeastedControls(c, control, p))
+					return true;
+			}
+			return false;
+		}
+
+		public static bool AllowMouseClickNeastedControls(Control thisControl, Control control, Point p)
+		{
+			if (thisControl == control)
+				return true;
+			if (thisControl is BaseEdit && (thisControl as BaseEdit).AllowMouseClick(control, p))
+				return true;
+			foreach (Control c in thisControl.Controls)
+				if (AllowMouseClickNeastedControls(c, control, p))
+					return true;
+			return false;
+		}
+
+		public override void SendMouse(MouseEventArgs e)
+		{
+			base.SendMouse(e);
+			Control ctrl = this.GetChildAtPoint(e.Location);
+			while (ctrl != null)
+			{
+				if (ctrl is BaseEdit)
+				{
+					Point newPoint = e.Location;
+					newPoint = this.PointToScreen(newPoint);
+					newPoint = ctrl.PointToClient(newPoint);
+					MouseEventArgs newArgs = new MouseEventArgs(e.Button, e.Clicks, newPoint.X, newPoint.Y, e.Delta);
+					(ctrl as BaseEdit).SendMouse(newArgs);
+					return;
+				}
+				else
+				{
+					ctrl = ctrl.GetChildAtPoint(e.Location);
+				}
+
+			}
+
+		}
+	}
+
+	public class UserControlEditorViewInfo : BaseEditViewInfo, IHeightAdaptable
+	{
+		public UserControlEditorViewInfo(RepositoryItem item) : base(item)
+		{
+		}
+
+		protected override Size CalcContentSize(Graphics g)
+		{
+			Size s = base.CalcContentSize(g);
+			//s.Height = 150;
+
+			return s;
+		}
+
+
+		protected override int CalcMinHeightCore(Graphics g)
+		{
+			return base.CalcMinHeightCore(g);
+		}
+
+		int IHeightAdaptable.CalcHeight(GraphicsCache cache, int width)
+		{
+			RepositoryItemUserControlEditor cri = Item as RepositoryItemUserControlEditor;
+			if (cri.ControlType == null)
+				return this.CalcMinHeight(cache.Graphics);
+			return cri.DrawControl.Height;
+		}
+		public override object EditValue
+		{
+			get
+			{
+				return base.EditValue;
+			}
+			set
+			{
+				base.EditValue = value;
+			}
+		}
+		public override string DisplayText
+		{
+			get
+			{
+				return base.DisplayText;
+			}
+		}
+	}
+
+	public class UserControlEditorPainter : BaseEditPainter
+	{
+		public UserControlEditorPainter() : base() { }
+
+		public override void Draw(ControlGraphicsInfoArgs info)
+		{
+			base.Draw(info);
+			if (info.ViewInfo == null) return;
+			UserControlEditorViewInfo vi = info.ViewInfo as UserControlEditorViewInfo;
+			if (vi.Item == null) return;
+			RepositoryItemUserControlEditor cri = vi.Item as RepositoryItemUserControlEditor;
+			if (cri.ControlType == null)
+				return;
+			(cri.DrawControl as IEditValue).EditValue = vi.EditValue;
+			cri.DrawControl.Bounds = info.Bounds;
+			Bitmap bm = new Bitmap(info.Bounds.Width, info.Bounds.Height);
+			cri.DrawControl.DrawToBitmap(bm, new Rectangle(0, 0, bm.Width, bm.Height));
+			info.Graphics.DrawImage(bm, info.Bounds.Location);
+		}
+	}
+}

@@ -32,26 +32,26 @@
 			DevExpress.XtraLayout.RowDefinition rowDefinition1 = new DevExpress.XtraLayout.RowDefinition();
 			DevExpress.XtraLayout.RowDefinition rowDefinition2 = new DevExpress.XtraLayout.RowDefinition();
 			this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+			this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+			this.filterEditorControl = new DevExpress.XtraFilterEditor.FilterEditorControl();
 			this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
 			this.simpleButtonCancel = new DevExpress.XtraEditors.SimpleButton();
 			this.simpleButtonOk = new DevExpress.XtraEditors.SimpleButton();
-			this.filterEditorControl = new DevExpress.XtraFilterEditor.FilterEditorControl();
 			this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
 			this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
 			this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
-			this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
 			this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
 			this.layoutControl1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
+			this.panelControl2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
 			this.panelControl1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
-			this.panelControl2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -69,6 +69,33 @@
 			this.layoutControl1.Size = new System.Drawing.Size(359, 223);
 			this.layoutControl1.TabIndex = 3;
 			this.layoutControl1.Text = "layoutControl1";
+			// 
+			// panelControl2
+			// 
+			this.panelControl2.Controls.Add(this.filterEditorControl);
+			this.panelControl2.Location = new System.Drawing.Point(12, 12);
+			this.panelControl2.Name = "panelControl2";
+			this.panelControl2.Size = new System.Drawing.Size(335, 161);
+			this.panelControl2.TabIndex = 5;
+			// 
+			// filterEditorControl
+			// 
+			this.filterEditorControl.Appearance.BackColor = System.Drawing.SystemColors.Control;
+			this.filterEditorControl.Appearance.Options.UseBackColor = true;
+			this.filterEditorControl.AppearanceEmptyValueColor = System.Drawing.Color.Empty;
+			this.filterEditorControl.AppearanceFieldNameColor = System.Drawing.Color.Empty;
+			this.filterEditorControl.AppearanceGroupOperatorColor = System.Drawing.Color.Empty;
+			this.filterEditorControl.AppearanceOperatorColor = System.Drawing.Color.Empty;
+			this.filterEditorControl.AppearanceValueColor = System.Drawing.Color.Empty;
+			this.filterEditorControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+			this.filterEditorControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.filterEditorControl.Location = new System.Drawing.Point(2, 2);
+			this.filterEditorControl.Margin = new System.Windows.Forms.Padding(50);
+			this.filterEditorControl.Name = "filterEditorControl";
+			this.filterEditorControl.Size = new System.Drawing.Size(331, 157);
+			this.filterEditorControl.TabIndex = 1;
+			this.filterEditorControl.Text = "filterEditorControl";
+			this.filterEditorControl.UseMenuForOperandsAndOperators = false;
 			// 
 			// panelControl1
 			// 
@@ -89,6 +116,7 @@
 			this.simpleButtonCancel.Size = new System.Drawing.Size(66, 23);
 			this.simpleButtonCancel.TabIndex = 6;
 			this.simpleButtonCancel.Text = "Cancel";
+			this.simpleButtonCancel.Click += new System.EventHandler(this.simpleButtonCancel_Click);
 			// 
 			// simpleButtonOk
 			// 
@@ -100,25 +128,7 @@
 			this.simpleButtonOk.Size = new System.Drawing.Size(66, 23);
 			this.simpleButtonOk.TabIndex = 5;
 			this.simpleButtonOk.Text = "OK";
-			// 
-			// filterEditorControl
-			// 
-			this.filterEditorControl.Appearance.BackColor = System.Drawing.SystemColors.Control;
-			this.filterEditorControl.Appearance.Options.UseBackColor = true;
-			this.filterEditorControl.AppearanceEmptyValueColor = System.Drawing.Color.Empty;
-			this.filterEditorControl.AppearanceFieldNameColor = System.Drawing.Color.Empty;
-			this.filterEditorControl.AppearanceGroupOperatorColor = System.Drawing.Color.Empty;
-			this.filterEditorControl.AppearanceOperatorColor = System.Drawing.Color.Empty;
-			this.filterEditorControl.AppearanceValueColor = System.Drawing.Color.Empty;
-			this.filterEditorControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-			this.filterEditorControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.filterEditorControl.Location = new System.Drawing.Point(2, 2);
-			this.filterEditorControl.Margin = new System.Windows.Forms.Padding(50);
-			this.filterEditorControl.Name = "filterEditorControl";
-			this.filterEditorControl.Size = new System.Drawing.Size(331, 157);
-			this.filterEditorControl.TabIndex = 1;
-			this.filterEditorControl.Text = "filterEditorControl";
-			this.filterEditorControl.UseMenuForOperandsAndOperators = false;
+			this.simpleButtonOk.Click += new System.EventHandler(this.simpleButtonOk_Click);
 			// 
 			// layoutControlGroup1
 			// 
@@ -177,14 +187,6 @@
 			this.emptySpaceItem2.Size = new System.Drawing.Size(339, 165);
 			this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
 			// 
-			// panelControl2
-			// 
-			this.panelControl2.Controls.Add(this.filterEditorControl);
-			this.panelControl2.Location = new System.Drawing.Point(12, 12);
-			this.panelControl2.Name = "panelControl2";
-			this.panelControl2.Size = new System.Drawing.Size(335, 161);
-			this.panelControl2.TabIndex = 5;
-			// 
 			// layoutControlItem1
 			// 
 			this.layoutControlItem1.Control = this.panelControl2;
@@ -204,14 +206,14 @@
 			this.Size = new System.Drawing.Size(359, 223);
 			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
 			this.layoutControl1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
+			this.panelControl2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
 			this.panelControl1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
-			this.panelControl2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
 			this.ResumeLayout(false);
 

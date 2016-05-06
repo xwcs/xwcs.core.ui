@@ -14,7 +14,7 @@ using System.Reflection;
 namespace xwcs.core.ui.controls
 {
 	
-	public class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
+	public abstract class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
 	{
 		
 		#region CONSTANTS 
@@ -57,6 +57,8 @@ namespace xwcs.core.ui.controls
 
 		protected object _State;
 
+		protected virtual Type GetStateObjectType() { return typeof(object); }
+
 		protected virtual void BeforeSaveState() { }
 
 		protected virtual void AfterLoadState() { }
@@ -73,7 +75,7 @@ namespace xwcs.core.ui.controls
 			if (_State == null) return; //nothing to save
 
 			MethodInfo method = typeof(SPersistenceManager).GetMethod("SaveObject");
-			MethodInfo generic = method.MakeGenericMethod(_State.GetType());
+			MethodInfo generic = method.MakeGenericMethod(GetStateObjectType());
 			object[] pms = { GetPersistorKey(), _State };
 			generic.Invoke(SPersistenceManager.getInstance(), pms);
 		}
@@ -81,7 +83,7 @@ namespace xwcs.core.ui.controls
 		public void LoadState()
 		{
 			MethodInfo method = typeof(SPersistenceManager).GetMethod("LoadObject");
-			MethodInfo generic = method.MakeGenericMethod(_State.GetType());
+			MethodInfo generic = method.MakeGenericMethod(GetStateObjectType());
 			object[] pms = { GetPersistorKey(), _State };
 
 			_State = null;
