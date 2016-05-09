@@ -14,7 +14,7 @@ using System.Reflection;
 namespace xwcs.core.ui.controls
 {
 	
-	public abstract class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
+	public class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
 	{
 		
 		#region CONSTANTS 
