@@ -79,13 +79,16 @@
     <Compile Include="db\fo\FilterDataLayoutBindingSource.cs" />
     <Compile Include="editors\attributes\UserControlEditAttribute.cs" />
     <Compile Include="editors\attributes\IntervalEditAttribute.cs" />
+    <Compile Include="editors\CustomAnyControlEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="editors\FieldExpressionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="editors\FieldExpressionControl.Designer.cs">
       <DependentUpon>FieldExpressionControl.cs</DependentUpon>
     </Compile>
-    <None Include="editors\UserControlEditor_sample.cs_notused">
+    <None Include="editors\UserControlEditor_sample.cs.off">
       <SubType>Component</SubType>
     </None>
     <Compile Include="editors\GridEditControl.cs">

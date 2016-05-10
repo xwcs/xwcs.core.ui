@@ -28,10 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.gridControl = new DevExpress.XtraGrid.GridControl();
 			this.gridViewMain = new DevExpress.XtraGrid.Views.Grid.GridView();
-			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridViewMain)).BeginInit();
 			this.SuspendLayout();
@@ -54,11 +52,6 @@
 			this.gridViewMain.OptionsView.ShowGroupPanel = false;
 			this.gridViewMain.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridViewMain_PopupMenuShowing);
 			// 
-			// contextMenuStrip
-			// 
-			this.contextMenuStrip.Name = "contextMenuStrip1";
-			this.contextMenuStrip.Size = new System.Drawing.Size(61, 4);
-			// 
 			// GridEditControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -77,6 +70,5 @@
 
 		private DevExpress.XtraGrid.GridControl gridControl;
 		private DevExpress.XtraGrid.Views.Grid.GridView gridViewMain;
-		private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
 	}
 }

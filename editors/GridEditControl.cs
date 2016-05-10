@@ -16,20 +16,38 @@ using System.Collections;
 using xwcs.core.manager;
 using DevExpress.XtraEditors.CustomEditor;
 using DevExpress.Utils.Drawing;
+using xwcs.core.evt;
 
 namespace xwcs.core.ui.editors
 {
-	public partial class GridEditControl : XtraUserControl, IAnyControlEdit
+	public partial class GridEditControl : XtraUserControl, IAnyControlEdit, INeedQueryable
 	{
 		private object _val = null;
 		private GridBindingSource _bs;
-		
+		private GridViewCustomMenu _gcm;
 
 		public GridEditControl()
 		{
 			InitializeComponent();
 			gridViewMain.OptionsView.ShowGroupPanel = false;
 			RecommendedSize = new Size(0,150);
+
+			Load += form_loaded;
+			Disposed += form_disposed;			
+		}
+
+		private void form_loaded(object sender, EventArgs e)
+		{
+			gridViewMain.PopupMenuShowing += gridViewMain_PopupMenuShowing;
+		}
+
+		private void form_disposed(object sender, EventArgs e)
+		{
+			Disposed -= form_disposed;
+			Load -= form_loaded;
+			gridViewMain.PopupMenuShowing -= gridViewMain_PopupMenuShowing;
+			_bs.Dispose();
+			_bs = null;
 		}
 
 		public Size RecommendedSize { get; set; }
@@ -49,10 +67,15 @@ namespace xwcs.core.ui.editors
 					_val = value;
 				}else {
 					//Clear datasource
-					(_val as IList)?.Clear();
+					_bs.Clear();
+					OnEditValueChanged();
+					return;
 				}
+				
+				// changed content
 				if(_val != null) {
 					if(_bs != null) {
+						_bs.GetFieldQueryable -= OnFieldQueryableProxy;
 						_bs.Dispose();
 						#if DEBUG
 						SLogManager.getInstance().Info("reset grid");
@@ -61,27 +84,49 @@ namespace xwcs.core.ui.editors
 					_bs = new GridBindingSource();
 					_bs.Grid = gridControl;
 					_bs.DataSource = _val;
-					_bs.GetFieldQueryable += (object s, GetFieldQueryableEventData e) =>
-					{
-						GetFieldQueryable?.Invoke(this, e);
-					};
+					_bs.GetFieldQueryable += OnFieldQueryableProxy; //not lambda here due to GC rooting
+					OnEditValueChanged();
 				}
 			}
 		}		
 
-		public event EventHandler EditValueChanged;
+		private void OnFieldQueryableProxy(object s, GetFieldQueryableEventData e) {
+			_wes_GetFieldQueryable.Raise(this, e);
+		}
 
-		public event EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
+		//public event EventHandler EditValueChanged;
+		private readonly WeakEventSource<EventArgs> _wes_EditValueChanged = new WeakEventSource<EventArgs>();
+		public event EventHandler EditValueChanged
+		{
+			add { _wes_EditValueChanged.Subscribe(new EventHandler<EventArgs>(value)); }
+			remove { _wes_EditValueChanged.Unsubscribe(new EventHandler<EventArgs>(value)); }
+		}
+		//public event EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
+		private readonly WeakEventSource<GetFieldQueryableEventData> _wes_GetFieldQueryable = new WeakEventSource<GetFieldQueryableEventData>();
+		public event EventHandler<GetFieldQueryableEventData> GetFieldQueryable
+		{
+			add { _wes_GetFieldQueryable.Subscribe(value); }
+			remove { _wes_GetFieldQueryable.Unsubscribe(value); }
+		}
+
+
+		private void OnEditValueChanged() {
+			_wes_EditValueChanged.Raise(this, new EventArgs());
+		}
 
 		public void addRow() {
 			Console.WriteLine("Add row called!");
 			_bs.AddNew();
+			_gcm.Dispose();
+			_gcm = null;
 		}
 
 		public void remRow()
 		{
 			Console.WriteLine("Rem row called!");
 			_bs.RemoveCurrent();
+			_gcm.Dispose();
+			_gcm = null;
 		}
 
 		private void gridViewMain_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
@@ -92,13 +137,13 @@ namespace xwcs.core.ui.editors
 			{
 				GridView view = sender as GridView;
 				view.FocusedRowHandle = e.HitInfo.RowHandle;
-				GridViewCustomMenu gcm = new GridViewCustomMenu(this, view,
+				_gcm = new GridViewCustomMenu(this, view,
 					e.HitInfo.HitTest == DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitTest.RowCell ?
 					PopupMenyType.addRem :
 					PopupMenyType.justAdd
 				);
-				gcm.Init(e.HitInfo);
-				gcm.Show(e.Point);
+				_gcm.Init(e.HitInfo);
+				_gcm.Show(e.Point);
 			}
 		}
 
@@ -149,6 +194,11 @@ namespace xwcs.core.ui.editors
 			}
 		}
 	}
+
+	public interface INeedQueryable {
+		event EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
+		event EventHandler Disposed;
+	}	
 
 	public enum PopupMenyType {
 		justAdd,

@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using xwcs.core.db.binding;
 using xwcs.core.db.model;
+using xwcs.core.evt;
 using xwcs.core.ui.editors;
 
 namespace xwcs.core.ui.db.fo
@@ -38,7 +39,14 @@ namespace xwcs.core.ui.db.fo
 		private PopupCloseKind _popupCloseKind;
 		private TextEdit _destEdit;
 
-		public EventHandler<FilterFieldEventData> FilterFieldEvent;
+		//public EventHandler<FilterFieldEventData> FilterFieldEvent;
+		private readonly WeakEventSource<FilterFieldEventData> _wes_FilterFieldEvent = new WeakEventSource<FilterFieldEventData>();
+		public event EventHandler<FilterFieldEventData> FilterFieldEvent
+		{
+			add { _wes_FilterFieldEvent.Subscribe(value); }
+			remove { _wes_FilterFieldEvent.Unsubscribe(value); }
+		}
+
 
 		public FilterDataLayoutBindingSource(BarManager bm) {
 			_barManager = bm;
@@ -86,7 +94,7 @@ namespace xwcs.core.ui.db.fo
 				//handle nullable
 				try {
 					ut = Nullable.GetUnderlyingType(pd.PropertyType) ?? pd.PropertyType;
-				}catch(Exception ex) {
+				}catch(Exception) {
 					ut = pd.PropertyType;
 				}
 
@@ -146,7 +154,7 @@ namespace xwcs.core.ui.db.fo
 				_popupCloseKind = PopupCloseKind.Cancel; 
 			}
 
-			FilterFieldEvent?.Invoke(this, ffe);
+			_wes_FilterFieldEvent.Raise(this, ffe);
 		}
 
 		protected override void Dispose(bool disposing)

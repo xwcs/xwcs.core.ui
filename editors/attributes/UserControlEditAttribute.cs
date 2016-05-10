@@ -24,26 +24,33 @@ namespace xwcs.core.ui.editors.attributes
 	public class UserControlEditAttribute : CustomAttribute
 	{
 		public Type ControlType { get; set; }
-
+		
 		public override void applyRetrievingAttribute(IDataLayoutExtender host, FieldRetrievingEventArgs e)
 		{
-			e.EditorType = typeof(AnyControlEdit);//typeof(UserControlEditor);
+			e.EditorType = typeof(CustomAnyControlEdit); //typeof(UserControlEditor);//typeof(AnyControlEdit);//typeof(UserControlEditor);
+		}
+
+		~UserControlEditAttribute()
+		{
+			Console.WriteLine(string.Format("UserControlEditAttribute Deleted! {0:X}", this));
+		}
+
+		public UserControlEditAttribute() : base() {
+			
+			Console.WriteLine(string.Format("UserControlEditAttribute Cretaed! {0:X}", this));
 		}
 
 		public override void applyRetrievedAttribute(IDataLayoutExtender host, FieldRetrievedEventArgs e)
 		{
-			GridEditControl cc = new GridEditControl();
-			cc.GetFieldQueryable += (ss, ee) =>
+			//manage disconnect and create control
+			(e.RepositoryItem as RepositoryItemCustomAnyControl).ControlType  = ControlType;
+			
+			//handle connect
+			INeedQueryable nq = (e.RepositoryItem as RepositoryItemCustomAnyControl).Control as INeedQueryable;
+			if(nq != null)
 			{
-				host.onGetQueryable(ee);
-			};
-			(e.RepositoryItem as RepositoryItemAnyControl).Control = cc;
-			/*
-			(e.RepositoryItem as RepositoryItemUserControlEditor).ControlType = ControlType;
-			(e.RepositoryItem as RepositoryItemUserControlEditor).GetFieldQueryable += (ss, ee) => {
-				host.onGetQueryable(ee);
-			};
-			*/
+				nq.GetFieldQueryable += host.onGetQueryable;
+			}
 		}
 	}
 }

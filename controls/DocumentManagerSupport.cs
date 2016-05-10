@@ -50,7 +50,7 @@ namespace xwcs.core.ui.controls
             _saveAllComponents = saveAllComponents;
         }
 
-        private void HandleDocumentChanged(DocumentChangedEvent e)
+        private void HandleDocumentChanged(object sender, DocumentChangedEvent e)
         {
             SLogManager.getInstance().Info("HandleDocumentChanged received in DocumentManagerSupport");
             _controlsForSave.Add(e.RequestData.VisualControl);
@@ -62,7 +62,7 @@ namespace xwcs.core.ui.controls
             }
         }
 
-        private void HandleVisualControlAction(VisualControlActionEvent e)
+        private void HandleVisualControlAction(object sender, VisualControlActionEvent e)
         {
             SLogManager.getInstance().Info("HandleVisualControlAction received in DocumentManagerSupport");
 
