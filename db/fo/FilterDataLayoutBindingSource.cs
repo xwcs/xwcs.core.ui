@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using xwcs.core.db.binding;
+using xwcs.core.db.fo;
 using xwcs.core.db.model;
 using xwcs.core.evt;
 using xwcs.core.ui.editors;
@@ -46,6 +47,18 @@ namespace xwcs.core.ui.db.fo
 		public void HandleFilterFiledKeyEvent(FilterFieldEventData ffe)
 		{
 			_filterAspect.HandleFilterFiledKeyEvent(ffe);
+		}
+
+		/*
+		public void HandleResetCriteria(string fn)
+		{
+			_filterAspect.HandleResetCriteria(fn);
+		}
+		*/
+
+		public void ResetCurrentFo()
+		{
+			(Current as ICriteriaTreeNode)?.Reset();
 		}
 	}
 }

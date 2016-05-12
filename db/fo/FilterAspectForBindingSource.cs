@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using xwcs.core.db.binding;
+using xwcs.core.db.binding.attributes;
 using xwcs.core.db.model;
 using xwcs.core.evt;
 using xwcs.core.ui.editors;
@@ -26,7 +27,21 @@ namespace xwcs.core.ui.db.fo
 
 	public interface IFilterDataBindingSource : IDataBindingSource
 	{
+		// handle interval criteria popup start
 		void HandleFilterFiledKeyEvent(FilterFieldEventData ffe);
+		
+		
+		// We need reset criteria when there is not normal value in the edit
+		// due to underlaying system value validation
+		// if we decide insert criteria into existing value
+		// there must be value set to null, and validating system resend this value 
+		// at the end of validation to the field , this is done just after we set criteria
+		// so there is a situation, when we loose filter value
+		// so we need reseting criteria mechanics, which will reset field criteria
+		// so we can ignore value set if criteria is commanding ( criteria presence is stronger )
+		// so when we dont need criteria we need reset it
+		// this must be done on first non action char hit on editor with null real value
+		//void HandleResetCriteria(string fn);
 	}
 
 	public enum PopupCloseKind {
@@ -97,19 +112,18 @@ namespace xwcs.core.ui.db.fo
 		{
 			if (_popupCloseKind == PopupCloseKind.Confirm && _destEdit != null)
 			{
-				_destEdit.CustomDisplayText += (object s, CustomDisplayTextEventArgs  ee) =>
-				{
-					TextEdit te = (s as TextEdit);
-					if(te != null) {
-						ee.DisplayText = te.Properties.NullValuePrompt;
-					}					
-				};
 				_destEdit.Properties.NullValuePrompt = _fc.filterEditorControl.FilterString;
 				//set criteria to filter field
 				_ds.Current.SetPropValueByPathUsingReflection(_fc.CurrentFieldName + "_criteria", _fc.filterEditorControl.FilterCriteria);
 			}
 			_destEdit = null;
 		}
+
+		/*
+		public void HandleResetCriteria(string fn) {
+			_ds.Current.SetPropValueByPathUsingReflection(_fc.CurrentFieldName + "_criteria", null);
+		}
+		*/
 
 		public void HandleFilterFiledKeyEvent(FilterFieldEventData ffe)
 		{
@@ -154,20 +168,28 @@ namespace xwcs.core.ui.db.fo
 						break;
 				}
 
-				/*				
+							
 				_fc.filterEditorControl.FilterControl.BeforeShowValueEditor += (object ss, ShowValueEditorEventArgs ee) =>
 				{
-					RepositoryItemLookUpEdit rle = new RepositoryItemLookUpEdit();
-					rle.DataSource
-					ee.CustomRepositoryItem = 
+					//RepositoryItemLookUpEdit rle = new RepositoryItemLookUpEdit();
+					//rle.DataSource
+					//ee.CustomRepositoryItem =
+
+					if (_ds.AttributesCache.ContainsKey(ffe.FieldName))
+					{
+						foreach (CustomAttribute a in _ds.AttributesCache[ffe.FieldName])
+						{
+							a.applyCustomEditShownFilterControl(_ds, ee);
+						}
+					}
 				};
-				
+
 				_fc.filterEditorControl.FilterControl.BeforeCreateValueEditor += (object ss, CreateValueEditorEventArgs ee) =>
 				{
 					//ee.CustomRepositoryItem = new RepositoryItemDateEdit();
-					ee.RepositoryItem =
+					//ee.RepositoryItem =
 				};
-				*/
+				
 				/*
 				_fc.filterEditorControl.FilterControl.PopupMenuShowing += (spm, spe) =>
 				{
@@ -178,11 +200,11 @@ namespace xwcs.core.ui.db.fo
 				*/
 				_fc.filterEditorControl.FilterControl.ShowOperandTypeIcon = true;
 
-				_popup.Size = new Size(be.Width, 200);
+				_popup.Size = new Size(Math.Max(be.Width, 400), 200);
 				_popup.ShowCloseButton = false;
 				_popup.ShowSizeGrip = true;
 
-				be.EditValue = null;
+				be.EditValue = null; // null current value
 				be.Properties.NullValuePromptShowForEmptyValue = true;
 				be.Properties.NullValuePrompt = _fc.filterEditorControl.FilterString;
 				be.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;

@@ -21,6 +21,9 @@ using xwcs.core.ui.db.fo;
 
 namespace xwcs.core.ui.editors
 {
+	// this class will be used as custom editor, it will do parent editors host 
+	// poxing, so all edits here will call main Editors host component
+	// instead of local
 	public partial class GridEditControl : XtraUserControl, IAnyControlEdit, IEditorsHostProvider
 	{
 		private object _val = null;
@@ -107,7 +110,6 @@ namespace xwcs.core.ui.editors
 		}
 
 		public void addRow() {
-			Console.WriteLine("Add row called!");
 			_bs.AddNew();
 			_gcm.Dispose();
 			_gcm = null;
@@ -115,7 +117,6 @@ namespace xwcs.core.ui.editors
 
 		public void remRow()
 		{
-			Console.WriteLine("Rem row called!");
 			_bs.RemoveCurrent();
 			_gcm.Dispose();
 			_gcm = null;

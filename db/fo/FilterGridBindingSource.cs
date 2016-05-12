@@ -3,12 +3,16 @@ using DevExpress.XtraDataLayout;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Filtering;
 using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid.Views.Base;
 using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using xwcs.core.db.binding;
+using xwcs.core.db.binding.attributes;
+using xwcs.core.db.fo;
 using xwcs.core.db.model;
 using xwcs.core.evt;
 using xwcs.core.ui.editors;
@@ -28,6 +32,7 @@ namespace xwcs.core.ui.db.fo
 
 		private void start(BarManager bm)
 		{
+			HandleCustomColumnDisplayText = true; //this will do event for text override for columns ( we need it for eventual criteria render )	
 			_filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
 		}
 
@@ -47,5 +52,42 @@ namespace xwcs.core.ui.db.fo
 		{
 			_filterAspect.HandleFilterFiledKeyEvent(ffe);
 		}
+
+	
+		protected override void resetSlavesOfModifiedProperty(ResetSlavesAttribute att)
+		{
+			//should be overridden
+			//we need reset slaves chain
+			FilterObjectbase fo = Current as FilterObjectbase;
+			att.Slaves.ToList().ForEach(
+				s =>
+				{
+					fo.GetFilterFieldByPath(s)?.Reset();
+				}
+			);
+		}
+
+		protected override void GetFieldDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
+		{
+			try {
+				FilterObjectbase fo = this[e.ListSourceRowIndex] as FilterObjectbase;
+				if (fo != null)
+				{
+					ICriteriaTreeNode cn = fo.GetFilterFieldByPath(e.Column.FieldName);
+					if (cn.HasCriteria())
+					{
+						string cond = cn.GetCondition().LegacyToString();
+						e.DisplayText = cond;
+					}
+				}
+			}catch(Exception ex) {
+#if DEBUG
+				Console.WriteLine(ex);
+#endif			
+			} //just silently skip problems
+			
+		}
+
+		
 	}
 }

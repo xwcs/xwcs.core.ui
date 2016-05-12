@@ -28,16 +28,16 @@ namespace xwcs.core.ui.editors.attributes
 		public string FieldName { get; private set; } = null;
 		public RepositoryItem Ri { get; private set; } = null;
 
-
-		// grid like container
-		public override void applyCustomRowCellEdit(IDataBindingSource src, CustomRowCellEditEventArgs e)
-		{
-			setupRle(src, e.RepositoryItem, e.Column.FieldName);	
-		}
-
+		//layout like
 		public override void applyRetrievedAttribute(IDataBindingSource src, FieldRetrievedEventArgs e)
 		{
-			setupRle(src, e.RepositoryItem, e.FieldName);		
+			setupRle(src, e.RepositoryItem, e.FieldName);
+		}
+
+		// grid like container
+		public override void applyCustomEditShown(IDataBindingSource src, ViewEditorShownEventArgs e)
+		{
+			setupRle(src, e.RepositoryItem, e.FieldName);
 		}
 
 		private void setupRle(IDataBindingSource src, RepositoryItem ri, string fn)
@@ -66,23 +66,6 @@ namespace xwcs.core.ui.editors.attributes
 				}
 			}
 
-			// default set italic
-			//(e.RepositoryItem as RepositoryItemTextEdit).Appearance.Font = new Font(DevExpress.Utils.AppearanceObject.DefaultFont, FontStyle.Italic);
-
-			// events
-			/*
-			e.RepositoryItem.EditValueChanging += (object s, ChangingEventArgs ce) =>
-			{
-				TextEdit te = s as TextEdit;
-				if(ce.NewValue != null) {
-					te.Properties.Appearance.Font = new Font(DevExpress.Utils.AppearanceObject.DefaultFont, FontStyle.Regular);
-				}
-				else {
-					te.Properties.Appearance.Font = new Font(DevExpress.Utils.AppearanceObject.DefaultFont, FontStyle.Italic);
-				}	
-			};
-			*/
-
 			ri.KeyPress += repItemKeyPressHandler;
 
 			//in case of button edit set it editable by hand
@@ -109,6 +92,15 @@ namespace xwcs.core.ui.editors.attributes
 				IFilterDataBindingSource fe = Src as IFilterDataBindingSource;
 				fe?.HandleFilterFiledKeyEvent(new FilterFieldEventData { Field = sender, FieldName = FieldName, ActionChar = ke.KeyChar });
 			}
+			/*
+			else{
+				BaseEdit be = sender as BaseEdit;
+				if(be != null && be.Text.Length == 1) {
+					IFilterDataBindingSource fe = Src as IFilterDataBindingSource;
+					fe?.HandleResetCriteria(FieldName);
+				}
+			}
+			*/
 		}
 	}
 }
