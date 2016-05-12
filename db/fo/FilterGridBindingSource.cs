@@ -15,16 +15,16 @@ using xwcs.core.ui.editors;
 
 namespace xwcs.core.ui.db.fo
 {
-	public class FilterDataLayoutBindingSource : DataLayoutBindingSource, IFilterDataBindingSource
+	public class FilterGridBindingSource : GridBindingSource, IFilterDataBindingSource
 	{
 		private FilterAspectForBindingSource _filterAspect;
 
-		public FilterDataLayoutBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { }
-		public FilterDataLayoutBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { }
-		public FilterDataLayoutBindingSource(BarManager bm, object o, string s) : this(null, bm, o, s) { }
-		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm) : base(eh) { start(bm); }
-		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm, IContainer c) : base(eh, c) { start(bm); }
-		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm, object o, string s) : base(eh, o, s) { start(bm); }
+		public FilterGridBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { }
+		public FilterGridBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { }
+		public FilterGridBindingSource(BarManager bm, object o, string s) : this(null, bm, o, s) { }
+		public FilterGridBindingSource(IEditorsHost eh, BarManager bm) : base(eh) { start(bm); }
+		public FilterGridBindingSource(IEditorsHost eh, BarManager bm, IContainer c) : base(eh, c) { start(bm); }
+		public FilterGridBindingSource(IEditorsHost eh, BarManager bm, object o, string s) : base(eh, o, s) { start(bm); }
 
 		private void start(BarManager bm)
 		{

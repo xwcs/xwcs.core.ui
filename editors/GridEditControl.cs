@@ -17,14 +17,16 @@ using xwcs.core.manager;
 using DevExpress.XtraEditors.CustomEditor;
 using DevExpress.Utils.Drawing;
 using xwcs.core.evt;
+using xwcs.core.ui.db.fo;
 
 namespace xwcs.core.ui.editors
 {
-	public partial class GridEditControl : XtraUserControl, IAnyControlEdit, INeedQueryable
+	public partial class GridEditControl : XtraUserControl, IAnyControlEdit, IEditorsHostProvider
 	{
 		private object _val = null;
-		private GridBindingSource _bs;
+		private FilterGridBindingSource _bs;
 		private GridViewCustomMenu _gcm;
+		public IEditorsHost EditorsHost { get; set; }
 
 		public GridEditControl()
 		{
@@ -32,22 +34,25 @@ namespace xwcs.core.ui.editors
 			gridViewMain.OptionsView.ShowGroupPanel = false;
 			RecommendedSize = new Size(0,150);
 
-			Load += form_loaded;
-			Disposed += form_disposed;			
-		}
-
-		private void form_loaded(object sender, EventArgs e)
-		{
 			gridViewMain.PopupMenuShowing += gridViewMain_PopupMenuShowing;
 		}
 
-		private void form_disposed(object sender, EventArgs e)
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
 		{
-			Disposed -= form_disposed;
-			Load -= form_loaded;
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+
 			gridViewMain.PopupMenuShowing -= gridViewMain_PopupMenuShowing;
 			_bs.Dispose();
 			_bs = null;
+
+			base.Dispose(disposing);
 		}
 
 		public Size RecommendedSize { get; set; }
@@ -66,7 +71,7 @@ namespace xwcs.core.ui.editors
 				if(value != null) {
 					_val = value;
 				}else {
-					//Clear datasource
+					//Clear data source
 					_bs.Clear();
 					OnEditValueChanged();
 					return;
@@ -75,24 +80,18 @@ namespace xwcs.core.ui.editors
 				// changed content
 				if(_val != null) {
 					if(_bs != null) {
-						_bs.GetFieldQueryable -= OnFieldQueryableProxy;
 						_bs.Dispose();
 						#if DEBUG
 						SLogManager.getInstance().Info("reset grid");
 						#endif
 					}
-					_bs = new GridBindingSource();
+					_bs = new FilterGridBindingSource(EditorsHost, barManager);
 					_bs.Grid = gridControl;
 					_bs.DataSource = _val;
-					_bs.GetFieldQueryable += OnFieldQueryableProxy; //not lambda here due to GC rooting
 					OnEditValueChanged();
 				}
 			}
 		}		
-
-		private void OnFieldQueryableProxy(object s, GetFieldQueryableEventData e) {
-			_wes_GetFieldQueryable.Raise(this, e);
-		}
 
 		//public event EventHandler EditValueChanged;
 		private readonly WeakEventSource<EventArgs> _wes_EditValueChanged = new WeakEventSource<EventArgs>();
@@ -101,14 +100,7 @@ namespace xwcs.core.ui.editors
 			add { _wes_EditValueChanged.Subscribe(new EventHandler<EventArgs>(value)); }
 			remove { _wes_EditValueChanged.Unsubscribe(new EventHandler<EventArgs>(value)); }
 		}
-		//public event EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
-		private readonly WeakEventSource<GetFieldQueryableEventData> _wes_GetFieldQueryable = new WeakEventSource<GetFieldQueryableEventData>();
-		public event EventHandler<GetFieldQueryableEventData> GetFieldQueryable
-		{
-			add { _wes_GetFieldQueryable.Subscribe(value); }
-			remove { _wes_GetFieldQueryable.Unsubscribe(value); }
-		}
-
+		
 
 		private void OnEditValueChanged() {
 			_wes_EditValueChanged.Raise(this, new EventArgs());
@@ -194,11 +186,6 @@ namespace xwcs.core.ui.editors
 			}
 		}
 	}
-
-	public interface INeedQueryable {
-		event EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
-		event EventHandler Disposed;
-	}	
 
 	public enum PopupMenyType {
 		justAdd,

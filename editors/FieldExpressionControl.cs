@@ -26,6 +26,25 @@ namespace xwcs.core.ui.editors
 		public FieldExpressionControl()
 		{
 			InitializeComponent();
+			simpleButtonOk.Click += simpleButtonOk_Click;
+			simpleButtonCancel.Click += simpleButtonCancel_Click;
+		}
+
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+
+			simpleButtonOk.Click -= simpleButtonOk_Click;
+			simpleButtonCancel.Click -= simpleButtonCancel_Click;
+
+			base.Dispose(disposing);
 		}
 
 		private void simpleButtonCancel_Click(object sender, System.EventArgs e)

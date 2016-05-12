@@ -25,31 +25,21 @@ namespace xwcs.core.ui.editors.attributes
 	{
 		public Type ControlType { get; set; }
 		
-		public override void applyRetrievingAttribute(IDataLayoutExtender host, FieldRetrievingEventArgs e)
+		public override void applyRetrievingAttribute(IDataBindingSource src, FieldRetrievingEventArgs e)
 		{
 			e.EditorType = typeof(CustomAnyControlEdit); //typeof(UserControlEditor);//typeof(AnyControlEdit);//typeof(UserControlEditor);
 		}
 
-		~UserControlEditAttribute()
-		{
-			Console.WriteLine(string.Format("UserControlEditAttribute Deleted! {0:X}", this));
-		}
-
-		public UserControlEditAttribute() : base() {
-			
-			Console.WriteLine(string.Format("UserControlEditAttribute Cretaed! {0:X}", this));
-		}
-
-		public override void applyRetrievedAttribute(IDataLayoutExtender host, FieldRetrievedEventArgs e)
+		public override void applyRetrievedAttribute(IDataBindingSource src, FieldRetrievedEventArgs e)
 		{
 			//manage disconnect and create control
 			(e.RepositoryItem as RepositoryItemCustomAnyControl).ControlType  = ControlType;
-			
+
 			//handle connect
-			INeedQueryable nq = (e.RepositoryItem as RepositoryItemCustomAnyControl).Control as INeedQueryable;
-			if(nq != null)
+			IEditorsHostProvider editorsHost = (e.RepositoryItem as RepositoryItemCustomAnyControl).Control as IEditorsHostProvider;
+			if(editorsHost != null)
 			{
-				nq.GetFieldQueryable += host.onGetQueryable;
+				editorsHost.EditorsHost = src.EditorsHost; // here we connect to main editors host
 			}
 		}
 	}

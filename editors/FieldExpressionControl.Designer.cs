@@ -7,18 +7,7 @@
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+		
 
 		#region Component Designer generated code
 
@@ -116,7 +105,7 @@
 			this.simpleButtonCancel.Size = new System.Drawing.Size(66, 23);
 			this.simpleButtonCancel.TabIndex = 6;
 			this.simpleButtonCancel.Text = "Cancel";
-			this.simpleButtonCancel.Click += new System.EventHandler(this.simpleButtonCancel_Click);
+			
 			// 
 			// simpleButtonOk
 			// 
@@ -128,7 +117,7 @@
 			this.simpleButtonOk.Size = new System.Drawing.Size(66, 23);
 			this.simpleButtonOk.TabIndex = 5;
 			this.simpleButtonOk.Text = "OK";
-			this.simpleButtonOk.Click += new System.EventHandler(this.simpleButtonOk_Click);
+			
 			// 
 			// layoutControlGroup1
 			// 
