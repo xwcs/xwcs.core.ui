@@ -23,7 +23,7 @@ namespace xwcs.core.ui.editors.attributes
 	[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
 	public class IntervalEditAttribute : CustomAttribute
 	{
-		public string ActionChars { get; set; } = "<:>";
+		public string ActionChars { get; set; } = "<:>*";
 		public IDataBindingSource Src { get; private set;  }
 		public string FieldName { get; private set; } = null;
 		public RepositoryItem Ri { get; private set; } = null;

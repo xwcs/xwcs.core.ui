@@ -78,6 +78,8 @@ namespace xwcs.core.ui.db.fo
 				_popup.HidePopup();
 			};
 
+			_fc.filterEditorControl.FilterControl.BeforeShowValueEditor += showvalueEditor_handler;
+
 			_popup.CloseUp += popup_CloseUp;
 		}
 		
@@ -92,6 +94,7 @@ namespace xwcs.core.ui.db.fo
 			{
 				if (disposing)
 				{
+					_fc.filterEditorControl.FilterControl.BeforeShowValueEditor -= showvalueEditor_handler;
 					_fc.Dispose();
 					_popup.CloseUp -= popup_CloseUp;
 					_popup.Dispose();
@@ -119,11 +122,19 @@ namespace xwcs.core.ui.db.fo
 			_destEdit = null;
 		}
 
-		/*
-		public void HandleResetCriteria(string fn) {
-			_ds.Current.SetPropValueByPathUsingReflection(_fc.CurrentFieldName + "_criteria", null);
+		private void showvalueEditor_handler(object ss, ShowValueEditorEventArgs ee)
+		{
+			using (WaitCursorHelper.NewWaitCursor())
+			{
+				if (_ds.AttributesCache.ContainsKey(_fc.CurrentFieldName))
+				{
+					foreach (CustomAttribute a in _ds.AttributesCache[_fc.CurrentFieldName])
+					{
+						a.applyCustomEditShownFilterControl(_ds, ee);
+					}
+				}
+			}
 		}
-		*/
 
 		public void HandleFilterFiledKeyEvent(FilterFieldEventData ffe)
 		{
@@ -158,38 +169,30 @@ namespace xwcs.core.ui.db.fo
 				switch (ffe.ActionChar)
 				{
 					case '<':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] < '{1}'", ffe.FieldName, (pd.PropertyType.IsValueType ? Activator.CreateInstance(pd.PropertyType) : ""));
+						_fc.filterEditorControl.FilterString = string.Format("[{0}] < ?", ffe.FieldName);
 						break;
 					case ':':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] between ('{1}', '{1}')", ffe.FieldName, (pd.PropertyType.IsValueType ? Activator.CreateInstance(pd.PropertyType) : ""));
+						_fc.filterEditorControl.FilterString = string.Format("[{0}] between (?, ?)", ffe.FieldName);
 						break;
 					case '>':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] > '{1}'", ffe.FieldName, (pd.PropertyType.IsValueType ? Activator.CreateInstance(pd.PropertyType) : ""));
+						_fc.filterEditorControl.FilterString = string.Format("[{0}] > ?", ffe.FieldName);
+						break;
+					case '*':
+						_fc.filterEditorControl.FilterString = string.Format("contains([{0}], ?)", ffe.FieldName);
 						break;
 				}
 
 							
-				_fc.filterEditorControl.FilterControl.BeforeShowValueEditor += (object ss, ShowValueEditorEventArgs ee) =>
-				{
-					//RepositoryItemLookUpEdit rle = new RepositoryItemLookUpEdit();
-					//rle.DataSource
-					//ee.CustomRepositoryItem =
+				
 
-					if (_ds.AttributesCache.ContainsKey(ffe.FieldName))
-					{
-						foreach (CustomAttribute a in _ds.AttributesCache[ffe.FieldName])
-						{
-							a.applyCustomEditShownFilterControl(_ds, ee);
-						}
-					}
-				};
-
+				/*
 				_fc.filterEditorControl.FilterControl.BeforeCreateValueEditor += (object ss, CreateValueEditorEventArgs ee) =>
 				{
 					//ee.CustomRepositoryItem = new RepositoryItemDateEdit();
 					//ee.RepositoryItem =
 				};
-				
+				*/
+
 				/*
 				_fc.filterEditorControl.FilterControl.PopupMenuShowing += (spm, spe) =>
 				{
@@ -215,7 +218,10 @@ namespace xwcs.core.ui.db.fo
 				_popup.ShowPopup(_barManager, pt);
 
 				_fc.filterEditorControl.FilterControl.Focus();
-
+				SendKeys.Send("{RIGHT}");
+				SendKeys.Send("{RIGHT}");
+				SendKeys.Send("{RIGHT}");
+				SendKeys.Send("{ENTER}");
 				// set future closing motive
 				// so user must confirm with ok click
 				_popupCloseKind = PopupCloseKind.Cancel;

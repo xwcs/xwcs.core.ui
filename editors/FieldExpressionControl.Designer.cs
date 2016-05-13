@@ -81,6 +81,7 @@
 			this.filterEditorControl.Location = new System.Drawing.Point(2, 2);
 			this.filterEditorControl.Margin = new System.Windows.Forms.Padding(50);
 			this.filterEditorControl.Name = "filterEditorControl";
+			this.filterEditorControl.ShowOperandTypeIcon = true;
 			this.filterEditorControl.Size = new System.Drawing.Size(331, 157);
 			this.filterEditorControl.TabIndex = 1;
 			this.filterEditorControl.Text = "filterEditorControl";
@@ -103,9 +104,8 @@
 			this.simpleButtonCancel.Location = new System.Drawing.Point(192, 6);
 			this.simpleButtonCancel.Name = "simpleButtonCancel";
 			this.simpleButtonCancel.Size = new System.Drawing.Size(66, 23);
-			this.simpleButtonCancel.TabIndex = 6;
+			this.simpleButtonCancel.TabIndex = 5;
 			this.simpleButtonCancel.Text = "Cancel";
-			
 			// 
 			// simpleButtonOk
 			// 
@@ -115,9 +115,8 @@
 			this.simpleButtonOk.Location = new System.Drawing.Point(264, 5);
 			this.simpleButtonOk.Name = "simpleButtonOk";
 			this.simpleButtonOk.Size = new System.Drawing.Size(66, 23);
-			this.simpleButtonOk.TabIndex = 5;
+			this.simpleButtonOk.TabIndex = 6;
 			this.simpleButtonOk.Text = "OK";
-			
 			// 
 			// layoutControlGroup1
 			// 
