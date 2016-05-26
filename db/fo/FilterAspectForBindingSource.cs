@@ -8,9 +8,12 @@ using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Input;
 using xwcs.core.db.binding;
 using xwcs.core.db.binding.attributes;
+using xwcs.core.db.fo;
 using xwcs.core.db.model;
 using xwcs.core.evt;
 using xwcs.core.ui.editors;
@@ -166,23 +169,27 @@ namespace xwcs.core.ui.db.fo
 
 				//set initial criteria
 				_fc.filterEditorControl.SourceControl = fo;
-				switch (ffe.ActionChar)
-				{
-					case '<':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] < ?", ffe.FieldName);
-						break;
-					case ':':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] between (?, ?)", ffe.FieldName);
-						break;
-					case '>':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] > ?", ffe.FieldName);
-						break;
-					case '*':
-						_fc.filterEditorControl.FilterString = string.Format("contains([{0}], ?)", ffe.FieldName);
-						break;
-				}
-
-							
+				//we can take old value if present
+				ICriteriaTreeNode field = (_ds.Current as FilterObjectbase)?.GetFilterFieldByPath(ffe.FieldName);
+				if(field != null && field.HasCriteria()) {
+					_fc.filterEditorControl.FilterCriteria = field.GetCondition();
+				}else {
+					switch (ffe.ActionChar)
+					{
+						case '<':
+							_fc.filterEditorControl.FilterString = string.Format("[{0}] < ?", ffe.FieldName);
+							break;
+						case ':':
+							_fc.filterEditorControl.FilterString = string.Format("[{0}] between (?, ?)", ffe.FieldName);
+							break;
+						case '>':
+							_fc.filterEditorControl.FilterString = string.Format("[{0}] > ?", ffe.FieldName);
+							break;
+						case '*':
+							_fc.filterEditorControl.FilterString = string.Format("contains([{0}], ?)", ffe.FieldName);
+							break;
+					}
+				}						
 				
 
 				/*
@@ -218,10 +225,24 @@ namespace xwcs.core.ui.db.fo
 				_popup.ShowPopup(_barManager, pt);
 
 				_fc.filterEditorControl.FilterControl.Focus();
-				SendKeys.Send("{RIGHT}");
-				SendKeys.Send("{RIGHT}");
-				SendKeys.Send("{RIGHT}");
-				SendKeys.Send("{ENTER}");
+				//wait eventual shift pressed
+				DateTime twoSec = DateTime.Now.AddSeconds(2);
+
+				while (DateTime.Now < twoSec && (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))){
+					//Console.WriteLine(string.Format("Waiting! {0}, {1}, L({2}) R({3}) ", DateTime.Now, twoSec, Keyboard.GetKeyStates(Key.LeftShift), Keyboard.GetKeyStates(Key.LeftShift)));
+					SendKeys.Flush();
+					Thread.Sleep(100);
+				}
+				if(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) {
+					MessageBox.Show("Ma lo molli sto shift?");
+				}else {
+					SendKeys.Flush();
+					SendKeys.Send("{RIGHT}");
+					SendKeys.Send("{RIGHT}");
+					SendKeys.Send("{RIGHT}");
+					SendKeys.Send("{ENTER}");
+				}
+
 				// set future closing motive
 				// so user must confirm with ok click
 				_popupCloseKind = PopupCloseKind.Cancel;
