@@ -10,13 +10,14 @@ using System.Windows.Forms;
 using xwcs.core.evt;
 using xwcs.core.manager;
 using System.Reflection;
+using DevExpress.XtraBars.Ribbon;
 
 namespace xwcs.core.ui.controls
 {
-	
+
 	public class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
 	{
-		
+
 		#region CONSTANTS 
 		public const bool ALLOW_MULTI = false;
 		#endregion
@@ -25,7 +26,9 @@ namespace xwcs.core.ui.controls
 
 		public core.controls.VisualControlInfo VisualControlInfo { get; private set; }
 
-		public string ControlName { get { return VisualControlInfo.Name;  } }
+		public string ControlName { get { return VisualControlInfo.Name; } }
+
+		public virtual RibbonControl Ribbon { get { return null; }} 
 
 		/// <summary>
 		/// Need just for designer

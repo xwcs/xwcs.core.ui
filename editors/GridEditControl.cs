@@ -52,7 +52,7 @@ namespace xwcs.core.ui.editors
 			}
 
 			gridViewMain.PopupMenuShowing -= gridViewMain_PopupMenuShowing;
-			_bs.Dispose();
+			_bs?.Dispose();
 			_bs = null;
 
 			base.Dispose(disposing);

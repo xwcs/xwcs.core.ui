@@ -18,6 +18,7 @@ using DevExpress.XtraBars.Docking;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraEditors;
 using System.IO;
+using xwcs.core.controls;
 
 namespace xwcs.core.ui.app
 {
@@ -61,6 +62,7 @@ namespace xwcs.core.ui.app
 				_proxy = SEventProxy.getInstance();
 				_proxy.addEventHandler<AddToolBarRequestEvent>(EventType.AddToolBarRequestEvent, HandleAddToolbarRequestEvent);
 				_proxy.addEventHandler<OpenPanelRequestEvent>(EventType.OpenPanelRequestEvent, HandleOpenPanelRequestEvent);
+				_proxy.addEventHandler<VisualControlActionEvent>(EventType.VisualControlActionEvent, HandleVisualControlAction);
 
 				//do it here before any other plugin will be loaded!!!!!
 				_widgetManager = SWidgetManager.getInstance();
@@ -79,6 +81,28 @@ namespace xwcs.core.ui.app
 
 		}
 
+
+		private void UpdateRibbons(IVisualControl control)
+		{
+			ribbonControl.UnMergeRibbon();
+			if(!ReferenceEquals(control.Ribbon, null)) {
+				ribbonControl.MergeRibbon(control.Ribbon);
+				ribbonControl.SelectedPage = ribbonControl.MergedPages[0];
+			}			
+		}
+
+		private void HandleVisualControlAction(object sender, VisualControlActionEvent e)
+		{
+			switch (e.RequestData.ActionKind)
+			{
+				case VisualControlActionKind.Activated:
+					UpdateRibbons(e.RequestData.VisualControl);
+					break;
+				default:
+					
+					break;
+			}
+		}
 
 
 		private void HandleOpenPanelRequestEvent(object sender, OpenPanelRequestEvent e)
@@ -112,6 +136,7 @@ namespace xwcs.core.ui.app
 					BaseDocument document = documentManager.View.AddDocument(control);
 					document.Caption = control.VisualControlInfo.Name;
 					document.ControlName = control.VisualControlInfo.Name;
+					document.Properties.AllowFloat = DevExpress.Utils.DefaultBoolean.False;
 					documentManager.EndUpdate();
 					documentManager.View.Controller.Activate(document);
 				}

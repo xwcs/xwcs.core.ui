@@ -166,19 +166,25 @@ namespace xwcs.core.ui.controls
             if(_State == null) {
 				_State = new DocumentManagerState();
 			}else {
+				BaseDocument first = null;
+				_manager.BeginUpdate();
 				foreach (VisualControlInfo vci in state.Documents)
 				{
 					VisualControl pluginControl = (VisualControl)vci.restoreInstance();
-					_manager.BeginUpdate();
 					BaseDocument document = _manager.View.AddDocument(pluginControl);
 					document.Caption = vci.Name;
 					document.ControlName = vci.Name;
-					_manager.EndUpdate();
-
+					document.Properties.AllowFloat = DevExpress.Utils.DefaultBoolean.False;
+					
 					// restore control state
 					(pluginControl as IPersistentState)?.LoadState();
 					(pluginControl as IVisualControl)?.Start(VisualControlStartingKind.StartingPersisted);
+					if(first == null) {
+						first = document;
+					}
 				}
+				_manager.EndUpdate();
+				_manager.View.Controller.Activate(first);
 			}			
         }
 

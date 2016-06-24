@@ -40,13 +40,13 @@
 			this.barButtonItem_View_Status = new DevExpress.XtraBars.BarButtonItem();
 			this.barButtonItem_View_Home = new DevExpress.XtraBars.BarButtonItem();
 			this.barButtonItem_Tools_Options = new DevExpress.XtraBars.BarButtonItem();
-			this.ribbonPageHome = new DevExpress.XtraBars.Ribbon.RibbonPage();
-			this.ribbonPageGroupHomeWorkspace = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-			this.ribbonPageGroupHomeView = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-			this.ribbonPageGroupHomeTools = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPagePlugins = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.ribbonPageGroupHomeFile = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonPageGroupPlgs_generic = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+			this.ribbonPageTools = new DevExpress.XtraBars.Ribbon.RibbonPage();
+			this.ribbonPageGroupHomeWorkspace = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+			this.ribbonPageGroupHomeView = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+			this.ribbonPageGroupHomeTools = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
 			this.documentManager = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
 			this.tabbedView = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
@@ -76,8 +76,8 @@
 			this.ribbonControl.MaxItemId = 12;
 			this.ribbonControl.Name = "ribbonControl";
 			this.ribbonControl.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
-            this.ribbonPageHome,
-            this.ribbonPagePlugins});
+            this.ribbonPagePlugins,
+            this.ribbonPageTools});
 			this.ribbonControl.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2013;
 			this.ribbonControl.StatusBar = this.ribbonStatusBar;
 			// 
@@ -91,6 +91,7 @@
 			this.barButtonItem_FileSave.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem_FileSave.LargeGlyph")));
 			this.barButtonItem_FileSave.LargeGlyphDisabled = ((System.Drawing.Image)(resources.GetObject("barButtonItem_FileSave.LargeGlyphDisabled")));
 			this.barButtonItem_FileSave.Name = "barButtonItem_FileSave";
+			this.barButtonItem_FileSave.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.SmallWithText;
 			this.barButtonItem_FileSave.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonSave_ItemClick);
 			// 
 			// barButtonItem_FileSaveAll
@@ -101,6 +102,7 @@
 			this.barButtonItem_FileSaveAll.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem_FileSaveAll.LargeGlyph")));
 			this.barButtonItem_FileSaveAll.LargeGlyphDisabled = ((System.Drawing.Image)(resources.GetObject("barButtonItem_FileSaveAll.LargeGlyphDisabled")));
 			this.barButtonItem_FileSaveAll.Name = "barButtonItem_FileSaveAll";
+			this.barButtonItem_FileSaveAll.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.SmallWithText;
 			this.barButtonItem_FileSaveAll.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButton_SaveAll_ItemClick);
 			// 
 			// barButtonItem_WS_New
@@ -153,15 +155,38 @@
 			this.barButtonItem_Tools_Options.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem_Tools_Options.LargeGlyph")));
 			this.barButtonItem_Tools_Options.Name = "barButtonItem_Tools_Options";
 			// 
-			// ribbonPageHome
+			// ribbonPagePlugins
 			// 
-			this.ribbonPageHome.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+			this.ribbonPagePlugins.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroupHomeFile,
+            this.ribbonPageGroupPlgs_generic});
+			this.ribbonPagePlugins.Image = ((System.Drawing.Image)(resources.GetObject("ribbonPagePlugins.Image")));
+			this.ribbonPagePlugins.MergeOrder = 1;
+			this.ribbonPagePlugins.Name = "ribbonPagePlugins";
+			resources.ApplyResources(this.ribbonPagePlugins, "ribbonPagePlugins");
+			// 
+			// ribbonPageGroupHomeFile
+			// 
+			this.ribbonPageGroupHomeFile.ItemLinks.Add(this.barButtonItem_FileSave);
+			this.ribbonPageGroupHomeFile.ItemLinks.Add(this.barButtonItem_FileSaveAll);
+			this.ribbonPageGroupHomeFile.Name = "ribbonPageGroupHomeFile";
+			resources.ApplyResources(this.ribbonPageGroupHomeFile, "ribbonPageGroupHomeFile");
+			// 
+			// ribbonPageGroupPlgs_generic
+			// 
+			this.ribbonPageGroupPlgs_generic.Name = "ribbonPageGroupPlgs_generic";
+			resources.ApplyResources(this.ribbonPageGroupPlgs_generic, "ribbonPageGroupPlgs_generic");
+			// 
+			// ribbonPageTools
+			// 
+			this.ribbonPageTools.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroupHomeWorkspace,
             this.ribbonPageGroupHomeView,
             this.ribbonPageGroupHomeTools});
-			this.ribbonPageHome.Image = ((System.Drawing.Image)(resources.GetObject("ribbonPageHome.Image")));
-			this.ribbonPageHome.Name = "ribbonPageHome";
-			resources.ApplyResources(this.ribbonPageHome, "ribbonPageHome");
+			this.ribbonPageTools.Image = ((System.Drawing.Image)(resources.GetObject("ribbonPageTools.Image")));
+			this.ribbonPageTools.MergeOrder = 1000;
+			this.ribbonPageTools.Name = "ribbonPageTools";
+			resources.ApplyResources(this.ribbonPageTools, "ribbonPageTools");
 			// 
 			// ribbonPageGroupHomeWorkspace
 			// 
@@ -183,27 +208,6 @@
 			this.ribbonPageGroupHomeTools.ItemLinks.Add(this.barButtonItem_Tools_Options);
 			this.ribbonPageGroupHomeTools.Name = "ribbonPageGroupHomeTools";
 			resources.ApplyResources(this.ribbonPageGroupHomeTools, "ribbonPageGroupHomeTools");
-			// 
-			// ribbonPagePlugins
-			// 
-			this.ribbonPagePlugins.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroupHomeFile,
-            this.ribbonPageGroupPlgs_generic});
-			this.ribbonPagePlugins.Image = ((System.Drawing.Image)(resources.GetObject("ribbonPagePlugins.Image")));
-			this.ribbonPagePlugins.Name = "ribbonPagePlugins";
-			resources.ApplyResources(this.ribbonPagePlugins, "ribbonPagePlugins");
-			// 
-			// ribbonPageGroupHomeFile
-			// 
-			this.ribbonPageGroupHomeFile.ItemLinks.Add(this.barButtonItem_FileSave);
-			this.ribbonPageGroupHomeFile.ItemLinks.Add(this.barButtonItem_FileSaveAll);
-			this.ribbonPageGroupHomeFile.Name = "ribbonPageGroupHomeFile";
-			resources.ApplyResources(this.ribbonPageGroupHomeFile, "ribbonPageGroupHomeFile");
-			// 
-			// ribbonPageGroupPlgs_generic
-			// 
-			this.ribbonPageGroupPlgs_generic.Name = "ribbonPageGroupPlgs_generic";
-			resources.ApplyResources(this.ribbonPageGroupPlgs_generic, "ribbonPageGroupPlgs_generic");
 			// 
 			// ribbonStatusBar
 			// 
@@ -265,7 +269,7 @@
 		#endregion
 
 		private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl;
-		private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageHome;
+		private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageTools;
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupHomeFile;
 		private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupHomeWorkspace;
