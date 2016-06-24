@@ -64,7 +64,7 @@ namespace xwcs.core.ui.app
 
                 //now we can load plugins
                 _loader = SPluginsLoader.getInstance();
-                _loader.LoadPlugins(this, "Plugins");
+                _loader.LoadPlugins(this, ".");
 
 				controls.ViewBaseEventsHandler.AttachToView(documentManager.View);
 				

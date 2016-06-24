@@ -68,6 +68,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controls\ContentSource.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="controls\DockPanelBase.cs">
       <SubType>Component</SubType>
     </Compile>

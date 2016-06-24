@@ -14,32 +14,32 @@ namespace xwcs.core.ui.controls
 	{
 		static DocumentEventHandler deactivateHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Deactivate " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+			Console.WriteLine("Deactivate " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentEventHandler activateHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Activated " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+			Console.WriteLine("Activated " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentEventHandler addedHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Added " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+			Console.WriteLine("Added " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentEventHandler deactivatedHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Deactivated " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+			Console.WriteLine("Deactivated " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentEventHandler removedHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Removed " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+			Console.WriteLine("Removed " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentCancelEventHandler closingHandler = (object s, DocumentCancelEventArgs docEvt) =>
 		{
-			Console.WriteLine("Closing " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+			Console.WriteLine("Closing " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static CustomDocumentsHostWindowEventHandler customDocumentsHandler = (object o, CustomDocumentsHostWindowEventArgs e) =>

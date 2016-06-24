@@ -29,10 +29,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationFormBase));
-			DevExpress.Utils.Animation.ShapeTransition shapeTransition2 = new DevExpress.Utils.Animation.ShapeTransition();
-			this.barManager = new DevExpress.XtraBars.BarManager(this.components);
+			DevExpress.Utils.Animation.ShapeTransition shapeTransition1 = new DevExpress.Utils.Animation.ShapeTransition();
+			this.barManager = new DevExpress.XtraBars.BarManager();
 			this.barToolButtons = new DevExpress.XtraBars.Bar();
 			this.barMenu = new DevExpress.XtraBars.Bar();
 			this.barSubItem_File = new DevExpress.XtraBars.BarSubItem();
@@ -61,9 +60,9 @@
 			this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
 			this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
 			this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-			this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
-			this.documentManager = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
-			this.tabbedView = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
+			this.dockManager = new DevExpress.XtraBars.Docking.DockManager();
+			this.documentManager = new DevExpress.XtraBars.Docking2010.DocumentManager();
+			this.tabbedView = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			((System.ComponentModel.ISupportInitialize)(this.barManager)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
@@ -146,12 +145,20 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.barButton_CloseAll),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_Workspace),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Exit)});
+			this.barSubItem_File.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem_File.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barSubItem_File.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem_File.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barSubItem_File.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem_File.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barSubItem_File.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem_File.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem_File.Name = "barSubItem_File";
 			// 
 			// barSubItem_FileOpen
 			// 
 			resources.ApplyResources(this.barSubItem_FileOpen, "barSubItem_FileOpen");
 			this.barSubItem_FileOpen.Id = 12;
+			this.barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem_FileOpen.Name = "barSubItem_FileOpen";
 			// 
 			// barButton_Save
@@ -189,6 +196,10 @@
 			this.barSubItem_Workspace.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Createnew),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Change)});
+			this.barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem_Workspace.Name = "barSubItem_Workspace";
 			// 
 			// barButton_Createnew
@@ -216,6 +227,10 @@
 			// 
 			resources.ApplyResources(this.barSubItem_Edit, "barSubItem_Edit");
 			this.barSubItem_Edit.Id = 7;
+			this.barSubItem_Edit.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem_Edit.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barSubItem_Edit.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem_Edit.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barSubItem_Edit.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem_Edit.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barSubItem_Edit.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem_Edit.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem_Edit.Name = "barSubItem_Edit";
 			// 
 			// barSubItem_View
@@ -227,6 +242,10 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Properties),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Status),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem_OtherWindows)});
+			this.barSubItem_View.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem_View.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barSubItem_View.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem_View.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barSubItem_View.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem_View.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barSubItem_View.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem_View.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem_View.Name = "barSubItem_View";
 			// 
 			// barButton_Startpage
@@ -251,6 +270,10 @@
 			// 
 			resources.ApplyResources(this.barSubItem_OtherWindows, "barSubItem_OtherWindows");
 			this.barSubItem_OtherWindows.Id = 29;
+			this.barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem_OtherWindows.Name = "barSubItem_OtherWindows";
 			// 
 			// barSubItem_Tools
@@ -259,6 +282,10 @@
 			this.barSubItem_Tools.Id = 9;
 			this.barSubItem_Tools.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barButton_Options)});
+			this.barSubItem_Tools.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem_Tools.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barSubItem_Tools.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem_Tools.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barSubItem_Tools.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem_Tools.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barSubItem_Tools.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem_Tools.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem_Tools.Name = "barSubItem_Tools";
 			// 
 			// barButton_Options
@@ -271,6 +298,10 @@
 			// 
 			resources.ApplyResources(this.barWorkspaceMenuItem1, "barWorkspaceMenuItem1");
 			this.barWorkspaceMenuItem1.Id = 27;
+			this.barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barWorkspaceMenuItem1.Name = "barWorkspaceMenuItem1";
 			this.barWorkspaceMenuItem1.ShowSaveLoadCommands = true;
 			this.barWorkspaceMenuItem1.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
@@ -282,9 +313,9 @@
 			this.workspaceManager.CloseStreamOnWorkspaceLoading = DevExpress.Utils.DefaultBoolean.True;
 			this.workspaceManager.CloseStreamOnWorkspaceSaving = DevExpress.Utils.DefaultBoolean.True;
 			this.workspaceManager.TargetControl = this;
-			shapeTransition2.Parameters.EffectOptions = DevExpress.Utils.Animation.ShapeEffectOptions.CircleOut;
-			shapeTransition2.Parameters.FrameCount = 1000;
-			this.workspaceManager.TransitionType = shapeTransition2;
+			shapeTransition1.Parameters.EffectOptions = DevExpress.Utils.Animation.ShapeEffectOptions.CircleOut;
+			shapeTransition1.Parameters.FrameCount = 1000;
+			this.workspaceManager.TransitionType = shapeTransition1;
 			this.workspaceManager.AfterApplyWorkspace += new System.EventHandler(this.workspaceManager1_AfterApplyWorkspace);
 			this.workspaceManager.WorkspaceSaved += new DevExpress.Utils.WorkspaceEventHandler(this.workspaceManager1_WorkspaceSaved);
 			// 
@@ -292,6 +323,10 @@
 			// 
 			resources.ApplyResources(this.barSubItem_About, "barSubItem_About");
 			this.barSubItem_About.Id = 10;
+			this.barSubItem_About.MenuAppearance.HeaderItemAppearance.FontSizeDelta = ((int)(resources.GetObject("barSubItem_About.MenuAppearance.HeaderItemAppearance.FontSizeDelta")));
+			this.barSubItem_About.MenuAppearance.HeaderItemAppearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barSubItem_About.MenuAppearance.HeaderItemAppearance.FontStyleDelta")));
+			this.barSubItem_About.MenuAppearance.HeaderItemAppearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barSubItem_About.MenuAppearance.HeaderItemAppearance.GradientMode")));
+			this.barSubItem_About.MenuAppearance.HeaderItemAppearance.Image = ((System.Drawing.Image)(resources.GetObject("barSubItem_About.MenuAppearance.HeaderItemAppearance.Image")));
 			this.barSubItem_About.Name = "barSubItem_About";
 			// 
 			// barStatus
@@ -308,23 +343,39 @@
 			// 
 			// barDockControlTop
 			// 
-			this.barDockControlTop.CausesValidation = false;
 			resources.ApplyResources(this.barDockControlTop, "barDockControlTop");
+			this.barDockControlTop.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlTop.Appearance.FontSizeDelta")));
+			this.barDockControlTop.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlTop.Appearance.FontStyleDelta")));
+			this.barDockControlTop.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlTop.Appearance.GradientMode")));
+			this.barDockControlTop.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlTop.Appearance.Image")));
+			this.barDockControlTop.CausesValidation = false;
 			// 
 			// barDockControlBottom
 			// 
-			this.barDockControlBottom.CausesValidation = false;
 			resources.ApplyResources(this.barDockControlBottom, "barDockControlBottom");
+			this.barDockControlBottom.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlBottom.Appearance.FontSizeDelta")));
+			this.barDockControlBottom.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlBottom.Appearance.FontStyleDelta")));
+			this.barDockControlBottom.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlBottom.Appearance.GradientMode")));
+			this.barDockControlBottom.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlBottom.Appearance.Image")));
+			this.barDockControlBottom.CausesValidation = false;
 			// 
 			// barDockControlLeft
 			// 
-			this.barDockControlLeft.CausesValidation = false;
 			resources.ApplyResources(this.barDockControlLeft, "barDockControlLeft");
+			this.barDockControlLeft.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlLeft.Appearance.FontSizeDelta")));
+			this.barDockControlLeft.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlLeft.Appearance.FontStyleDelta")));
+			this.barDockControlLeft.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlLeft.Appearance.GradientMode")));
+			this.barDockControlLeft.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlLeft.Appearance.Image")));
+			this.barDockControlLeft.CausesValidation = false;
 			// 
 			// barDockControlRight
 			// 
-			this.barDockControlRight.CausesValidation = false;
 			resources.ApplyResources(this.barDockControlRight, "barDockControlRight");
+			this.barDockControlRight.Appearance.FontSizeDelta = ((int)(resources.GetObject("barDockControlRight.Appearance.FontSizeDelta")));
+			this.barDockControlRight.Appearance.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("barDockControlRight.Appearance.FontStyleDelta")));
+			this.barDockControlRight.Appearance.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("barDockControlRight.Appearance.GradientMode")));
+			this.barDockControlRight.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("barDockControlRight.Appearance.Image")));
+			this.barDockControlRight.CausesValidation = false;
 			// 
 			// dockManager
 			// 
@@ -352,14 +403,23 @@
 			// 
 			// tabbedView
 			// 
-			this.tabbedView.AppearancePage.Header.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("tabbedView1.AppearancePage.Header.GradientMode")));
-			this.tabbedView.AppearancePage.HeaderActive.BackColor = ((System.Drawing.Color)(resources.GetObject("tabbedView1.AppearancePage.HeaderActive.BackColor")));
-			this.tabbedView.AppearancePage.HeaderActive.BackColor2 = ((System.Drawing.Color)(resources.GetObject("tabbedView1.AppearancePage.HeaderActive.BackColor2")));
-			this.tabbedView.AppearancePage.HeaderActive.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("tabbedView1.AppearancePage.HeaderActive.FontStyleDelta")));
-			this.tabbedView.AppearancePage.HeaderActive.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("tabbedView1.AppearancePage.HeaderActive.GradientMode")));
+			this.tabbedView.AppearancePage.Header.FontSizeDelta = ((int)(resources.GetObject("tabbedView.AppearancePage.Header.FontSizeDelta")));
+			this.tabbedView.AppearancePage.Header.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("tabbedView.AppearancePage.Header.FontStyleDelta")));
+			this.tabbedView.AppearancePage.Header.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("tabbedView.AppearancePage.Header.GradientMode")));
+			this.tabbedView.AppearancePage.Header.Image = ((System.Drawing.Image)(resources.GetObject("tabbedView.AppearancePage.Header.Image")));
+			this.tabbedView.AppearancePage.HeaderActive.BackColor = ((System.Drawing.Color)(resources.GetObject("tabbedView.AppearancePage.HeaderActive.BackColor")));
+			this.tabbedView.AppearancePage.HeaderActive.BackColor2 = ((System.Drawing.Color)(resources.GetObject("tabbedView.AppearancePage.HeaderActive.BackColor2")));
+			this.tabbedView.AppearancePage.HeaderActive.FontSizeDelta = ((int)(resources.GetObject("tabbedView.AppearancePage.HeaderActive.FontSizeDelta")));
+			this.tabbedView.AppearancePage.HeaderActive.FontStyleDelta = ((System.Drawing.FontStyle)(resources.GetObject("tabbedView.AppearancePage.HeaderActive.FontStyleDelta")));
+			this.tabbedView.AppearancePage.HeaderActive.GradientMode = ((System.Drawing.Drawing2D.LinearGradientMode)(resources.GetObject("tabbedView.AppearancePage.HeaderActive.GradientMode")));
+			this.tabbedView.AppearancePage.HeaderActive.Image = ((System.Drawing.Image)(resources.GetObject("tabbedView.AppearancePage.HeaderActive.Image")));
 			this.tabbedView.AppearancePage.HeaderActive.Options.UseBackColor = true;
 			this.tabbedView.AppearancePage.HeaderActive.Options.UseFont = true;
 			this.tabbedView.FloatingDocumentContainer = DevExpress.XtraBars.Docking2010.Views.FloatingDocumentContainer.DocumentsHost;
+			// 
+			// folderBrowserDialog
+			// 
+			resources.ApplyResources(this.folderBrowserDialog, "folderBrowserDialog");
 			// 
 			// ApplicationFormBase
 			// 
