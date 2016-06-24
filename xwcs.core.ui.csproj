@@ -68,6 +68,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\ApplicationRibbonFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="app\ApplicationRibbonFormBase.Designer.cs">
+      <DependentUpon>ApplicationRibbonFormBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="controls\ContentSource.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -131,6 +137,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="app\ApplicationFormBase.resx">
       <DependentUpon>ApplicationFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="app\ApplicationRibbonFormBase.it-IT.resx">
+      <DependentUpon>ApplicationRibbonFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="app\ApplicationRibbonFormBase.resx">
+      <DependentUpon>ApplicationRibbonFormBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="controls\DockPanelBase.resx">
       <DependentUpon>DockPanelBase.cs</DependentUpon>
