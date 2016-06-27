@@ -248,6 +248,7 @@
 			// ApplicationRibbonFormBase
 			// 
 			this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.True;
+			this.Appearance.Options.UseFont = true;
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.ribbonStatusBar);
