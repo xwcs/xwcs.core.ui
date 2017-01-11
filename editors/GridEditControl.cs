@@ -24,12 +24,14 @@ namespace xwcs.core.ui.editors
 	// this class will be used as custom editor, it will do parent editors host 
 	// poxing, so all edits here will call main Editors host component
 	// instead of local
-	public partial class GridEditControl : XtraUserControl, IAnyControlEdit, IEditorsHostProvider
-	{
+	public partial class GridEditControl : XtraUserControl, IAnyControlEdit, IEditorsHostProvider, IDataSourceProvider
+    {
 		private object _val = null;
 		private FilterGridBindingSource _bs;
 		private GridViewCustomMenu _gcm;
 		public IEditorsHost EditorsHost { get; set; }
+
+       
 
 		public GridEditControl()
 		{
@@ -60,7 +62,14 @@ namespace xwcs.core.ui.editors
 
 		public Size RecommendedSize { get; set; }
 
-		public object EditValue
+        protected override void OnValidating(CancelEventArgs e)
+        {
+            e.Cancel = false;
+            return;
+        }
+
+
+        public object EditValue
 		{
 			get
 			{
@@ -94,10 +103,51 @@ namespace xwcs.core.ui.editors
 					OnEditValueChanged();
 				}
 			}
-		}		
+		}
 
-		//public event EventHandler EditValueChanged;
-		private readonly WeakEventSource<EventArgs> _wes_EditValueChanged = new WeakEventSource<EventArgs>();
+        public object DataSource
+        {
+            get
+            {
+                return _val;
+            }
+
+            set
+            {
+                if (_val == value) return;
+
+                if (value != null)
+                {
+                    _val = value;
+                }
+                else
+                {
+                    //Clear data source
+                    _bs.Clear();
+                    OnEditValueChanged();
+                    return;
+                }
+
+                // changed content
+                if (_val != null)
+                {
+                    if (_bs != null)
+                    {
+                        _bs.Dispose();
+#if DEBUG
+                        SLogManager.getInstance().Info("reset grid");
+#endif
+                    }
+                    _bs = new FilterGridBindingSource(EditorsHost, barManager);
+                    _bs.Grid = gridControl;
+                    _bs.DataSource = _val;
+                    OnEditValueChanged();
+                }
+            }
+        }
+
+        //public event EventHandler EditValueChanged;
+        private readonly WeakEventSource<EventArgs> _wes_EditValueChanged = new WeakEventSource<EventArgs>();
 		public event EventHandler EditValueChanged
 		{
 			add { _wes_EditValueChanged.Subscribe(new EventHandler<EventArgs>(value)); }
@@ -145,7 +195,9 @@ namespace xwcs.core.ui.editors
 			return RecommendedSize;
 		}
 
-		public void Draw(GraphicsCache cache, AnyControlEditViewInfo viewInfo){}
+		public void Draw(GraphicsCache cache, AnyControlEditViewInfo viewInfo){
+            int i = 0;
+        }
 		public void SetupAsDrawControl(){}
 		public void SetupAsEditControl(){}
 
@@ -183,7 +235,7 @@ namespace xwcs.core.ui.editors
 		{
 			get
 			{
-				return true;
+				return false;
 			}
 		}
 	}

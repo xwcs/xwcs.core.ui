@@ -13,7 +13,6 @@ using DevExpress.XtraEditors.Popup;
 using DevExpress.XtraEditors.CustomEditor;
 using System.Reflection;
 
-
 namespace xwcs.core.ui.editors
 {
 	[UserRepositoryItem("RegisterCustomAnyControl")]
@@ -97,7 +96,9 @@ namespace xwcs.core.ui.editors
 	[ToolboxItem(true)]
 	public class CustomAnyControlEdit : AnyControlEdit
 	{
-		static CustomAnyControlEdit()
+        
+        
+        static CustomAnyControlEdit()
 		{
 			RepositoryItemCustomAnyControl.RegisterCustomAnyControl();
 		}
@@ -144,5 +145,34 @@ namespace xwcs.core.ui.editors
 
 			}
 		}
-	}
+
+        /*
+         * Added cause devexpress form 16.2 support collections as fields in data layout
+         * and it require DataSource field of control in case of collection field
+         */
+        public object DataSource
+        {
+            get
+            {
+                if (Properties.Control != null && Properties.Control as xwcs.core.db.binding.IDataSourceProvider != null)
+                {
+                    return (Properties.Control as xwcs.core.db.binding.IDataSourceProvider).DataSource;
+                }
+
+                throw new ArgumentException("CustomAnyControlEdit Control is not IDataSourceProvider");
+            }
+            set
+            {
+
+                if (Properties.Control != null && Properties.Control as xwcs.core.db.binding.IDataSourceProvider != null)
+                {
+                    (Properties.Control as xwcs.core.db.binding.IDataSourceProvider).DataSource = value;
+
+                    return;
+                }
+
+                throw new ArgumentException("CustomAnyControlEdit Control is not IDataSourceProvider");
+            }
+        }
+    }
 }
