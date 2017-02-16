@@ -62,11 +62,7 @@ namespace xwcs.core.ui.editors
 
 		public Size RecommendedSize { get; set; }
 
-        protected override void OnValidating(CancelEventArgs e)
-        {
-            e.Cancel = false;
-            return;
-        }
+        
 
 
         public object EditValue
@@ -235,7 +231,7 @@ namespace xwcs.core.ui.editors
 		{
 			get
 			{
-				return false;
+				return true;
 			}
 		}
 	}
