@@ -92,15 +92,6 @@ namespace xwcs.core.ui.editors.attributes
 				IFilterDataBindingSource fe = Src as IFilterDataBindingSource;
 				fe?.HandleFilterFiledKeyEvent(new FilterFieldEventData { Field = sender, FieldName = FieldName, ActionChar = ke.KeyChar });
 			}
-			/*
-			else{
-				BaseEdit be = sender as BaseEdit;
-				if(be != null && be.Text.Length == 1) {
-					IFilterDataBindingSource fe = Src as IFilterDataBindingSource;
-					fe?.HandleResetCriteria(FieldName);
-				}
-			}
-			*/
 		}
 	}
 }

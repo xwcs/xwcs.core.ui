@@ -25,6 +25,7 @@ namespace xwcs.core.ui.db.fo
 		public object Field { get; set; }
 		public char ActionChar { get; set; }
 		public string FieldName { get; set; }
+        public Keys Keys { get; set; }
 //		public FieldRetrievedEventArgs FREA {get; set; }
 	}
 

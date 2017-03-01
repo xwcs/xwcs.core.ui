@@ -4,6 +4,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Filtering;
 using DevExpress.XtraEditors.Repository;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -19,6 +20,7 @@ namespace xwcs.core.ui.db.fo
 	public class FilterDataLayoutBindingSource : DataLayoutBindingSource, IFilterDataBindingSource
 	{
 		private FilterAspectForBindingSource _filterAspect;
+        private List<RepositoryItem> _repositoryItemsWithKeyDownHandler = new List<RepositoryItem>();
 
 		public FilterDataLayoutBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { }
 		public FilterDataLayoutBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { }
@@ -32,13 +34,52 @@ namespace xwcs.core.ui.db.fo
 			_filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
 		}
 
-		protected override void Dispose(bool disposing)
+        protected override void FieldRetrievedHandler(object sender, FieldRetrievedEventArgs e)
+        {
+            // call parent
+            base.FieldRetrievedHandler(sender, e);
+            // custom key down handling
+            _repositoryItemsWithKeyDownHandler.Add(e.RepositoryItem);
+            e.RepositoryItem.KeyDown += repItemKeyDownHandler;
+        }
+
+        private void repItemKeyDownHandler(object sender, KeyEventArgs ke)
+        {
+            if(ke.Control && ke.KeyCode == Keys.Delete)
+            {
+                // reset field
+                FilterObjectbase fo = Current as FilterObjectbase;
+                if (fo != null)
+                {
+                    // get field using binding
+                    if ((sender as Control).DataBindings.Count > 0)
+                    {
+                        string FieldName = (sender as Control).DataBindings[0].BindingMemberInfo.BindingMember;
+                        fo.ResetFieldByName(FieldName);
+                        // eventual null prompt
+                        TextEdit te = sender as TextEdit;
+                        if(te != null)
+                        {
+                            te.Properties.NullValuePrompt = "";
+                        }
+                        ke.Handled = true;
+                    }
+                }
+            }   
+        }
+
+        protected override void Dispose(bool disposing)
 		{
 			if (!disposedValue)
 			{
 				if (disposing)
 				{
 					_filterAspect.Dispose();
+                    foreach(RepositoryItem ri in _repositoryItemsWithKeyDownHandler)
+                    {
+                        ri.KeyDown -= repItemKeyDownHandler;
+                    }
+                    _repositoryItemsWithKeyDownHandler = null;
 				}
 				base.Dispose(disposing);
 			}
@@ -56,9 +97,9 @@ namespace xwcs.core.ui.db.fo
 		}
 		*/
 
-		public void ResetCurrentFo()
+		public void Reset()
 		{
-			(Current as ICriteriaTreeNode)?.Reset();
+            (Current as ICriteriaTreeNode)?.Reset();
 		}
 	}
 }

@@ -105,6 +105,7 @@
     <Compile Include="editors\FieldExpressionControl.Designer.cs">
       <DependentUpon>FieldExpressionControl.cs</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="editors\UserControlEditor_sample.cs.off">
       <SubType>Component</SubType>
     </None>
