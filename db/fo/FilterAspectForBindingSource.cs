@@ -65,29 +65,36 @@ namespace xwcs.core.ui.db.fo
 			_ds = ds;
 			_barManager = bm;
 			_popup = new PopupControlContainer();
-			_fc = new FieldExpressionControl();
-			_popup.Controls.Add(_fc);
-			_fc.Dock = DockStyle.Fill;
-
-			//weak event
-			_fc.OnCancel += (s, e) =>
-			{
-				_popupCloseKind = PopupCloseKind.Cancel;
-				_popup.HidePopup();
-			};
-			//weak event
-			_fc.OnOk += (s, e) =>
-			{
-				_popupCloseKind = PopupCloseKind.Confirm;
-				_popup.HidePopup();
-			};
-
-			_fc.filterEditorControl.FilterControl.BeforeShowValueEditor += showvalueEditor_handler;
-
-			_popup.CloseUp += popup_CloseUp;
+            _popup.CloseUp += popup_CloseUp;
+            // _fc will be done when needed
+            _fc = null;
 		}
 		
-		
+
+        // we need lazy creation
+        private void make_fc()
+        {
+            if (_fc != null) return;
+
+            _fc = new FieldExpressionControl();
+                _popup.Controls.Add(_fc);
+            _fc.Dock = DockStyle.Fill;
+
+            //weak event
+            _fc.OnCancel += (s, e) =>
+                {
+                    _popupCloseKind = PopupCloseKind.Cancel;
+                    _popup.HidePopup();
+                };
+            //weak event
+            _fc.OnOk += (s, e) =>
+                {
+                    _popupCloseKind = PopupCloseKind.Confirm;
+                    _popup.HidePopup();
+                };
+
+            _fc.filterEditorControl.FilterControl.BeforeShowValueEditor += showvalueEditor_handler;
+        }
 
 		#region IDisposable Support
 		private bool disposedValue = false;
@@ -98,8 +105,12 @@ namespace xwcs.core.ui.db.fo
 			{
 				if (disposing)
 				{
-					_fc.filterEditorControl.FilterControl.BeforeShowValueEditor -= showvalueEditor_handler;
-					_fc.Dispose();
+                    if (_fc != null)
+                    {
+                        // clean only if it was created
+                        _fc.filterEditorControl.FilterControl.BeforeShowValueEditor -= showvalueEditor_handler;
+                        _fc.Dispose();
+                    }
 					_popup.CloseUp -= popup_CloseUp;
 					_popup.Dispose();
 				}
@@ -117,7 +128,8 @@ namespace xwcs.core.ui.db.fo
 
 		private void popup_CloseUp(object sender, EventArgs e)
 		{
-			if (_popupCloseKind == PopupCloseKind.Confirm && _destEdit != null)
+            // _fc must exist
+            if (_popupCloseKind == PopupCloseKind.Confirm && _destEdit != null)
 			{
 				_destEdit.Properties.NullValuePrompt = _fc.filterEditorControl.FilterString;
 				//set criteria to filter field
@@ -130,7 +142,10 @@ namespace xwcs.core.ui.db.fo
 		{
 			using (WaitCursorHelper.NewWaitCursor())
 			{
-				if (_ds.AttributesCache.ContainsKey(_fc.CurrentFieldName))
+                // be sere fc is created
+                make_fc();
+
+                if (_ds.AttributesCache.ContainsKey(_fc.CurrentFieldName))
 				{
 					foreach (CustomAttribute a in _ds.AttributesCache[_fc.CurrentFieldName])
 					{
@@ -165,8 +180,11 @@ namespace xwcs.core.ui.db.fo
 
 				fo.Columns.Add(new DataColumn(ffe.FieldName, ut));
 
-				//connect property to filter popup
-				_fc.CurrentFieldName = ffe.FieldName;
+                // be sere fc is created
+                make_fc();
+
+                //connect property to filter popup
+                _fc.CurrentFieldName = ffe.FieldName;
 
 				//set initial criteria
 				_fc.filterEditorControl.SourceControl = fo;
