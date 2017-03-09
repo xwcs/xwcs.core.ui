@@ -15,6 +15,7 @@ using xwcs.core.db.binding.attributes;
 using xwcs.core.db.fo;
 using xwcs.core.db.model;
 using xwcs.core.evt;
+using xwcs.core.manager;
 using xwcs.core.ui.editors;
 
 namespace xwcs.core.ui.db.fo
@@ -82,9 +83,9 @@ namespace xwcs.core.ui.db.fo
 				}
 			}catch(Exception ex) {
 #if DEBUG
-				Console.WriteLine(ex);
-#endif			
-			} //just silently skip problems
+                SLogManager.getInstance().getClassLogger(GetType()).Debug(ex.Message);
+#endif
+            } //just silently skip problems
 			
 		}
 

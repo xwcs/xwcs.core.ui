@@ -87,6 +87,7 @@
     <Compile Include="controls\XwBarButtonItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="db\FormSupport.cs" />
     <Compile Include="db\fo\FilterAspectForBindingSource.cs" />
     <Compile Include="db\fo\FilterGridBindingSource.cs">
       <SubType>Component</SubType>

@@ -191,9 +191,7 @@ namespace xwcs.core.ui.editors
 			return RecommendedSize;
 		}
 
-		public void Draw(GraphicsCache cache, AnyControlEditViewInfo viewInfo){
-            int i = 0;
-        }
+		public void Draw(GraphicsCache cache, AnyControlEditViewInfo viewInfo){}
 		public void SetupAsDrawControl(){}
 		public void SetupAsEditControl(){}
 
