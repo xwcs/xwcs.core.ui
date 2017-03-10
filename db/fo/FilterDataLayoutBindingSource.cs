@@ -38,13 +38,6 @@ namespace xwcs.core.ui.db.fo
 
 		}
 
-        protected override void HandleCurrentItemPropertyChanged(object sender, ModelPropertyChangedEventArgs e)
-        {
-#if DEBUG
-            _logger.Debug(string.Format("FDBS-Current Item Property: {0} changed in [{1}]", e, (e.PropertyChain[0].Container as FilterObjectbase)?.GetType().Name));
-#endif
-        }
-
         protected override void FieldRetrievedHandler(object sender, FieldRetrievedEventArgs e)
         {
             // call parent
