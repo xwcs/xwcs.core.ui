@@ -25,7 +25,67 @@ namespace xwcs.core.ui.db
         {
             if ((bs as INotifyModelPropertyChanged) != null)
                 (bs as INotifyModelPropertyChanged).ModelPropertyChanged += handle_bindingSource_ModelPropertyChanged;
+
+            if ((bs as INotifyCurrentObjectChanged) != null)
+                (bs as INotifyCurrentObjectChanged).CurrentObjectChanged += handle_bindingSource_CurrentObjectChanged;
             _bindingSources.Add(bs);
+        }
+
+        private void handle_bindingSource_CurrentObjectChanged(object sender, CurrentObjectChangedEventArgs e)
+        {
+#if DEBUG
+            _logger.Debug(string.Format("Form support fire triggers at start"));
+#endif
+
+            IModelEntity me = e.Current as IModelEntity;
+
+            if (ReferenceEquals(null, me))
+                return; // not correct object for execution 
+
+            // disable layout 
+
+            try
+            {
+                //_bindingSources.ForEach(bs => bs.SuspendLayout());
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+
+            // check if there is trigger
+            
+            _triggers.AllTriggerLists().ForEach(
+                l => l.ForEach(
+                    o => tt(o, me, e)
+            ));
+
+            // enable layout 
+
+            //_bindingSources.ForEach(bs => bs.ResumeLayout());
+        }
+
+        private void tt(DynamicFormActionTrigger o, IModelEntity me , CurrentObjectChangedEventArgs e)
+        {
+            // check if trigger have field in Current model obejct
+            object v = me.GetModelPropertyValueByName(o.FieldName);
+            if (!ReferenceEquals(null, v))
+            {
+                _actions[o.ActionType].ForEach(a => FireAction(
+                    o,
+                    a,
+                    e.Current,
+                    new ModelPropertyChangedEventArgs(
+                        o.FieldName,
+                        new ModelPropertyChangedEventArgs.PropertyChangedChainEntry()
+                        {
+                            Container = e.Current,
+                            PropertyName = o.FieldName,
+                            Value = v
+                        }
+                    )
+                ));
+            }
         }
 
         private void handle_bindingSource_ModelPropertyChanged(object sender, ModelPropertyChangedEventArgs e)
@@ -34,24 +94,51 @@ namespace xwcs.core.ui.db
             _logger.Debug(string.Format("Form support Model Property: {0} changed in [{1}]", e, (e.PropertyChain[0].Container as FilterObjectbase)?.GetType().Name));
 #endif
 
+            // disable layout 
+
+            _bindingSources.ForEach(bs => bs.SuspendLayout());
+
             // check if there is trigger
-            _triggers[e.ToString()].ForEach(o => FireAction(o, sender, e));
+            _triggers[e.ToString()].ForEach(
+                    o => 
+                    _actions[o.ActionType].ForEach(a => FireAction(o, a, sender, e))
+            );
+
+            // enable layout 
+
+            _bindingSources.ForEach(bs => bs.ResumeLayout());
         }
 
         // handle specific action if trigger was called
-        private void FireAction(DynamicFormActionTrigger trigger, object sender, ModelPropertyChangedEventArgs e)
+        private void FireAction(DynamicFormActionTrigger trigger, DynamicFormAction action,  object sender, ModelPropertyChangedEventArgs e)
         {
-            object val = e.Value;
-            string vals = "";
-
-            if (val.GetType().IsSubclassOfRawGeneric(typeof(FilterField<>)))
-            {
-                //vals = (val as FilterField<object>).Value.ToString();
-            }
 #if DEBUG
 
-            _logger.Debug(string.Format("Form support Trigger: {0} for {1} with value {2}", trigger.ActionType, trigger.FieldName, vals));
+            _logger.Debug(string.Format("Form support Trigger: {0} for {1} with value {2} exec -> {3}", trigger.ActionType, trigger.FieldName, e.Value?.ToString(), action.FieldName));
 #endif
+
+            // handle execution of actions
+            switch (trigger.ActionType)
+            {
+                case DynamicFormActionType.MaskedEnable:
+                    {
+                        MaskedEnable_FireAction(trigger, action, sender, e);
+                        break;
+                    }
+                case DynamicFormActionType.MaskedVisible:
+                    {
+                        MaskedVisible_FireAction(trigger, action, sender, e);
+                        break;
+                    }
+                default:
+
+                    // skip unknown action
+#if DEBUG
+
+                    _logger.Error(string.Format("Form support unknown action! {1}", trigger.ActionType));
+#endif
+                    break;
+            }
         }
 
         public void RegisterAction(DynamicFormAction a)
@@ -68,6 +155,59 @@ namespace xwcs.core.ui.db
             _logger.Debug(string.Format("Dynamic action trigger registered {0} - {1} [{2}]", a.ActionType, a.FieldName, a.Param));
 #endif
             _triggers[a.FieldName].Add(a);
+        }
+
+        private Control FindControlByPropertyName(string name)
+        {
+            foreach(IDataBindingSource bs in _bindingSources)
+            {
+                try
+                {
+                    Control cnt = bs.GetControlByModelProperty(name);
+                    if (!ReferenceEquals(null, cnt))
+                    {
+                        // found so stop search
+                        return cnt;
+                    }
+                }catch(Exception ex)
+                {
+                    _logger.Error(string.Format("Form support unknown action! {1}", ex.Message));
+                }
+                
+            }
+
+            return null;
+        }
+
+        private void MaskedEnable_FireAction(DynamicFormActionTrigger trigger, DynamicFormAction action, object sender, ModelPropertyChangedEventArgs e)
+        {
+            // find all controls and set enabled / disabled state using proper mask
+            Type enumType = trigger.Param as Type;
+            if(enumType == null )
+            {
+                // wrong settings
+                _logger.Error(string.Format("MaskedEnable_FireAction: Wrong mask enum type!"));
+                return;
+            }
+            int mask = e.Value != null && e.Value.ToString() != "" ? (int)System.Enum.Parse(enumType, e.Value.ToString(), true) : 0;
+
+            // get control
+            if(ReferenceEquals(null, action.Control))
+            {
+                action.Control = FindControlByPropertyName(action.FieldName);
+            }
+
+            if (!ReferenceEquals(null, action.Control))
+            {
+                // confront field bits with enable mask arrived from trigger
+                // control remain enable only if all mask (trigger) bits are present allow bitset of field (action target)
+                action.Control.Enabled = (((int)(object)action.Param & (int)(object)mask) == (int)(object)mask);
+            }
+        }
+
+        private void MaskedVisible_FireAction(DynamicFormActionTrigger trigger, DynamicFormAction action, object sender, ModelPropertyChangedEventArgs e)
+        {
+            
         }
     }
 }
