@@ -65,9 +65,24 @@ namespace xwcs.core.ui.db.fo
                         if(te != null)
                         {
                             te.Properties.NullValuePrompt = "";
+                            te.Properties.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
+                            te.Properties.Appearance.Options.UseBorderColor = false;
+                            te.Properties.Appearance.BorderColor = Color.Gray;
                         }
                         ke.Handled = true;
                     }
+                }
+            }
+            else
+            {
+                TextEdit te = sender as TextEdit;
+                if (te != null)
+                {
+                    te.Properties.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
+                    te.Properties.Appearance.Options.UseBorderColor = true;
+                    te.Properties.Appearance.BorderColor = Color.Azure;
+                    te.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+                    te.Refresh();
                 }
             }   
         }
