@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace xwcs.core.ui.print
 {
+	//https://documentation.devexpress.com/#XtraReports/CustomDocument17784
 	public partial class PrintDesignerForm : Form
 	{
 		public PrintDesignerForm()
