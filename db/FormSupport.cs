@@ -41,52 +41,36 @@ namespace xwcs.core.ui.db
 
             if (ReferenceEquals(null, me))
                 return; // not correct object for execution 
-
-            // disable layout 
-
-            try
-            {
-                //_bindingSources.ForEach(bs => bs.SuspendLayout());
-            }catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
             
-
             // check if there is trigger
-            
             _triggers.AllTriggerLists().ForEach(
                 l => l.ForEach(
-                    o => tt(o, me, e)
-            ));
-
-            // enable layout 
-
-            //_bindingSources.ForEach(bs => bs.ResumeLayout());
-        }
-
-        private void tt(DynamicFormActionTrigger o, IModelEntity me , CurrentObjectChangedEventArgs e)
-        {
-            // check if trigger have field in Current model obejct
-            object v = me.GetModelPropertyValueByName(o.FieldName);
-            if (!ReferenceEquals(null, v))
-            {
-                _actions[o.ActionType].ForEach(a => FireAction(
-                    o,
-                    a,
-                    e.Current,
-                    new ModelPropertyChangedEventArgs(
-                        o.FieldName,
-                        new ModelPropertyChangedEventArgs.PropertyChangedChainEntry()
+                    o =>
+                    {
+                        //tt(o, me, e)
+                        object v = me.GetModelPropertyValueByName(o.FieldName);
+                        if (!ReferenceEquals(null, v))
                         {
-                            Container = e.Current,
-                            PropertyName = o.FieldName,
-                            Value = v
+                            _actions[o.ActionType].ForEach(a => FireAction(
+                                o,
+                                a,
+                                e.Current,
+                                new ModelPropertyChangedEventArgs(
+                                    o.FieldName,
+                                    new ModelPropertyChangedEventArgs.PropertyChangedChainEntry()
+                                    {
+                                        Container = e.Current,
+                                        PropertyName = o.FieldName,
+                                        Value = v
+                                    }
+                                )
+                            ));
                         }
-                    )
-                ));
-            }
+                    }
+            ));
         }
+
+        
 
         private void handle_bindingSource_ModelPropertyChanged(object sender, ModelPropertyChangedEventArgs e)
         {
@@ -98,14 +82,26 @@ namespace xwcs.core.ui.db
 
             _bindingSources.ForEach(bs => bs.SuspendLayout());
 
-            // check if there is trigger
-            _triggers[e.ToString()].ForEach(
-                    o => 
-                    _actions[o.ActionType].ForEach(a => FireAction(o, a, sender, e))
-            );
+            if (e.HasWildCharInName())
+            {
+                _triggers.AllTriggerListsByPattern(e.ToRegExp()).ForEach(
+                        // we have eventual list of triggers lists
+                        t => t.ForEach(
+                         o =>
+                         _actions[o.ActionType].ForEach(a => FireAction(o, a, sender, e))
+                 ));
+            }
+            else
+            {
+                // check if there is trigger
+                _triggers[e.ToString()].ForEach(
+                        o =>
+                        _actions[o.ActionType].ForEach(a => FireAction(o, a, sender, e))
+                );
+            }
 
-            // enable layout 
-
+            
+            // enable layout
             _bindingSources.ForEach(bs => bs.ResumeLayout());
         }
 
@@ -157,7 +153,7 @@ namespace xwcs.core.ui.db
             _triggers[a.FieldName].Add(a);
         }
 
-        private Control FindControlByPropertyName(string name)
+        public Control FindControlByPropertyName(string name)
         {
             foreach(IDataBindingSource bs in _bindingSources)
             {
