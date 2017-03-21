@@ -25,6 +25,8 @@ namespace xwcs.core.ui.db.fo
 		private FilterAspectForBindingSource _filterAspect;
         private List<RepositoryItem> _repositoryItemsWithKeyDownHandler = new List<RepositoryItem>();
 
+        private StyleController _ModifiedStyle = new StyleController();
+
 		public FilterDataLayoutBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { }
 		public FilterDataLayoutBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { }
 		public FilterDataLayoutBindingSource(BarManager bm, object o, string s) : this(null, bm, o, s) { }
@@ -34,7 +36,14 @@ namespace xwcs.core.ui.db.fo
 
 		private void start(BarManager bm)
 		{
-			_filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
+            _ModifiedStyle.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
+            _ModifiedStyle.Appearance.Options.UseBorderColor = true;
+            _ModifiedStyle.Appearance.BorderColor = Color.Green;
+            _ModifiedStyle.AppearanceFocused.BorderColor = Color.Green;
+            _ModifiedStyle.AppearanceFocused.Options.UseBorderColor = true;
+            _ModifiedStyle.LookAndFeel.UseDefaultLookAndFeel = false;
+
+            _filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
 
 		}
 
@@ -65,9 +74,7 @@ namespace xwcs.core.ui.db.fo
                         if(te != null)
                         {
                             te.Properties.NullValuePrompt = "";
-                            te.Properties.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
-                            te.Properties.Appearance.Options.UseBorderColor = false;
-                            te.Properties.Appearance.BorderColor = Color.Gray;
+                            te.StyleController = null;
                         }
                         ke.Handled = true;
                     }
@@ -78,11 +85,7 @@ namespace xwcs.core.ui.db.fo
                 TextEdit te = sender as TextEdit;
                 if (te != null)
                 {
-                    te.Properties.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
-                    te.Properties.Appearance.Options.UseBorderColor = true;
-                    te.Properties.Appearance.BorderColor = Color.Azure;
-                    te.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-                    te.Refresh();
+                    te.StyleController = _ModifiedStyle;
                 }
             }   
         }

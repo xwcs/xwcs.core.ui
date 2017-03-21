@@ -185,7 +185,18 @@ namespace xwcs.core.ui.db
                 _logger.Error(string.Format("MaskedEnable_FireAction: Wrong mask enum type!"));
                 return;
             }
-            int mask = e.Value != null && e.Value.ToString() != "" ? (int)System.Enum.Parse(enumType, e.Value.ToString(), true) : 0;
+
+            int mask = 0;
+
+            try
+            {
+                mask = e.Value != null && e.Value.ToString() != "" ? (int)System.Enum.Parse(enumType, e.Value.ToString(), true) : 0;
+            }
+            catch (Exception)
+            {
+                _logger.Error(string.Format("MaskedEnable_FireAction: Wrong mask enum value [{0}]!", e.Value.ToString()));
+            }
+            
 
             // get control
             if(ReferenceEquals(null, action.Control))
