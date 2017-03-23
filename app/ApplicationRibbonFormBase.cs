@@ -77,9 +77,10 @@ namespace xwcs.core.ui.app
 																new DevExpress.XtraBars.BarItem[] { barButtonItem_FileSave },
 																new DevExpress.XtraBars.BarItem[] { barButtonItem_FileSaveAll });
 				ribbonControl.SelectedPage = ribbonPagePlugins;
-			}
+               
+            }
 
-		}
+        }
 
 
 		private void UpdateRibbons(IVisualControl control)

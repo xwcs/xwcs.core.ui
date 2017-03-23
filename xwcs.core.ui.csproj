@@ -92,6 +92,7 @@
     <Compile Include="app\ApplicationRibbonFormBase.Designer.cs">
       <DependentUpon>ApplicationRibbonFormBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="app\AutoWaitCursor.cs" />
     <Compile Include="controls\ContentSource.cs">
       <SubType>UserControl</SubType>
     </Compile>
