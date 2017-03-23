@@ -37,13 +37,10 @@ namespace xwcs.core.ui.db.fo
 		private void start(BarManager bm)
 		{
             _ModifiedStyle.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
-            _ModifiedStyle.Appearance.Options.UseBorderColor = true;
-            _ModifiedStyle.Appearance.BorderColor = Color.Green;
-            _ModifiedStyle.AppearanceFocused.BorderColor = Color.Green;
-            _ModifiedStyle.AppearanceFocused.Options.UseBorderColor = true;
             _ModifiedStyle.LookAndFeel.UseDefaultLookAndFeel = false;
+			_ModifiedStyle.Appearance.BackColor = Color.FromArgb(230, 230, 190);
 
-            _filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
+			_filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
 
 		}
 
@@ -85,8 +82,8 @@ namespace xwcs.core.ui.db.fo
                 TextEdit te = sender as TextEdit;
                 if (te != null)
                 {
-                    te.StyleController = _ModifiedStyle;
-                }
+					te.StyleController = _ModifiedStyle;
+				}
             }   
         }
 
