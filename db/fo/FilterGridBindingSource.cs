@@ -81,13 +81,16 @@ namespace xwcs.core.ui.db.fo
 						e.DisplayText = cond;
 					}
 				}
-			}catch(Exception ex) {
+			}
 #if DEBUG
+            catch(Exception ex) {
                 SLogManager.getInstance().getClassLogger(GetType()).Debug(ex.Message);
+#else
+            catch (Exception ) {
 #endif
             } //just silently skip problems
-			
-		}
+
+    }
 
 		
 	}
