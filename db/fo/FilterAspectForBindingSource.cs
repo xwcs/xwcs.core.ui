@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraBars;
+﻿using DevExpress.Data.Filtering;
+using DevExpress.XtraBars;
 using DevExpress.XtraDataLayout;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
@@ -131,9 +132,17 @@ namespace xwcs.core.ui.db.fo
             // _fc must exist
             if (_popupCloseKind == PopupCloseKind.Confirm && _destEdit != null)
 			{
-				_destEdit.Properties.NullValuePrompt = _fc.filterEditorControl.FilterString;
-				//set criteria to filter field
-				_ds.Current.SetPropValueByPathUsingReflection(_fc.CurrentFieldName + "_criteria", _fc.filterEditorControl.FilterCriteria);
+                if(_fc.CurrentFieldName == "v_xwbo_iter.extra" || _fc.CurrentFieldName == "v_xwbo_note.extra")
+                {
+                    _destEdit.Properties.NullValuePrompt = "";
+                    _ds.Current.SetPropValueByPathUsingReflection(_fc.CurrentFieldName, _fc.filterEditorControl.FilterCriteria.ToString() );
+                }
+                else
+                {
+                    _destEdit.Properties.NullValuePrompt = _fc.filterEditorControl.FilterString;
+                    //set criteria to filter field
+                    _ds.Current.SetPropValueByPathUsingReflection(_fc.CurrentFieldName + "_criteria", _fc.filterEditorControl.FilterCriteria);
+                }
 			}
 			_destEdit = null;
 		}
@@ -178,7 +187,18 @@ namespace xwcs.core.ui.db.fo
 					ut = pd.PropertyType;
 				}
 
-				fo.Columns.Add(new DataColumn(ffe.FieldName, ut));
+
+                if (ffe.FieldName == "v_xwbo_iter.extra" || ffe.FieldName == "v_xwbo_note.extra")
+                {
+                    fo.Columns.Add(new DataColumn("i.Text", typeof(string)));
+                    fo.Columns.Add(new DataColumn("i.OTA", typeof(string)));
+                    fo.Columns.Add(new DataColumn("n.Note", typeof(string)));
+                }
+                else
+                {
+                    fo.Columns.Add(new DataColumn(ffe.FieldName, ut));
+                }
+				
 
                 // be sere fc is created
                 make_fc();
@@ -190,25 +210,39 @@ namespace xwcs.core.ui.db.fo
 				_fc.filterEditorControl.SourceControl = fo;
 				//we can take old value if present
 				ICriteriaTreeNode field = (_ds.Current as FilterObjectbase)?.GetFilterFieldByPath(ffe.FieldName);
-				if(field != null && field.HasCriteria()) {
-					_fc.filterEditorControl.FilterCriteria = field.GetCondition();
-				}else {
-					switch (ffe.ActionChar)
-					{
-						case '<':
-							_fc.filterEditorControl.FilterString = string.Format("[{0}] < ?", ffe.FieldName);
-							break;
-						case ':':
-							_fc.filterEditorControl.FilterString = string.Format("[{0}] between (?, ?)", ffe.FieldName);
-							break;
-						case '>':
-							_fc.filterEditorControl.FilterString = string.Format("[{0}] > ?", ffe.FieldName);
-							break;
-						case '*':
-							_fc.filterEditorControl.FilterString = string.Format("contains([{0}], ?)", ffe.FieldName);
-							break;
-					}
-				}						
+
+                if(_fc.CurrentFieldName == "v_xwbo_iter.extra" || _fc.CurrentFieldName == "v_xwbo_note.extra")
+                {
+                    _fc.filterEditorControl.FilterCriteria = CriteriaOperator.Parse(field.ToString());
+                }   
+                else
+                {
+                    if (field != null && field.HasCriteria())
+                    {
+                        _fc.filterEditorControl.FilterCriteria = field.GetCondition();
+                    }
+                    else
+                    {
+                        switch (ffe.ActionChar)
+                        {
+                            case '<':
+                                _fc.filterEditorControl.FilterString = string.Format("[{0}] < ?", ffe.FieldName);
+                                break;
+                            case ':':
+                                _fc.filterEditorControl.FilterString = string.Format("[{0}] between (?, ?)", ffe.FieldName);
+                                break;
+                            case '>':
+                                _fc.filterEditorControl.FilterString = string.Format("[{0}] > ?", ffe.FieldName);
+                                break;
+                            case '*':
+                                _fc.filterEditorControl.FilterString = string.Format("contains([{0}], ?)", ffe.FieldName);
+                                break;
+                        }
+                    }
+
+                }
+
+                	
 				
 
 				/*
