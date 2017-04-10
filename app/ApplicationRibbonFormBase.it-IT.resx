@@ -117,7 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="barManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="barButtonItem_FileSave.Caption" xml:space="preserve">
+    <value>Salva</value>
+  </data>
+  <data name="barButtonItem_FileSaveAll.Caption" xml:space="preserve">
+    <value>Salva tutto</value>
+  </data>
+  <data name="barButtonItem_WS_New.Caption" xml:space="preserve">
+    <value>Nuovo</value>
+  </data>
+  <data name="barButtonItem_WS_Change.Caption" xml:space="preserve">
+    <value>Cambia</value>
+  </data>
+  <data name="barButtonItem_View_Props.Caption" xml:space="preserve">
+    <value>Proprietà</value>
+  </data>
+  <data name="barButtonItem_View_Status.Caption" xml:space="preserve">
+    <value>Stato</value>
+  </data>
+  <data name="barButtonItem_View_Home.Caption" xml:space="preserve">
+    <value>Inizia</value>
+  </data>
+  <data name="barButtonItem_Tools_Options.Caption" xml:space="preserve">
+    <value>Opzioni</value>
+  </data>
+  <data name="ribbonPageGroupHomeWorkspace.Text" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="ribbonPageGroupHomeView.Text" xml:space="preserve">
+    <value>Vista</value>
+  </data>
+  <data name="ribbonPageGroupHomeTools.Text" xml:space="preserve">
+    <value>Strumenti</value>
+  </data>
+  <data name="ribbonPageHome.Text" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="ribbonPageGroupHomeFile.Text" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ribbonPageGroupPlgs_generic.Text" xml:space="preserve">
+    <value>Plugin generici</value>
+  </data>
+  <data name="ribbonPagePlugins.Text" xml:space="preserve">
+    <value>Plugin</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ApplicationRibbonFormBase</value>
+  </data>
 </root>

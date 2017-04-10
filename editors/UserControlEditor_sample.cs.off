@@ -355,9 +355,14 @@ namespace xwcs.core.ui.editors
 			}
 			set
 			{
-				base.EditValue = value;
-				if (Properties.EditorControl != null)
-					(Properties.EditorControl as IEditValue).EditValue = EditValue;
+				
+				if (Properties.EditorControl != null) {
+					(Properties.EditorControl as IEditValue).EditValue = value;
+					base.EditValue = (Properties.EditorControl as IEditValue).EditValue;
+				}else {
+					base.EditValue = value;
+				}
+					
 			}
 		}
 		public override bool AllowMouseClick(Control control, Point p)
@@ -420,7 +425,7 @@ namespace xwcs.core.ui.editors
 		protected override Size CalcContentSize(Graphics g)
 		{
 			Size s = base.CalcContentSize(g);
-			//s.Height = 150;
+			s.Height = 150;
 
 			return s;
 		}

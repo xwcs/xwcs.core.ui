@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DevExpress.XtraBars.Docking2010.Views;
+using xwcs.core.manager;
 
 namespace xwcs.core.ui.controls
 {
@@ -14,32 +15,32 @@ namespace xwcs.core.ui.controls
 	{
 		static DocumentEventHandler deactivateHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Deactivate " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+            SLogManager.getInstance().getClassLogger(typeof(ViewBaseEventsHandler)).Debug("Deactivate " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentEventHandler activateHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Activated " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+            SLogManager.getInstance().getClassLogger(typeof(ViewBaseEventsHandler)).Debug("Activated " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentEventHandler addedHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Added " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+            SLogManager.getInstance().getClassLogger(typeof(ViewBaseEventsHandler)).Debug("Added " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentEventHandler deactivatedHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Deactivated " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+            SLogManager.getInstance().getClassLogger(typeof(ViewBaseEventsHandler)).Debug("Deactivated " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentEventHandler removedHandler = (object s, DocumentEventArgs docEvt) =>
 		{
-			Console.WriteLine("Removed " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+            SLogManager.getInstance().getClassLogger(typeof(ViewBaseEventsHandler)).Debug("Removed " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static DocumentCancelEventHandler closingHandler = (object s, DocumentCancelEventArgs docEvt) =>
 		{
-			Console.WriteLine("Closing " + docEvt.Document.Control != null ? docEvt.Document.Control.Name : "");
+            SLogManager.getInstance().getClassLogger(typeof(ViewBaseEventsHandler)).Debug("Closing " + (docEvt.Document.Control != null ? docEvt.Document.Control.Name : ""));
 		};
 
 		static CustomDocumentsHostWindowEventHandler customDocumentsHandler = (object o, CustomDocumentsHostWindowEventArgs e) =>

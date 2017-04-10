@@ -117,7 +117,181 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="barSubItem6.Caption" xml:space="preserve">
+  <data name="barSubItem_FileOpen.Caption" xml:space="preserve">
     <value>Apri</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="barSubItem_FileOpen.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barSubItem_Workspace.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barSubItem_File.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barSubItem_File.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barSubItem_File.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barSubItem_File.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barSubItem_Edit.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barSubItem_Edit.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barSubItem_Edit.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barSubItem_Edit.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barSubItem_OtherWindows.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barSubItem_View.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barSubItem_View.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barSubItem_View.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barSubItem_View.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barSubItem_Tools.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barSubItem_Tools.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barSubItem_Tools.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barSubItem_Tools.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barWorkspaceMenuItem1.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barDockControlLeft.Appearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barDockControlLeft.Appearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barDockControlLeft.Appearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barDockControlLeft.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barDockControlRight.Appearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barDockControlRight.Appearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barDockControlRight.Appearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barDockControlRight.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barDockControlBottom.Appearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barDockControlBottom.Appearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barDockControlBottom.Appearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barDockControlBottom.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barDockControlTop.Appearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barDockControlTop.Appearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barDockControlTop.Appearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barDockControlTop.Appearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="barSubItem_About.MenuAppearance.HeaderItemAppearance.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="barSubItem_About.MenuAppearance.HeaderItemAppearance.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="barSubItem_About.MenuAppearance.HeaderItemAppearance.GradientMode" type="System.Drawing.Drawing2D.LinearGradientMode, System.Drawing">
+    <value>Horizontal</value>
+  </data>
+  <data name="barSubItem_About.MenuAppearance.HeaderItemAppearance.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="tabbedView.AppearancePage.Header.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabbedView.AppearancePage.Header.FontStyleDelta" type="System.Drawing.FontStyle, System.Drawing">
+    <value>Regular</value>
+  </data>
+  <data name="tabbedView.AppearancePage.Header.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="tabbedView.AppearancePage.HeaderActive.FontSizeDelta" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabbedView.AppearancePage.HeaderActive.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
 </root>

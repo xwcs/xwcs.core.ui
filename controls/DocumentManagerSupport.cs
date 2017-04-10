@@ -10,6 +10,15 @@ using System.Runtime.Serialization;
 
 namespace xwcs.core.ui.controls
 {
+	/// <summary>
+	/// Different kind of document controls layout
+	/// </summary>
+	public enum DocumentsLayoutKind {
+		overlap,		// 1 doc visible
+		horizontal,		// 2 docs visible side by side
+		vertical,       // 2 docs visible one over other
+		custom			// 2 manually adjusted layout
+	}
 
 	[DataContract]
 	public class DocumentManagerState
@@ -25,6 +34,7 @@ namespace xwcs.core.ui.controls
     {
         private DevExpress.XtraBars.Docking2010.DocumentManager _manager;
         private SEventProxy _proxy;
+
 		// Cast internal state
         protected DocumentManagerState state { get { return (DocumentManagerState)_State; } }
         private List<core.controls.IVisualControl> _controlsForSave = new List<core.controls.IVisualControl>();
@@ -50,7 +60,7 @@ namespace xwcs.core.ui.controls
             _saveAllComponents = saveAllComponents;
         }
 
-        private void HandleDocumentChanged(DocumentChangedEvent e)
+        private void HandleDocumentChanged(object sender, DocumentChangedEvent e)
         {
             SLogManager.getInstance().Info("HandleDocumentChanged received in DocumentManagerSupport");
             _controlsForSave.Add(e.RequestData.VisualControl);
@@ -62,7 +72,7 @@ namespace xwcs.core.ui.controls
             }
         }
 
-        private void HandleVisualControlAction(VisualControlActionEvent e)
+        private void HandleVisualControlAction(object sender, VisualControlActionEvent e)
         {
             SLogManager.getInstance().Info("HandleVisualControlAction received in DocumentManagerSupport");
 
@@ -86,7 +96,6 @@ namespace xwcs.core.ui.controls
 					break;
 				case VisualControlActionKind.Disposed:
 				default:
-
 					_activeControl = null;
 					foreach (DevExpress.XtraBars.BarItem item in _saveComponents) item.Enabled = false;
 					break;
@@ -166,19 +175,30 @@ namespace xwcs.core.ui.controls
             if(_State == null) {
 				_State = new DocumentManagerState();
 			}else {
+				BaseDocument first = null;
+				_manager.BeginUpdate();
+
+				//state is casted _State
 				foreach (VisualControlInfo vci in state.Documents)
 				{
+					//do restore so it will mantain vci
 					VisualControl pluginControl = (VisualControl)vci.restoreInstance();
-					_manager.BeginUpdate();
 					BaseDocument document = _manager.View.AddDocument(pluginControl);
 					document.Caption = vci.Name;
 					document.ControlName = vci.Name;
-					_manager.EndUpdate();
-
+					document.Properties.AllowFloat = DevExpress.Utils.DefaultBoolean.False;
+					
 					// restore control state
 					(pluginControl as IPersistentState)?.LoadState();
 					(pluginControl as IVisualControl)?.Start(VisualControlStartingKind.StartingPersisted);
+					if(first == null) {
+						first = document;
+					}
 				}
+				_manager.EndUpdate();
+				_manager.View.Controller.Activate(first);
+				//release VCI from state
+				state.Documents = null;
 			}			
         }
 

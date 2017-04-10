@@ -24,26 +24,23 @@ namespace xwcs.core.ui.editors.attributes
 	public class UserControlEditAttribute : CustomAttribute
 	{
 		public Type ControlType { get; set; }
-
-		public override void applyRetrievingAttribute(IDataLayoutExtender host, FieldRetrievingEventArgs e)
+		
+		public override void applyRetrievingAttribute(IDataBindingSource src, FieldRetrievingEventArgs e)
 		{
-			e.EditorType = typeof(AnyControlEdit);//typeof(UserControlEditor);
+			e.EditorType = typeof(CustomAnyControlEdit); //typeof(UserControlEditor);//typeof(AnyControlEdit);//typeof(UserControlEditor);
 		}
 
-		public override void applyRetrievedAttribute(IDataLayoutExtender host, FieldRetrievedEventArgs e)
+		public override void applyRetrievedAttribute(IDataBindingSource src, FieldRetrievedEventArgs e)
 		{
-			GridEditControl cc = new GridEditControl();
-			cc.GetFieldQueryable += (ss, ee) =>
+			//manage disconnect and create control
+			(e.RepositoryItem as RepositoryItemCustomAnyControl).ControlType  = ControlType;
+
+			//handle connect
+			IEditorsHostProvider editorsHost = (e.RepositoryItem as RepositoryItemCustomAnyControl).Control as IEditorsHostProvider;
+			if(editorsHost != null)
 			{
-				host.onGetQueryable(ee);
-			};
-			(e.RepositoryItem as RepositoryItemAnyControl).Control = cc;
-			/*
-			(e.RepositoryItem as RepositoryItemUserControlEditor).ControlType = ControlType;
-			(e.RepositoryItem as RepositoryItemUserControlEditor).GetFieldQueryable += (ss, ee) => {
-				host.onGetQueryable(ee);
-			};
-			*/
+				editorsHost.EditorsHost = src.EditorsHost; // here we connect to main editors host
+			}
 		}
 	}
 }

@@ -56,15 +56,15 @@ namespace xwcs.core.ui.app
                 _user = SecurityContext.getInstance().CurrentUser;
 
                 _proxy = SEventProxy.getInstance();
-                _proxy.addEventHandler(EventType.AddToolBarRequestEvent, HandleAddToolbarRequestEvent);
-                _proxy.addEventHandler(EventType.OpenPanelRequestEvent, HandleOpenPanelRequestEvent);
+                _proxy.addEventHandler<AddToolBarRequestEvent>(EventType.AddToolBarRequestEvent, HandleAddToolbarRequestEvent);
+                _proxy.addEventHandler<OpenPanelRequestEvent>(EventType.OpenPanelRequestEvent, HandleOpenPanelRequestEvent);
 
                 //do it here before any other plugin will be loaded!!!!!
                 _widgetManager = SWidgetManager.getInstance();
 
                 //now we can load plugins
                 _loader = SPluginsLoader.getInstance();
-                _loader.LoadPlugins(this, "Plugins");
+                _loader.LoadPlugins(this, ".");
 
 				controls.ViewBaseEventsHandler.AttachToView(documentManager.View);
 				
@@ -75,7 +75,7 @@ namespace xwcs.core.ui.app
         }
 
 		
-		private void HandleOpenPanelRequestEvent(Event e)
+		private void HandleOpenPanelRequestEvent(object sender, OpenPanelRequestEvent e)
         {
             OpenPanelRequest ee = (OpenPanelRequest)e.Data;
             core.controls.VisualControlInfo vci = ee.Vci;
@@ -188,7 +188,7 @@ namespace xwcs.core.ui.app
             sourceItem.AddItem(newItem);
         }
 
-        private void HandleAddToolbarRequestEvent(Event e)
+        private void HandleAddToolbarRequestEvent(object sender, AddToolBarRequestEvent e)
         {
             AddToolBarRequest ee = (AddToolBarRequest)e.Data;
             MenuAddRequest[] menu = ee.content;

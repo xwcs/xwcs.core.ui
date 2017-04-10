@@ -2,164 +2,126 @@
 using DevExpress.XtraDataLayout;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Filtering;
+using DevExpress.XtraEditors.Repository;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using xwcs.core.db;
 using xwcs.core.db.binding;
+using xwcs.core.db.binding.attributes;
+using xwcs.core.db.fo;
 using xwcs.core.db.model;
+using xwcs.core.evt;
 using xwcs.core.ui.editors;
 
 namespace xwcs.core.ui.db.fo
 {
-	public class FilterFieldEventData
+	public class FilterDataLayoutBindingSource : DataLayoutBindingSource, IFilterDataBindingSource
 	{
-		public object Field { get; set; }
-		public char ActionChar { get; set; }
-		public FieldRetrievedEventArgs FREA {get; set; }
-	}
+		private FilterAspectForBindingSource _filterAspect;
+        private List<RepositoryItem> _repositoryItemsWithKeyDownHandler = new List<RepositoryItem>();
 
-	public interface IFilterDataLayoutExtender : IDataLayoutExtender
-	{
-		void onFilterFieldEvent(FilterFieldEventData ffe);
-	}
+        private StyleController _ModifiedStyle = new StyleController();
 
-	public enum PopupCloseKind {
-		Confirm,
-		Cancel
-	}
+		public FilterDataLayoutBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { }
+		public FilterDataLayoutBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { }
+		public FilterDataLayoutBindingSource(BarManager bm, object o, string s) : this(null, bm, o, s) { }
+		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm) : base(eh) { start(bm); }
+		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm, IContainer c) : base(eh, c) { start(bm); }
+		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm, object o, string s) : base(eh, o, s) { start(bm); }
 
-	public class FilterDataLayoutBindingSource : DataLayoutBindingSource, IFilterDataLayoutExtender
-	{
-		private PopupControlContainer _popup;
-		private FieldExpressionControl _fc;
-		private BarManager _barManager;
-		private PopupCloseKind _popupCloseKind;
-		private TextEdit _destEdit;
-
-		public EventHandler<FilterFieldEventData> FilterFieldEvent;
-
-		public FilterDataLayoutBindingSource(BarManager bm) {
-			_barManager = bm;
-			_popup = new PopupControlContainer();
-			_fc = new FieldExpressionControl();
-			_popup.Controls.Add(_fc);
-			_fc.Dock = DockStyle.Fill;
-
-			_fc.OnCancel += (s, e) =>
-			{
-				_popupCloseKind = PopupCloseKind.Cancel;
-				_popup.HidePopup();	
-			};
-
-			_fc.OnOk += (s, e) =>
-			{
-				_popupCloseKind = PopupCloseKind.Confirm;
-				_popup.HidePopup();
-			};
-
-			_popup.CloseUp += (s, e) =>
-			{
-				if(_popupCloseKind == PopupCloseKind.Confirm && _destEdit != null) {
-					_destEdit.Properties.NullValuePrompt = _fc.filterEditorControl.FilterString;
-					//set criteria to filter field
-					Current.SetPropValueByPathUsingReflection(_fc.CurrentFieldName + "_criteria", _fc.filterEditorControl.FilterCriteria);
-				}
-				//this will set nul value to the underlaing binding too
-				_destEdit = null;	
-			};
-		}
-
-		public void onFilterFieldEvent(FilterFieldEventData ffe)
+		private void start(BarManager bm)
 		{
-			//handle popup opening	
-			TextEdit be = ffe.Field as TextEdit;
-			//get field
-			PropertyDescriptor pd = ReflectionHelper.GetPropertyDescriptorFromPath(Current.GetType(), ffe.FREA.FieldName);
+            _ModifiedStyle.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
+            _ModifiedStyle.LookAndFeel.UseDefaultLookAndFeel = false;
+			_ModifiedStyle.Appearance.BackColor = Color.FromArgb(230, 230, 190);
 
-			if (be != null) {
-				_destEdit = be;
-				DataTable fo = new DataTable();
+			_filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
 
-				Type ut = pd.PropertyType;
-				//handle nullable
-				try {
-					ut = Nullable.GetUnderlyingType(pd.PropertyType) ?? pd.PropertyType;
-				}catch(Exception ex) {
-					ut = pd.PropertyType;
-				}
-
-				
-
-				fo.Columns.Add(new DataColumn(ffe.FREA.FieldName, ut));
-
-				//connect property to filter popup
-				_fc.CurrentFieldName = ffe.FREA.FieldName;
-
-				//set initial criteria
-				_fc.filterEditorControl.SourceControl = fo;
-				switch(ffe.ActionChar) {
-					case '<':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] < '{1}'", ffe.FREA.FieldName, (pd.PropertyType.IsValueType ? Activator.CreateInstance(pd.PropertyType) : ""));
-						break;
-					case ':':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] between ('{1}', '{1}')", ffe.FREA.FieldName, (pd.PropertyType.IsValueType ? Activator.CreateInstance(pd.PropertyType) : ""));
-						break;
-					case '>':
-						_fc.filterEditorControl.FilterString = string.Format("[{0}] > '{1}'", ffe.FREA.FieldName, (pd.PropertyType.IsValueType ? Activator.CreateInstance(pd.PropertyType) : ""));
-						break;
-				}
-				/*				
-				_fc.filterEditorControl.BeforeShowValueEditor += (object ss, ShowValueEditorEventArgs ee) =>
-				{
-					//ee.CustomRepositoryItem = new RepositoryItemDateEdit();
-
-				};
-				_fc.filterEditorControl.FilterControl.PopupMenuShowing += (spm, spe) =>
-				{
-					spe.Menu.BeforePopup += (ms, me) =>
-					{
-					};
-				};
-				*/
-				_fc.filterEditorControl.FilterControl.ShowOperandTypeIcon = true;
-
-				_popup.Size = new Size(be.Width, 200);
-				_popup.ShowCloseButton = false;
-				_popup.ShowSizeGrip = true;
-
-				be.EditValue = null;
-				be.Properties.NullValuePromptShowForEmptyValue = true;
-				be.Properties.NullValuePrompt = _fc.filterEditorControl.FilterString;
-				be.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
-				be.Properties.ShowNullValuePromptWhenFocused = true;
-
-				Point pt = be.PointToScreen(new Point(0, be.Height));
-
-				_popup.ShowPopup(_barManager, pt);
-
-				_fc.filterEditorControl.FilterControl.Focus();
-
-				// set future closing motive
-				// so user must confirm with ok click
-				_popupCloseKind = PopupCloseKind.Cancel; 
-			}
-
-			FilterFieldEvent?.Invoke(this, ffe);
 		}
 
-		protected override void Dispose(bool disposing)
+        protected override void FieldRetrievedHandler(object sender, FieldRetrievedEventArgs e)
+        {
+            // call parent
+            base.FieldRetrievedHandler(sender, e);
+            // custom key down handling
+            _repositoryItemsWithKeyDownHandler.Add(e.RepositoryItem);
+            e.RepositoryItem.KeyDown += repItemKeyDownHandler;
+        }
+
+        private void repItemKeyDownHandler(object sender, KeyEventArgs ke)
+        {
+            if(ke.Control && ke.KeyCode == Keys.Delete)
+            {
+                // reset field
+                FilterObjectbase fo = Current as FilterObjectbase;
+                if (fo != null)
+                {
+                    // get field using binding
+                    if ((sender as Control).DataBindings.Count > 0)
+                    {
+                        string FieldName = (sender as Control).DataBindings[0].BindingMemberInfo.BindingMember;
+                        fo.ResetFieldByName(FieldName);
+                        // eventual null prompt
+                        TextEdit te = sender as TextEdit;
+                        if(te != null)
+                        {
+                            te.Properties.NullValuePrompt = "";
+                            te.StyleController = null;
+                        }
+                        ke.Handled = true;
+                    }
+                }
+            }
+            else
+            {
+                TextEdit te = sender as TextEdit;
+                if (te != null)
+                {
+					te.StyleController = _ModifiedStyle;
+				}
+            }   
+        }
+
+        protected override void Dispose(bool disposing)
 		{
 			if (!disposedValue)
 			{
 				if (disposing)
 				{
-					_fc.Dispose();
-					_popup.Dispose();
+					_filterAspect.Dispose();
+                    foreach(RepositoryItem ri in _repositoryItemsWithKeyDownHandler)
+                    {
+                        ri.KeyDown -= repItemKeyDownHandler;
+                    }
+                    _repositoryItemsWithKeyDownHandler = null;
 				}
 				base.Dispose(disposing);
 			}
 		}
-	}
+
+		public void HandleFilterFiledKeyEvent(FilterFieldEventData ffe)
+		{
+			_filterAspect.HandleFilterFiledKeyEvent(ffe);
+		}
+
+		/*
+		public void HandleResetCriteria(string fn)
+		{
+			_filterAspect.HandleResetCriteria(fn);
+		}
+		*/
+
+		public void Reset()
+		{
+            (Current as ICriteriaTreeNode)?.Reset();
+		}
+
+        
+
+    }
 }

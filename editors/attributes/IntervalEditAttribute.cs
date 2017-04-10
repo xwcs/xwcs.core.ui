@@ -4,6 +4,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Filtering;
 using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,21 +23,41 @@ namespace xwcs.core.ui.editors.attributes
 	[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
 	public class IntervalEditAttribute : CustomAttribute
 	{
-		public string ActionChars { get; set; } = "<:>";
-		public override void applyRetrievingAttribute(IDataLayoutExtender host, FieldRetrievingEventArgs e)
+		public string ActionChars { get; set; } = "<:>*";
+		public IDataBindingSource Src { get; private set;  }
+		public string FieldName { get; private set; } = null;
+		public RepositoryItem Ri { get; private set; } = null;
+
+		//layout like
+		public override void applyRetrievedAttribute(IDataBindingSource src, FieldRetrievedEventArgs e)
 		{
+			setupRle(src, e.RepositoryItem, e.FieldName);
 		}
 
-		public override void applyRetrievedAttribute(IDataLayoutExtender host, FieldRetrievedEventArgs e)
+		// grid like container
+		public override void applyCustomEditShown(IDataBindingSource src, ViewEditorShownEventArgs e)
 		{
+			setupRle(src, e.RepositoryItem, e.FieldName);
+		}
+
+		private void setupRle(IDataBindingSource src, RepositoryItem ri, string fn)
+		{
+			//first detach eventual old
+			if (Ri != null)
+			{
+				Ri.KeyPress -= repItemKeyPressHandler;
+			}
+			Src = src;
+			Ri = ri;
+			FieldName = fn;
 			//get field
-			RepositoryItemTextEdit rte = e.RepositoryItem as RepositoryItemTextEdit;
+			RepositoryItemTextEdit rte = Ri as RepositoryItemTextEdit;
 			if (rte != null)
 			{
-				FilterObjectbase fo = host.Current as FilterObjectbase;
+				FilterObjectbase fo = src.Current as FilterObjectbase;
 				if (fo != null)
 				{
-					ICriteriaTreeNode cn = fo.GetFilterFieldByPath(e.FieldName);
+					ICriteriaTreeNode cn = fo.GetFilterFieldByPath(FieldName);
 					if (cn.HasCriteria())
 					{
 						string cond = cn.GetCondition().LegacyToString();
@@ -45,39 +66,32 @@ namespace xwcs.core.ui.editors.attributes
 				}
 			}
 
-			// default set italic
-			//(e.RepositoryItem as RepositoryItemTextEdit).Appearance.Font = new Font(DevExpress.Utils.AppearanceObject.DefaultFont, FontStyle.Italic);
+			ri.KeyPress += repItemKeyPressHandler;
 
-			// events
-			/*
-			e.RepositoryItem.EditValueChanging += (object s, ChangingEventArgs ce) =>
+			//in case of button edit set it editable by hand
+			RepositoryItemButtonEdit ribe = (ri as RepositoryItemButtonEdit);
+			if (ribe != null)
 			{
-				TextEdit te = s as TextEdit;
-				if(ce.NewValue != null) {
-					te.Properties.Appearance.Font = new Font(DevExpress.Utils.AppearanceObject.DefaultFont, FontStyle.Regular);
-				}
-				else {
-					te.Properties.Appearance.Font = new Font(DevExpress.Utils.AppearanceObject.DefaultFont, FontStyle.Italic);
-				}	
-			};
-			*/
-			
-			e.RepositoryItem.KeyPress += (object s, KeyPressEventArgs ke) =>
-			{
-				
-				if (ActionChars.Contains(ke.KeyChar))
-				{
-					ke.Handled = true;
-					IFilterDataLayoutExtender fe = host as IFilterDataLayoutExtender;
-					fe?.onFilterFieldEvent(new FilterFieldEventData { Field = s, FREA = e, ActionChar = ke.KeyChar });
-				}
-			};
-			
-
-			RepositoryItemButtonEdit ribe = (e.RepositoryItem as RepositoryItemButtonEdit);
-			if(ribe != null) {
 				ribe.TextEditStyle = TextEditStyles.Standard;
-			}			
+			}
+		}
+
+
+		public override void unbind(IDataBindingSource src)
+		{
+			if(Ri != null) {
+				Ri.KeyPress -= repItemKeyPressHandler;
+			}
+			base.unbind(src);
+		}
+
+		private void repItemKeyPressHandler(object sender, KeyPressEventArgs ke) {
+			if (ActionChars.Contains(ke.KeyChar))
+			{
+				ke.Handled = true;
+				IFilterDataBindingSource fe = Src as IFilterDataBindingSource;
+				fe?.HandleFilterFiledKeyEvent(new FilterFieldEventData { Field = sender, FieldName = FieldName, ActionChar = ke.KeyChar });
+			}
 		}
 	}
 }

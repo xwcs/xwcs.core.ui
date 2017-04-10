@@ -10,47 +10,78 @@ using System.Windows.Forms;
 using xwcs.core.evt;
 using xwcs.core.manager;
 using System.Reflection;
+using DevExpress.XtraBars.Ribbon;
 
 namespace xwcs.core.ui.controls
 {
-	
+
 	public class VisualControl : DevExpress.XtraEditors.XtraUserControl, core.controls.IVisualControl, plgs.ISavable, plgs.persistent.IPersistentState
 	{
-		
+
 		#region CONSTANTS 
 		public const bool ALLOW_MULTI = false;
 		#endregion
 
+		private IContainer components;
+
 		public core.controls.VisualControlInfo VisualControlInfo { get; private set; }
 
-		public string ControlName { get { return VisualControlInfo.Name;  } }
+		public string ControlName { get { return VisualControlInfo.Name; } }
+
+		public virtual RibbonControl Ribbon { get { return null; }} 
 
 		/// <summary>
 		/// Need just for designer
 		/// </summary>
 		public VisualControl() {
-
+			InitializeComponent();			
 		}
 
-		public VisualControl(core.controls.VisualControlInfo vci)
+		public VisualControl(core.controls.VisualControlInfo vci) : this()
 		{
 			VisualControlInfo = vci;
-
-			Enter += (s, e) =>
-			{
-				SEventProxy.getInstance().fireEvent(new VisualControlActionEvent(this, new VisualControlActionEventData(this, VisualControlActionKind.Activated)));
-			};
-			Disposed += (s, e) =>
-			{
-				SEventProxy.getInstance().fireEvent(new VisualControlActionEvent(this, new VisualControlActionEventData(this, VisualControlActionKind.Disposed)));
-			};
 		}
+
+		private void InitializeComponent()
+		{
+			if (components == null) components = new System.ComponentModel.Container();
+			this.SuspendLayout();
+			Enter += onEnter_event;
+			// 
+			// VisualControl
+			// 
+			this.Name = "VisualControl";
+			this.ResumeLayout(false);
+		}
+
+		
 
 		public virtual void Start(
 			core.controls.VisualControlStartingKind startingKind = core.controls.VisualControlStartingKind.StartingNew,
 			object data = null
 		) {
 
+		}
+
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+
+			Enter -= onEnter_event;
+
+			base.Dispose(disposing);
+			SEventProxy.getInstance().fireEvent(new VisualControlActionEvent(this, new VisualControlActionEventData(this, VisualControlActionKind.Disposed)));
+		}
+
+		private void onEnter_event(object sender, EventArgs e) {
+			SEventProxy.getInstance().fireEvent(new VisualControlActionEvent(this, new VisualControlActionEventData(this, VisualControlActionKind.Activated)));
 		}
 
 		#region IPersistentState
@@ -96,13 +127,13 @@ namespace xwcs.core.ui.controls
 		}
 		#endregion
 
-
-
 		#region ISavable
 		/// <summary>
 		/// Default saving procedure
 		/// </summary>
 		virtual public void SaveChanges() { }
 		#endregion
+
+		
 	}
 }

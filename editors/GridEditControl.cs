@@ -16,25 +16,56 @@ using System.Collections;
 using xwcs.core.manager;
 using DevExpress.XtraEditors.CustomEditor;
 using DevExpress.Utils.Drawing;
+using xwcs.core.evt;
+using xwcs.core.ui.db.fo;
 
 namespace xwcs.core.ui.editors
 {
-	public partial class GridEditControl : XtraUserControl, IAnyControlEdit
-	{
+	// this class will be used as custom editor, it will do parent editors host 
+	// poxing, so all edits here will call main Editors host component
+	// instead of local
+	public partial class GridEditControl : XtraUserControl, IAnyControlEdit, IEditorsHostProvider, IDataSourceProvider
+    {
 		private object _val = null;
-		private GridBindingSource _bs;
-		
+		private FilterGridBindingSource _bs;
+		private GridViewCustomMenu _gcm;
+		public IEditorsHost EditorsHost { get; set; }
+
+       
 
 		public GridEditControl()
 		{
 			InitializeComponent();
 			gridViewMain.OptionsView.ShowGroupPanel = false;
 			RecommendedSize = new Size(0,150);
+
+			gridViewMain.PopupMenuShowing += gridViewMain_PopupMenuShowing;
+		}
+
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+
+			gridViewMain.PopupMenuShowing -= gridViewMain_PopupMenuShowing;
+			_bs?.Dispose();
+			_bs = null;
+
+			base.Dispose(disposing);
 		}
 
 		public Size RecommendedSize { get; set; }
 
-		public object EditValue
+        
+
+
+        public object EditValue
 		{
 			get
 			{
@@ -48,9 +79,13 @@ namespace xwcs.core.ui.editors
 				if(value != null) {
 					_val = value;
 				}else {
-					//Clear datasource
-					(_val as IList)?.Clear();
+					//Clear data source
+					_bs.Clear();
+					OnEditValueChanged();
+					return;
 				}
+				
+				// changed content
 				if(_val != null) {
 					if(_bs != null) {
 						_bs.Dispose();
@@ -58,30 +93,79 @@ namespace xwcs.core.ui.editors
 						SLogManager.getInstance().Info("reset grid");
 						#endif
 					}
-					_bs = new GridBindingSource();
+					_bs = new FilterGridBindingSource(EditorsHost, barManager);
 					_bs.Grid = gridControl;
 					_bs.DataSource = _val;
-					_bs.GetFieldQueryable += (object s, GetFieldQueryableEventData e) =>
-					{
-						GetFieldQueryable?.Invoke(this, e);
-					};
+					OnEditValueChanged();
 				}
 			}
-		}		
+		}
 
-		public event EventHandler EditValueChanged;
+        public object DataSource
+        {
+            get
+            {
+                return _val;
+            }
 
-		public event EventHandler<GetFieldQueryableEventData> GetFieldQueryable;
+            set
+            {
+                if (_val == value) return;
+
+                if (value != null)
+                {
+                    _val = value;
+                }
+                else
+                {
+                    //Clear data source
+                    _bs.Clear();
+                    OnEditValueChanged();
+                    return;
+                }
+
+                // changed content
+                if (_val != null)
+                {
+                    if (_bs != null)
+                    {
+                        _bs.Dispose();
+#if DEBUG
+                        SLogManager.getInstance().Info("reset grid");
+#endif
+                    }
+                    _bs = new FilterGridBindingSource(EditorsHost, barManager);
+                    _bs.Grid = gridControl;
+                    _bs.DataSource = _val;
+                    OnEditValueChanged();
+                }
+            }
+        }
+
+        //public event EventHandler EditValueChanged;
+        private readonly WeakEventSource<EventArgs> _wes_EditValueChanged = new WeakEventSource<EventArgs>();
+		public event EventHandler EditValueChanged
+		{
+			add { _wes_EditValueChanged.Subscribe(new EventHandler<EventArgs>(value)); }
+			remove { _wes_EditValueChanged.Unsubscribe(new EventHandler<EventArgs>(value)); }
+		}
+		
+
+		private void OnEditValueChanged() {
+			_wes_EditValueChanged.Raise(this, new EventArgs());
+		}
 
 		public void addRow() {
-			Console.WriteLine("Add row called!");
 			_bs.AddNew();
+			_gcm.Dispose();
+			_gcm = null;
 		}
 
 		public void remRow()
 		{
-			Console.WriteLine("Rem row called!");
 			_bs.RemoveCurrent();
+			_gcm.Dispose();
+			_gcm = null;
 		}
 
 		private void gridViewMain_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
@@ -92,13 +176,13 @@ namespace xwcs.core.ui.editors
 			{
 				GridView view = sender as GridView;
 				view.FocusedRowHandle = e.HitInfo.RowHandle;
-				GridViewCustomMenu gcm = new GridViewCustomMenu(this, view,
+				_gcm = new GridViewCustomMenu(this, view,
 					e.HitInfo.HitTest == DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitTest.RowCell ?
 					PopupMenyType.addRem :
 					PopupMenyType.justAdd
 				);
-				gcm.Init(e.HitInfo);
-				gcm.Show(e.Point);
+				_gcm.Init(e.HitInfo);
+				_gcm.Show(e.Point);
 			}
 		}
 
