@@ -64,6 +64,9 @@ namespace xwcs.core.ui.app
 				_proxy.addEventHandler<OpenPanelRequestEvent>(EventType.OpenPanelRequestEvent, HandleOpenPanelRequestEvent);
 				_proxy.addEventHandler<VisualControlActionEvent>(EventType.VisualControlActionEvent, HandleVisualControlAction);
 
+                // invocation target for events
+                SEventProxy.InvokeDelegate = this;
+
 				//do it here before any other plugin will be loaded!!!!!
 				_widgetManager = SWidgetManager.getInstance();
 
@@ -82,8 +85,23 @@ namespace xwcs.core.ui.app
 
         }
 
+        /// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if(components != null) components.Dispose();
 
-		private void UpdateRibbons(IVisualControl control)
+                // state machines clear
+                statemachine.StateMachinesDisposer.getInstance().Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private void UpdateRibbons(IVisualControl control)
 		{
 			ribbonControl.UnMergeRibbon();
 			if(!ReferenceEquals(control.Ribbon, null)) {
