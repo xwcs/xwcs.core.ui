@@ -139,6 +139,7 @@
       <DependentUpon>DockPanelBase.cs</DependentUpon>
     </Compile>
     <Compile Include="controls\FloatDocumentsHost.cs" />
+    <Compile Include="controls\NavigatorManager.cs" />
     <Compile Include="controls\XwBarButtonItem.cs">
       <SubType>Component</SubType>
     </Compile>
