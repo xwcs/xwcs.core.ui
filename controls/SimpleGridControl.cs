@@ -41,7 +41,8 @@ namespace xwcs.core.ui.controls
 			_docDataContext = ctx;
 			_propertyType = pt;
 			_propertyName = pn;
-			_bs = new xwcs.core.db.binding.GridBindingSource(host);
+			_bs = new xwcs.core.db.binding.GridBindingSource(host);			
+			
 			_bs.Grid = gridControl;
 			simpleButton_ADD.Click += addRow;
 			simpleButton_DELETE.Click += deleteRow;
@@ -63,7 +64,7 @@ namespace xwcs.core.ui.controls
 			}
 
 			simpleButton_ADD.Click -= addRow;
-			simpleButton_DELETE.Click -= deleteRow;
+			simpleButton_DELETE.Click -= deleteRow;			
 
 			base.Dispose(disposing);
 		}
@@ -151,37 +152,23 @@ namespace xwcs.core.ui.controls
 
 			RefreshGrid(0);
 		}
-	}
 
-
-	public class BaseTableControl<T> : SimpleGridControl where T : EntityBase
-	{
-		private DbSet<T> _dbSet;
-
-		public BaseTableControl(xwcs.core.db.binding.IEditorsHost host, DbContext ctx, DbSet<T> ds) : base(host, ctx, typeof(T), "") {
-			_dbSet = ds;
-		}
-
-
-		public override bool RefreshGrid(int movePosition)
+		public CurrencyManager getCurrencyManager()
 		{
-			int bookmark = _bs.Position;
-
-
-			SEventProxy.BlockModelEvents();
-			_dbSet.Load();
-			_bs.DataSource = _dbSet.Local.ToBindingList();
-			SEventProxy.AllowModelEvents();
-
-			 
-
-			if (bookmark != -1)
-			{
-				bookmark += movePosition;
-				_bs.Position = bookmark;
-			}
-			//Return false if empty
-			return (_bs.Count == 0) ? false : true;
+			return _bs.CurrencyManager;
 		}
+
+		public void saveChanges()
+		{
+
+			// save DB
+			int iItemsSaved = _docDataContext.SaveChanges();
+			_logger.Debug(string.Format("Items saved : {0}", iItemsSaved));
+
+		}
+
 	}
+
+
+	
 }
