@@ -27,6 +27,8 @@ namespace xwcs.core.ui.db.fo
 
         private StyleController _ModifiedStyle = new StyleController();
 
+        
+
 		public FilterDataLayoutBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { }
 		public FilterDataLayoutBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { }
 		public FilterDataLayoutBindingSource(BarManager bm, object o, string s) : this(null, bm, o, s) { }
@@ -71,7 +73,8 @@ namespace xwcs.core.ui.db.fo
                         if(te != null)
                         {
                             te.Properties.NullValuePrompt = "";
-                            te.StyleController = null;
+
+                            te.StyleController = DefaultStyles.ContainsKey(te) ? DefaultStyles[te] : null;
                         }
                         ke.Handled = true;
                     }
@@ -82,7 +85,7 @@ namespace xwcs.core.ui.db.fo
                 TextEdit te = sender as TextEdit;
                 if (te != null)
                 {
-					te.StyleController = _ModifiedStyle;
+                    te.StyleController = _ModifiedStyle;
 				}
             }   
         }

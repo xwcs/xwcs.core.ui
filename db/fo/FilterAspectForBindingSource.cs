@@ -75,7 +75,10 @@ namespace xwcs.core.ui.db.fo
         // we need lazy creation
         private void make_fc()
         {
-            if (_fc != null) return;
+            if (_fc != null)
+            {
+                return;
+            }
 
             _fc = new FieldExpressionControl();
                 _popup.Controls.Add(_fc);
@@ -206,13 +209,17 @@ namespace xwcs.core.ui.db.fo
                 //connect property to filter popup
                 _fc.CurrentFieldName = ffe.FieldName;
 
-				//set initial criteria
-				_fc.filterEditorControl.SourceControl = fo;
-				//we can take old value if present
-				ICriteriaTreeNode field = (_ds.Current as FilterObjectbase)?.GetFilterFieldByPath(ffe.FieldName);
+
+                //set initial criteria
+                _fc.filterEditorControl.FilterCriteria = CriteriaOperator.Parse("");
+                _fc.filterEditorControl.SourceControl = fo;
+
+                //we can take old value if present
+                ICriteriaTreeNode field = (_ds.Current as FilterObjectbase)?.GetFilterFieldByPath(ffe.FieldName);
 
                 if(_fc.CurrentFieldName == "v_xwbo_iter.extra" || _fc.CurrentFieldName == "v_xwbo_note.extra")
                 {
+                    
                     _fc.filterEditorControl.FilterCriteria = CriteriaOperator.Parse(field.ToString());
                 }   
                 else
@@ -239,7 +246,6 @@ namespace xwcs.core.ui.db.fo
                                 break;
                         }
                     }
-
                 }
 
                 	

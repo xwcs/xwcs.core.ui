@@ -36,7 +36,7 @@
             this.gridControl.Location = new System.Drawing.Point(0, 0);
             this.gridControl.MainView = this.gridViewMain;
             this.gridControl.Name = "gridControl";
-            this.gridControl.Size = new System.Drawing.Size(369, 139);
+            this.gridControl.Size = new System.Drawing.Size(369, 100);
             this.gridControl.TabIndex = 0;
             this.gridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewMain});
@@ -69,7 +69,7 @@
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 139);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 100);
             this.barDockControlBottom.Manager = this.barManager;
             this.barDockControlBottom.Size = new System.Drawing.Size(369, 0);
             // 
@@ -79,7 +79,7 @@
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
             this.barDockControlLeft.Manager = this.barManager;
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 139);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 100);
             // 
             // barDockControlRight
             // 
@@ -87,7 +87,7 @@
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.barDockControlRight.Location = new System.Drawing.Point(369, 0);
             this.barDockControlRight.Manager = this.barManager;
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 139);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 100);
             // 
             // GridEditControl
             // 
@@ -98,9 +98,8 @@
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
-            this.MinimumSize = new System.Drawing.Size(0, 100);
             this.Name = "GridEditControl";
-            this.Size = new System.Drawing.Size(369, 139);
+            this.Size = new System.Drawing.Size(369, 100);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager)).EndInit();

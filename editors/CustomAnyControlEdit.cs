@@ -72,6 +72,7 @@ namespace xwcs.core.ui.editors
 					base.Control = null;
 					return;
 				}
+                /*
 				ConstructorInfo cConstructor = value.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.CreateInstance | BindingFlags.NonPublic, null, new Type[] { }, null);
 				if (cConstructor == null)
 				{
@@ -79,7 +80,9 @@ namespace xwcs.core.ui.editors
 					return;
 				}
 				base.Control = cConstructor.Invoke(null) as IAnyControlEdit;
-				_controlType = value;
+                */
+                base.Control = (IAnyControlEdit)Activator.CreateInstance(value);
+                _controlType = value;
 			} 
 		}
 

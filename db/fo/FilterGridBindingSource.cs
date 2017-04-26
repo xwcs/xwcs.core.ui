@@ -82,7 +82,7 @@ namespace xwcs.core.ui.db.fo
 					}
 				}
 			}
-#if DEBUG
+#if DEBUG_TRACE_LOG_ON
             catch(Exception ex) {
                 SLogManager.getInstance().getClassLogger(GetType()).Debug(ex.Message);
 #else

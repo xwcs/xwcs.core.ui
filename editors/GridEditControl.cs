@@ -37,7 +37,7 @@ namespace xwcs.core.ui.editors
 		{
 			InitializeComponent();
 			gridViewMain.OptionsView.ShowGroupPanel = false;
-			RecommendedSize = new Size(0,150);
+			RecommendedSize = new Size(0,75);
 
 			gridViewMain.PopupMenuShowing += gridViewMain_PopupMenuShowing;
 		}
@@ -89,7 +89,7 @@ namespace xwcs.core.ui.editors
 				if(_val != null) {
 					if(_bs != null) {
 						_bs.Dispose();
-						#if DEBUG
+						#if DEBUG_TRACE_LOG_ON
 						SLogManager.getInstance().Info("reset grid");
 						#endif
 					}
@@ -130,7 +130,7 @@ namespace xwcs.core.ui.editors
                     if (_bs != null)
                     {
                         _bs.Dispose();
-#if DEBUG
+#if DEBUG_TRACE_LOG_ON
                         SLogManager.getInstance().Info("reset grid");
 #endif
                     }

@@ -33,7 +33,7 @@ namespace xwcs.core.ui.db
 
         private void handle_bindingSource_CurrentObjectChanged(object sender, CurrentObjectChangedEventArgs e)
         {
-#if DEBUG
+#if DEBUG_TRACE_LOG_ON
             _logger.Debug(string.Format("Form support fire triggers at start"));
 #endif
 
@@ -74,7 +74,7 @@ namespace xwcs.core.ui.db
 
         private void handle_bindingSource_ModelPropertyChanged(object sender, ModelPropertyChangedEventArgs e)
         {
-#if DEBUG
+#if DEBUG_TRACE_LOG_ON
             _logger.Debug(string.Format("Form support Model Property: {0} changed in [{1}]", e, (e.PropertyChain[0].Container as FilterObjectbase)?.GetType().Name));
 #endif
 
@@ -108,7 +108,7 @@ namespace xwcs.core.ui.db
         // handle specific action if trigger was called
         private void FireAction(DynamicFormActionTrigger trigger, DynamicFormAction action,  object sender, ModelPropertyChangedEventArgs e)
         {
-#if DEBUG
+#if DEBUG_TRACE_LOG_ON
 
             _logger.Debug(string.Format("Form support Trigger: {0} for {1} with value {2} exec -> {3}", trigger.ActionType, trigger.FieldName, e.Value?.ToString(), action.FieldName));
 #endif
@@ -129,7 +129,7 @@ namespace xwcs.core.ui.db
                 default:
 
                     // skip unknown action
-#if DEBUG
+#if DEBUG_TRACE_LOG_ON
 
                     _logger.Error(string.Format("Form support unknown action! {1}", trigger.ActionType));
 #endif
@@ -139,7 +139,7 @@ namespace xwcs.core.ui.db
 
         public void RegisterAction(DynamicFormAction a)
         {
-#if DEBUG
+#if DEBUG_TRACE_LOG_ON
             _logger.Debug(string.Format("Dynamic action registered {0} - {1} [{2}]", a.ActionType, a.FieldName, a.Param));
 #endif
             _actions[a.ActionType].Add(a);
@@ -147,7 +147,7 @@ namespace xwcs.core.ui.db
 
         public void RegisterActionTrigger(DynamicFormActionTrigger a)
         {
-#if DEBUG
+#if DEBUG_TRACE_LOG_ON
             _logger.Debug(string.Format("Dynamic action trigger registered {0} - {1} [{2}]", a.ActionType, a.FieldName, a.Param));
 #endif
             _triggers[a.FieldName].Add(a);
@@ -190,11 +190,11 @@ namespace xwcs.core.ui.db
 
             try
             {
-                mask = e.Value != null && e.Value.ToString() != "" ? (int)System.Enum.Parse(enumType, e.Value.ToString(), true) : 0;
+                mask = ExtendedEnum.ToInt(enumType, e.Value); //e.Value != null && e.Value.ToString() != "" ? (int)System.Enum.Parse(enumType, e.Value.ToString(), true) : 0;
             }
             catch (Exception)
             {
-                _logger.Error(string.Format("MaskedEnable_FireAction: Wrong mask enum value [{0}]!", e.Value.ToString()));
+                //_logger.Error(string.Format("MaskedEnable_FireAction: Wrong mask enum value [{0}]!", e.Value.ToString()));
             }
             
 
