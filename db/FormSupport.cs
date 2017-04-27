@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +23,35 @@ namespace xwcs.core.ui.db
         private DynamicFormActionTriggers _triggers = new DynamicFormActionTriggers();
         private List<IDataBindingSource> _bindingSources = new List<IDataBindingSource>();
 
+        public bool HighlightEditedField { get; set; } = false;
+
+        private StyleController _ModifiedStyle  { get; set; } = new StyleController();
+
+        public FormSupport()
+        {
+            //default modified state
+            _ModifiedStyle.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
+            _ModifiedStyle.LookAndFeel.UseDefaultLookAndFeel = false;
+            _ModifiedStyle.Appearance.BackColor = Color.FromArgb(230, 230, 190);
+        }
+
+        private Dictionary<TextEdit, IStyleController> _DefaultStyles = new Dictionary<TextEdit, IStyleController>();
+        public Dictionary<TextEdit, IStyleController> DefaultStyles
+        {
+            get
+            {
+                return _DefaultStyles;
+            }
+        }
+
         public void AddBindingSource(IDataBindingSource bs)
         {
+
+            // If some property in model was chnaged, this can be broken in case there is child collection with proper BindingSource
             if ((bs as INotifyModelPropertyChanged) != null)
                 (bs as INotifyModelPropertyChanged).ModelPropertyChanged += handle_bindingSource_ModelPropertyChanged;
 
+            // This event is fired if BindingSource change currento object to other one, not when object content change!!
             if ((bs as INotifyCurrentObjectChanged) != null)
                 (bs as INotifyCurrentObjectChanged).CurrentObjectChanged += handle_bindingSource_CurrentObjectChanged;
             _bindingSources.Add(bs);
@@ -78,8 +104,7 @@ namespace xwcs.core.ui.db
             _logger.Debug(string.Format("Form support Model Property: {0} changed in [{1}]", e, (e.PropertyChain[0].Container as FilterObjectbase)?.GetType().Name));
 #endif
 
-            // disable layout 
-
+            // disable layout
             _bindingSources.ForEach(bs => bs.SuspendLayout());
 
             if (e.HasWildCharInName())
@@ -100,6 +125,15 @@ namespace xwcs.core.ui.db
                 );
             }
 
+            // handle eventually editbox coloring in case edited value changed
+            if (HighlightEditedField && e.ChangeKind != ModelPropertyChangedEventKind.Reset)
+            {
+                TextEdit cnt = FindControlByPropertyName(e.ToString()) as TextEdit;
+                if(!ReferenceEquals(null, cnt))
+                {
+                    cnt.StyleController = _ModifiedStyle;
+                }
+            }
             
             // enable layout
             _bindingSources.ForEach(bs => bs.ResumeLayout());
@@ -206,9 +240,25 @@ namespace xwcs.core.ui.db
 
             if (!ReferenceEquals(null, action.Control))
             {
+                // reset data using binding source of this action
+                FilterObjectbase fo = action.BindingSource?.Current as FilterObjectbase;
+                if(!ReferenceEquals(fo, null))
+                {
+                    action.Control.DataBindings[0].DataSourceUpdateMode = DataSourceUpdateMode.Never;
+                    // reset field
+                    fo.ResetFieldByName(action.FieldName);
+                    // turn back DS update mode
+                    action.Control.DataBindings[0].DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
+                }
                 // confront field bits with enable mask arrived from trigger
                 // control remain enable only if all mask (trigger) bits are present allow bitset of field (action target)
                 action.Control.Enabled = (((int)(object)action.Param & (int)(object)mask) == (int)(object)mask);
+                // set back defautl style
+                if(action.Control is TextEdit)
+                {
+                    (action.Control as TextEdit).StyleController = DefaultStyles.ContainsKey((action.Control as TextEdit)) ? DefaultStyles[(action.Control as TextEdit)] : null;
+                }
+                
             }
         }
 

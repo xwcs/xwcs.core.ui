@@ -25,10 +25,7 @@ namespace xwcs.core.ui.db.fo
 		private FilterAspectForBindingSource _filterAspect;
         private List<RepositoryItem> _repositoryItemsWithKeyDownHandler = new List<RepositoryItem>();
 
-        private StyleController _ModifiedStyle = new StyleController();
-
-        
-
+       
 		public FilterDataLayoutBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { }
 		public FilterDataLayoutBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { }
 		public FilterDataLayoutBindingSource(BarManager bm, object o, string s) : this(null, bm, o, s) { }
@@ -38,9 +35,7 @@ namespace xwcs.core.ui.db.fo
 
 		private void start(BarManager bm)
 		{
-            _ModifiedStyle.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
-            _ModifiedStyle.LookAndFeel.UseDefaultLookAndFeel = false;
-			_ModifiedStyle.Appearance.BackColor = Color.FromArgb(230, 230, 190);
+            
 
 			_filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
 
@@ -67,19 +62,28 @@ namespace xwcs.core.ui.db.fo
                     if ((sender as Control).DataBindings.Count > 0)
                     {
                         string FieldName = (sender as Control).DataBindings[0].BindingMemberInfo.BindingMember;
+
+                        // avoid value kick back due to binder will react on PropertyChanged event and will pull 
+                        // control data back from UI to model
+                        // UI is not cleared 
+                        (sender as Control).DataBindings[0].DataSourceUpdateMode = DataSourceUpdateMode.Never;
+                        // reset field
                         fo.ResetFieldByName(FieldName);
+                        // turn back DS update mode
+                        (sender as Control).DataBindings[0].DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
                         // eventual null prompt
                         TextEdit te = sender as TextEdit;
                         if(te != null)
                         {
                             te.Properties.NullValuePrompt = "";
 
-                            te.StyleController = DefaultStyles.ContainsKey(te) ? DefaultStyles[te] : null;
+                            te.StyleController = EditorsHost.FormSupport.DefaultStyles.ContainsKey(te) ? EditorsHost.FormSupport.DefaultStyles[te] : null;
                         }
                         ke.Handled = true;
                     }
                 }
             }
+            /*
             else
             {
                 TextEdit te = sender as TextEdit;
@@ -87,7 +91,8 @@ namespace xwcs.core.ui.db.fo
                 {
                     te.StyleController = _ModifiedStyle;
 				}
-            }   
+            } 
+            */  
         }
 
         protected override void Dispose(bool disposing)
