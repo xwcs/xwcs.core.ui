@@ -35,8 +35,8 @@ namespace xwcs.core.ui.db
             _ModifiedStyle.Appearance.BackColor = Color.FromArgb(230, 230, 190);
         }
 
-        private Dictionary<TextEdit, IStyleController> _DefaultStyles = new Dictionary<TextEdit, IStyleController>();
-        public Dictionary<TextEdit, IStyleController> DefaultStyles
+        private Dictionary<BaseEdit, IStyleController> _DefaultStyles = new Dictionary<BaseEdit, IStyleController>();
+        public Dictionary<BaseEdit, IStyleController> DefaultStyles
         {
             get
             {
@@ -44,7 +44,16 @@ namespace xwcs.core.ui.db
             }
         }
 
-        public void AddBindingSource(IDataBindingSource bs)
+		private Dictionary<BaseEdit, ControlMeta> _ControlsMeta = new Dictionary<BaseEdit, ControlMeta>();
+		public Dictionary<BaseEdit, ControlMeta> ControlsMeta
+		{
+			get
+			{
+				return _ControlsMeta;
+			}
+		}
+
+		public void AddBindingSource(IDataBindingSource bs)
         {
 
             // If some property in model was chnaged, this can be broken in case there is child collection with proper BindingSource
