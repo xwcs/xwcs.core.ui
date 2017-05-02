@@ -42,7 +42,7 @@
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
 			this.tableLayoutPanel3.RowCount = 1;
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(660, 420);
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(660, 415);
 			this.tableLayoutPanel3.TabIndex = 3;
 			// 
 			// gridControl
@@ -51,10 +51,10 @@
 			this.gridControl.Location = new System.Drawing.Point(3, 3);
 			this.gridControl.MainView = this.gridView;
 			this.gridControl.Name = "gridControl";
-			this.gridControl.Size = new System.Drawing.Size(604, 414);
+			this.gridControl.Size = new System.Drawing.Size(604, 409);
 			this.gridControl.TabIndex = 0;
 			this.gridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-			this.gridView});
+            this.gridView});
 			// 
 			// gridView
 			// 
@@ -80,12 +80,11 @@
 			this.tableLayoutPanel4.Location = new System.Drawing.Point(613, 3);
 			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
 			this.tableLayoutPanel4.RowCount = 4;
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel4.Size = new System.Drawing.Size(44, 414);
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel4.Size = new System.Drawing.Size(44, 409);
 			this.tableLayoutPanel4.TabIndex = 1;
 			// 
 			// simpleButton_ADD
@@ -93,9 +92,9 @@
 			this.simpleButton_ADD.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.simpleButton_ADD.Enabled = false;
 			this.simpleButton_ADD.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton_ADD.Image")));
-			this.simpleButton_ADD.Location = new System.Drawing.Point(3, 34);
+			this.simpleButton_ADD.Location = new System.Drawing.Point(3, 6);
 			this.simpleButton_ADD.Name = "simpleButton_ADD";
-			this.simpleButton_ADD.Size = new System.Drawing.Size(38, 34);
+			this.simpleButton_ADD.Size = new System.Drawing.Size(38, 38);
 			this.simpleButton_ADD.TabIndex = 2;
 			this.simpleButton_ADD.Text = "simpleButtonEdizione_INSERT";
 			// 
@@ -104,9 +103,9 @@
 			this.simpleButton_DELETE.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.simpleButton_DELETE.Enabled = false;
 			this.simpleButton_DELETE.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton_DELETE.Image")));
-			this.simpleButton_DELETE.Location = new System.Drawing.Point(3, 344);
+			this.simpleButton_DELETE.Location = new System.Drawing.Point(3, 364);
 			this.simpleButton_DELETE.Name = "simpleButton_DELETE";
-			this.simpleButton_DELETE.Size = new System.Drawing.Size(38, 34);
+			this.simpleButton_DELETE.Size = new System.Drawing.Size(38, 38);
 			this.simpleButton_DELETE.TabIndex = 3;
 			this.simpleButton_DELETE.Text = "simpleButtonEdizione_DELETE";
 			// 
@@ -116,7 +115,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tableLayoutPanel3);
 			this.Name = "SimpleGridControl";
-			this.Size = new System.Drawing.Size(660, 420);
+			this.Size = new System.Drawing.Size(660, 415);
 			this.tableLayoutPanel3.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
