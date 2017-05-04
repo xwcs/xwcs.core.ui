@@ -34,7 +34,7 @@
 			// 
 			this.tableLayoutPanel3.ColumnCount = 2;
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 41F));
 			this.tableLayoutPanel3.Controls.Add(this.gridControl, 0, 0);
 			this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 0);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -51,7 +51,7 @@
 			this.gridControl.Location = new System.Drawing.Point(3, 3);
 			this.gridControl.MainView = this.gridView;
 			this.gridControl.Name = "gridControl";
-			this.gridControl.Size = new System.Drawing.Size(604, 409);
+			this.gridControl.Size = new System.Drawing.Size(613, 409);
 			this.gridControl.TabIndex = 0;
 			this.gridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView});
@@ -74,17 +74,17 @@
 			// 
 			this.tableLayoutPanel4.ColumnCount = 1;
 			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel4.Controls.Add(this.simpleButton_ADD, 0, 0);
-			this.tableLayoutPanel4.Controls.Add(this.simpleButton_DELETE, 0, 3);
+			this.tableLayoutPanel4.Controls.Add(this.simpleButton_DELETE, 0, 2);
+			this.tableLayoutPanel4.Controls.Add(this.simpleButton_ADD, 0, 1);
 			this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel4.Location = new System.Drawing.Point(613, 3);
+			this.tableLayoutPanel4.Location = new System.Drawing.Point(622, 3);
 			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
 			this.tableLayoutPanel4.RowCount = 4;
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-			this.tableLayoutPanel4.Size = new System.Drawing.Size(44, 409);
+			this.tableLayoutPanel4.Size = new System.Drawing.Size(35, 409);
 			this.tableLayoutPanel4.TabIndex = 1;
 			// 
 			// simpleButton_ADD
@@ -92,22 +92,20 @@
 			this.simpleButton_ADD.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.simpleButton_ADD.Enabled = false;
 			this.simpleButton_ADD.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton_ADD.Image")));
-			this.simpleButton_ADD.Location = new System.Drawing.Point(3, 6);
+			this.simpleButton_ADD.Location = new System.Drawing.Point(5, 180);
 			this.simpleButton_ADD.Name = "simpleButton_ADD";
-			this.simpleButton_ADD.Size = new System.Drawing.Size(38, 38);
+			this.simpleButton_ADD.Size = new System.Drawing.Size(24, 21);
 			this.simpleButton_ADD.TabIndex = 2;
-			this.simpleButton_ADD.Text = "simpleButtonEdizione_INSERT";
 			// 
 			// simpleButton_DELETE
 			// 
 			this.simpleButton_DELETE.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.simpleButton_DELETE.Enabled = false;
 			this.simpleButton_DELETE.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton_DELETE.Image")));
-			this.simpleButton_DELETE.Location = new System.Drawing.Point(3, 364);
+			this.simpleButton_DELETE.Location = new System.Drawing.Point(5, 207);
 			this.simpleButton_DELETE.Name = "simpleButton_DELETE";
-			this.simpleButton_DELETE.Size = new System.Drawing.Size(38, 38);
+			this.simpleButton_DELETE.Size = new System.Drawing.Size(24, 21);
 			this.simpleButton_DELETE.TabIndex = 3;
-			this.simpleButton_DELETE.Text = "simpleButtonEdizione_DELETE";
 			// 
 			// SimpleGridControl
 			// 
