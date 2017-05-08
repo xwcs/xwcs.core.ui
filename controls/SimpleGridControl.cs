@@ -97,10 +97,12 @@ namespace xwcs.core.ui.controls
 				if (column == null)
 					gridView.Columns.Clear();
 
-				SEventProxy.BlockModelEvents();				
-				_docDataContext.Entry(_container).Collection(_propertyName).Load();
-				SEventProxy.AllowModelEvents();
-
+                if (!_docDataContext.Entry(_container).Collection(_propertyName).IsLoaded)
+                {
+                    SEventProxy.BlockModelEvents();
+                    _docDataContext.Entry(_container).Collection(_propertyName).Load();
+                    SEventProxy.AllowModelEvents();
+                }
 				_bs.DataSource = _container.GetPropertyByName(_propertyName);
 
 				if (column == null) column = gridView.Columns.ColumnByFieldName("id");

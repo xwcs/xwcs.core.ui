@@ -110,7 +110,7 @@ namespace xwcs.core.ui.db
         private void handle_bindingSource_ModelPropertyChanged(object sender, ModelPropertyChangedEventArgs e)
         {
 #if DEBUG_TRACE_LOG_ON
-            _logger.Debug(string.Format("Form support Model Property: {0} changed in [{1}]", e, (e.PropertyChain[0].Container as FilterObjectbase)?.GetType().Name));
+            _logger.Debug(string.Format("Form support Model Property: {0} changed in [{1}]", e, (e.PropertyChain[0].Container)?.GetType().Name));
 #endif
 
             // disable layout
