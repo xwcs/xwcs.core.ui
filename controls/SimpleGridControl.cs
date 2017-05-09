@@ -46,10 +46,16 @@ namespace xwcs.core.ui.controls
 			_bs.Grid = gridControl;
 			simpleButton_ADD.Click += addRow;
 			simpleButton_DELETE.Click += deleteRow;
+			gridView.Click += GridView_Click;
 
 			// make template function hook
 			addRowMethod = GetType().GetMethod("addRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
 			deleteRowMethod = GetType().GetMethod("deleteRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
+		}
+
+		private void GridView_Click(object sender, EventArgs e)
+		{
+			_wes_RowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current });
 		}
 
 		/// <summary> 
@@ -64,9 +70,28 @@ namespace xwcs.core.ui.controls
 			}
 
 			simpleButton_ADD.Click -= addRow;
-			simpleButton_DELETE.Click -= deleteRow;			
+			simpleButton_DELETE.Click -= deleteRow; 
+			gridView.Click -= GridView_Click;
 
 			base.Dispose(disposing);
+		}
+
+
+		private WeakEventSource<RowEditEventArgs> _wes_RowEdit = null;
+		public event EventHandler<RowEditEventArgs>  RowEdit
+		{
+			add
+			{
+				if (_wes_RowEdit == null)
+				{
+					_wes_RowEdit = new WeakEventSource<RowEditEventArgs>();
+				}
+				_wes_RowEdit.Subscribe(value);
+			}
+			remove
+			{
+				_wes_RowEdit?.Subscribe(value);
+			}
 		}
 
 		public xwcs.core.db.binding.GridBindingSource BindingSource
@@ -168,6 +193,12 @@ namespace xwcs.core.ui.controls
 			_logger.Debug(string.Format("Items saved : {0}", iItemsSaved));
 
 		}
+
+	}
+
+
+	public class RowEditEventArgs : EventArgs {
+		public object Data = null;
 
 	}
 
