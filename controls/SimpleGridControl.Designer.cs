@@ -22,8 +22,8 @@
 			this.gridControl = new DevExpress.XtraGrid.GridControl();
 			this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-			this.simpleButton_ADD = new DevExpress.XtraEditors.SimpleButton();
 			this.simpleButton_DELETE = new DevExpress.XtraEditors.SimpleButton();
+			this.simpleButton_ADD = new DevExpress.XtraEditors.SimpleButton();
 			this.tableLayoutPanel3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
@@ -62,6 +62,7 @@
 			this.gridView.Name = "gridView";
 			this.gridView.OptionsBehavior.AllowSortAnimation = DevExpress.Utils.DefaultBoolean.False;
 			this.gridView.OptionsBehavior.Editable = false;
+			this.gridView.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.EditForm;
 			this.gridView.OptionsBehavior.ReadOnly = true;
 			this.gridView.OptionsCustomization.AllowFilter = false;
 			this.gridView.OptionsCustomization.AllowGroup = false;
@@ -87,16 +88,6 @@
 			this.tableLayoutPanel4.Size = new System.Drawing.Size(35, 409);
 			this.tableLayoutPanel4.TabIndex = 1;
 			// 
-			// simpleButton_ADD
-			// 
-			this.simpleButton_ADD.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.simpleButton_ADD.Enabled = false;
-			this.simpleButton_ADD.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton_ADD.Image")));
-			this.simpleButton_ADD.Location = new System.Drawing.Point(5, 180);
-			this.simpleButton_ADD.Name = "simpleButton_ADD";
-			this.simpleButton_ADD.Size = new System.Drawing.Size(24, 21);
-			this.simpleButton_ADD.TabIndex = 2;
-			// 
 			// simpleButton_DELETE
 			// 
 			this.simpleButton_DELETE.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -106,6 +97,16 @@
 			this.simpleButton_DELETE.Name = "simpleButton_DELETE";
 			this.simpleButton_DELETE.Size = new System.Drawing.Size(24, 21);
 			this.simpleButton_DELETE.TabIndex = 3;
+			// 
+			// simpleButton_ADD
+			// 
+			this.simpleButton_ADD.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.simpleButton_ADD.Enabled = false;
+			this.simpleButton_ADD.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton_ADD.Image")));
+			this.simpleButton_ADD.Location = new System.Drawing.Point(5, 180);
+			this.simpleButton_ADD.Name = "simpleButton_ADD";
+			this.simpleButton_ADD.Size = new System.Drawing.Size(24, 21);
+			this.simpleButton_ADD.TabIndex = 2;
 			// 
 			// SimpleGridControl
 			// 

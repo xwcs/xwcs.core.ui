@@ -55,7 +55,7 @@ namespace xwcs.core.ui.controls
 
 		private void GridView_Click(object sender, EventArgs e)
 		{
-			_wes_RowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current });
+			//_wes_RowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current });
 		}
 
 		/// <summary> 
