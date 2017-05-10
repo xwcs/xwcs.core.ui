@@ -14,7 +14,7 @@ using System.Reflection;
 using DevExpress.XtraGrid.Columns;
 using xwcs.core.evt;
 using xwcs.core;
-
+using DevExpress.XtraGrid.Views.Grid;
 
 namespace xwcs.core.ui.controls
 {
@@ -33,7 +33,8 @@ namespace xwcs.core.ui.controls
 		MethodInfo addRowMethod;
 		MethodInfo deleteRowMethod;
 
-		
+		private DevExpress.XtraGrid.Views.Grid.EditFormUserControl _editControl = null;
+
 
 		public SimpleGridControl(xwcs.core.db.binding.IEditorsHost host, DbContext ctx, Type pt, string pn)
 		{
@@ -41,22 +42,39 @@ namespace xwcs.core.ui.controls
 			_docDataContext = ctx;
 			_propertyType = pt;
 			_propertyName = pn;
-			_bs = new xwcs.core.db.binding.GridBindingSource(host);			
-			
+			_bs = new xwcs.core.db.binding.GridBindingSource(host);
+
 			_bs.Grid = gridControl;
 			simpleButton_ADD.Click += addRow;
 			simpleButton_DELETE.Click += deleteRow;
-			gridView.Click += GridView_Click;
+			//gridView.Click += GridView_Click;
 
 			// make template function hook
 			addRowMethod = GetType().GetMethod("addRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
 			deleteRowMethod = GetType().GetMethod("deleteRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
 		}
 
+		public EditFormUserControl EditControl
+		{
+			get
+			{
+				return _editControl;
+			}
+
+			set
+			{
+				_editControl = value;
+				gridView.OptionsEditForm.CustomEditFormLayout = _editControl;
+				gridView.OptionsBehavior.EditingMode = GridEditingMode.EditFormInplace;
+			}
+		}
+
+		/*
 		private void GridView_Click(object sender, EventArgs e)
 		{
 			//_wes_RowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current });
 		}
+		*/
 
 		/// <summary> 
 		/// Clean up any resources being used.
@@ -71,12 +89,12 @@ namespace xwcs.core.ui.controls
 
 			simpleButton_ADD.Click -= addRow;
 			simpleButton_DELETE.Click -= deleteRow; 
-			gridView.Click -= GridView_Click;
+			//gridView.Click -= GridView_Click;
 
 			base.Dispose(disposing);
 		}
 
-
+		/*
 		private WeakEventSource<RowEditEventArgs> _wes_RowEdit = null;
 		public event EventHandler<RowEditEventArgs>  RowEdit
 		{
@@ -93,6 +111,7 @@ namespace xwcs.core.ui.controls
 				_wes_RowEdit?.Subscribe(value);
 			}
 		}
+		*/
 
 		public xwcs.core.db.binding.GridBindingSource BindingSource
 		{
@@ -101,6 +120,8 @@ namespace xwcs.core.ui.controls
 				return _bs;
 			}
 		}
+
+
 
 		public void readOnly(bool bOn)
 		{
@@ -194,13 +215,19 @@ namespace xwcs.core.ui.controls
 
 		}
 
+		private void gridView_EditFormPrepared(object sender, EditFormPreparedEventArgs e)
+		{
+			(e.Panel.Parent as Form).StartPosition = FormStartPosition.CenterScreen;
+			(e.Panel.Parent as Form).Text = "Edit note";
+		}
 	}
 
-
+	/*
 	public class RowEditEventArgs : EventArgs {
 		public object Data = null;
 
 	}
+	*/
 
 
 	
