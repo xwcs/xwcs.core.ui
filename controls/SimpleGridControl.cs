@@ -130,9 +130,11 @@ namespace xwcs.core.ui.controls
                 }
 				_bs.DataSource = _container.GetPropertyByName(_propertyName);
 
+                /*
 				if (column == null) column = gridView.Columns.ColumnByFieldName("id");
 				if (column != null) column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
 				else _logger.Error("Can not find 'order' column");
+                */
 			}
 
 			if (bookmark != -1)
