@@ -152,6 +152,12 @@
     </Compile>
     <Compile Include="controls\FloatDocumentsHost.cs" />
     <Compile Include="controls\NavigatorManager.cs" />
+    <Compile Include="controls\NotesEditForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="controls\NotesEditForm.Designer.cs">
+      <DependentUpon>NotesEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="controls\SimpleGridControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -229,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="controls\DockPanelBase.resx">
       <DependentUpon>DockPanelBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="controls\NotesEditForm.resx">
+      <DependentUpon>NotesEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="controls\SimpleGridControl.resx">
       <DependentUpon>SimpleGridControl.cs</DependentUpon>
