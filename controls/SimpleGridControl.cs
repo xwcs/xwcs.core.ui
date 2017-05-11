@@ -94,7 +94,7 @@ namespace xwcs.core.ui.controls
 			base.Dispose(disposing);
 		}
 
-		/*
+		
 		private WeakEventSource<RowEditEventArgs> _wes_RowEdit = null;
 		public event EventHandler<RowEditEventArgs>  RowEdit
 		{
@@ -111,7 +111,7 @@ namespace xwcs.core.ui.controls
 				_wes_RowEdit?.Subscribe(value);
 			}
 		}
-		*/
+		
 
 		public xwcs.core.db.binding.GridBindingSource BindingSource
 		{
@@ -185,6 +185,8 @@ namespace xwcs.core.ui.controls
 			_bs.AddNew();
 			T newCurr = _bs.Current as T;
 
+			_wes_RowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current, IsNew = true });
+
 			gridView.MoveLast();
 		}
 
@@ -222,12 +224,13 @@ namespace xwcs.core.ui.controls
 		}
 	}
 
-	/*
+	
 	public class RowEditEventArgs : EventArgs {
 		public object Data = null;
+		public bool IsNew = false;
 
 	}
-	*/
+	
 
 
 	
