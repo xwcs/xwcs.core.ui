@@ -221,8 +221,7 @@ namespace xwcs.core.ui.controls
 
 		private void gridView_EditFormPrepared(object sender, EditFormPreparedEventArgs e)
 		{
-			(e.Panel.Parent as Form).StartPosition = FormStartPosition.CenterScreen;
-			(e.Panel.Parent as Form).Text = "Edit note";
+			(e.Panel.Parent as Form).StartPosition = FormStartPosition.CenterScreen;			
 		}
 	}
 
