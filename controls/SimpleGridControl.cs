@@ -137,23 +137,17 @@ namespace xwcs.core.ui.controls
 
 			if (_container != null)
 			{
-				GridColumn column = gridView.Columns.ColumnByFieldName("id");
-				//Check if exists column 'id' -> means there are right data. If not exists -> need clear old columns
-				if (column == null)
-					gridView.Columns.Clear();
-
                 SEventProxy.BlockModelEvents();
-                _host.DataCtx.LazyLoadOrDefaultCollection(_container, _propertyName);
+                object l = _host.DataCtx.LazyLoadOrDefaultCollection(_container, _propertyName);
                 SEventProxy.AllowModelEvents();
 
-                // this should lazy load if necessary
-                _bs.DataSource = _container.GetPropertyByName(_propertyName);
+                // if there are no data clear grid
+                if(ReferenceEquals(null, l))
+                {
+                    gridView.Columns.Clear();
+                }
 
-                /*
-				if (column == null) column = gridView.Columns.ColumnByFieldName("id");
-				if (column != null) column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
-				else _logger.Error("Can not find 'order' column");
-                */
+                _bs.DataSource = l; 
 			}
 
 			if (bookmark != -1)
