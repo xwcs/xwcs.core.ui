@@ -22,26 +22,25 @@ namespace xwcs.core.ui.controls
 	{
 		protected static xwcs.core.manager.ILogger _logger = xwcs.core.manager.SLogManager.getInstance().getClassLogger(typeof(SimpleGridControl));
 
-		protected DbContext _docDataContext;
 		protected xwcs.core.db.binding.GridBindingSource _bs;
 		private string _propertyName;
 		private EntityBase _container;
 		private Type _propertyType;
+        private xwcs.core.db.binding.IEditorsHost _host;
 
-
-		// methods
-		MethodInfo addRowMethod;
+        // methods
+        MethodInfo addRowMethod;
 		MethodInfo deleteRowMethod;
 
 		private DevExpress.XtraGrid.Views.Grid.EditFormUserControl _editControl = null;
 
 
-		public SimpleGridControl(xwcs.core.db.binding.IEditorsHost host, DbContext ctx, Type pt, string pn)
+		public SimpleGridControl(xwcs.core.db.binding.IEditorsHost host, Type pt, string pn)
 		{
 			InitializeComponent();
-			_docDataContext = ctx;
 			_propertyType = pt;
 			_propertyName = pn;
+            _host = host;
 			_bs = new xwcs.core.db.binding.GridBindingSource(host);
 
 			_bs.Grid = gridControl;
@@ -143,13 +142,12 @@ namespace xwcs.core.ui.controls
 				if (column == null)
 					gridView.Columns.Clear();
 
-                if (!_docDataContext.Entry(_container).Collection(_propertyName).IsLoaded)
-                {
-                    SEventProxy.BlockModelEvents();
-                    _docDataContext.Entry(_container).Collection(_propertyName).Load();
-                    SEventProxy.AllowModelEvents();
-                }
-				_bs.DataSource = _container.GetPropertyByName(_propertyName);
+                SEventProxy.BlockModelEvents();
+                _host.DataCtx.LazyLoadOrDefaultCollection(_container, _propertyName);
+                SEventProxy.AllowModelEvents();
+
+                // this should lazy load if necessary
+                _bs.DataSource = _container.GetPropertyByName(_propertyName);
 
                 /*
 				if (column == null) column = gridView.Columns.ColumnByFieldName("id");
@@ -200,7 +198,7 @@ namespace xwcs.core.ui.controls
 
 		protected void deleteRowGeneric<T>() where T : class
 		{
-			(_docDataContext.GetPropertyByName(_propertyName) as DbSet<T>).Remove(_bs.Current as T);
+			(_host.DataCtx.GetPropertyByName(_propertyName) as DbSet<T>).Remove(_bs.Current as T);
 
 			RefreshGrid(0);
 		}
@@ -210,11 +208,10 @@ namespace xwcs.core.ui.controls
 			return _bs.CurrencyManager;
 		}
 
-		public void saveChanges()
+        public void saveChanges()
 		{
-
-			// save DB
-			int iItemsSaved = _docDataContext.SaveChanges();
+            // save DB
+			int iItemsSaved = _host.DataCtx.SaveChanges();
 			_logger.Debug(string.Format("Items saved : {0}", iItemsSaved));
 
 		}
