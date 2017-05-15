@@ -152,6 +152,12 @@
     </Compile>
     <Compile Include="controls\FloatDocumentsHost.cs" />
     <Compile Include="controls\NavigatorManager.cs" />
+    <Compile Include="controls\MediaEditForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="controls\MediaEditForm.Designer.cs">
+      <DependentUpon>MediaEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="controls\NotesEditForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -235,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="controls\DockPanelBase.resx">
       <DependentUpon>DockPanelBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="controls\MediaEditForm.resx">
+      <DependentUpon>MediaEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="controls\NotesEditForm.resx">
       <DependentUpon>NotesEditForm.cs</DependentUpon>
