@@ -28,7 +28,14 @@ namespace xwcs.core.ui.controls
 
 		public string ControlName { get { return VisualControlInfo.Name; } }
 
-		public virtual RibbonControl Ribbon { get { return null; }} 
+		public virtual RibbonControl Ribbon { get { return null; }}
+
+        protected CmdQueue _commandsQueue = new CmdQueue();
+
+        public void ExecuteLater(CmdQueue.VoidNoParamDelegate d)
+        {
+            _commandsQueue.ExecuteLater(d);
+        }
 
 		/// <summary>
 		/// Need just for designer
@@ -71,8 +78,9 @@ namespace xwcs.core.ui.controls
 		{
 			if (disposing && (components != null))
 			{
-				components.Dispose();
-			}
+                _commandsQueue.Dispose();
+                components.Dispose();
+            }
 
 			Enter -= onEnter_event;
 

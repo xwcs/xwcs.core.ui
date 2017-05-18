@@ -141,14 +141,13 @@ namespace xwcs.core.ui.controls
                 object l = _host.DataCtx.LazyLoadOrDefaultCollection(_container, _propertyName);
                 SEventProxy.AllowModelEvents();
 
-                // if there are no data clear grid
-                if(ReferenceEquals(null, l))
-                {
-                    gridView.Columns.Clear();
-                }
-
-                _bs.DataSource = l; 
-			}
+                //this will add columns or reset grid if is null
+                _bs.DataSource = l;
+            }
+            else
+            {
+                _bs.DataSource = null;
+            }
 
 			if (bookmark != -1)
 			{
