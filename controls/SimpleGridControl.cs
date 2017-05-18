@@ -180,6 +180,8 @@ namespace xwcs.core.ui.controls
 
 			_wes_RowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current, IsNew = true });
 
+			gridView.ShowEditForm();
+
 			gridView.MoveLast();
 		}
 
