@@ -93,10 +93,18 @@ namespace xwcs.core.ui.app
         {
             if (disposing)
             {
-                if(components != null) components.Dispose();
+                this.Enabled = false;
+                DevExpress.XtraSplashScreen.SplashScreenManager.ShowDefaultWaitForm("Atendere prego", "Chiusura ...");
+
+                // kill loggers
+                SLogManager.getInstance().Dispose();
 
                 // state machines clear
                 statemachine.StateMachinesDisposer.getInstance().Dispose();
+                DevExpress.XtraSplashScreen.SplashScreenManager.CloseDefaultWaitForm();
+
+                // kill rest
+                if (components != null) components.Dispose();
             }
             base.Dispose(disposing);
         }
