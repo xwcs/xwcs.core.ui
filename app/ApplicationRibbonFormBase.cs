@@ -80,6 +80,10 @@ namespace xwcs.core.ui.app
 																new DevExpress.XtraBars.BarItem[] { barButtonItem_FileSave },
 																new DevExpress.XtraBars.BarItem[] { barButtonItem_FileSaveAll });
 				ribbonControl.SelectedPage = ribbonPagePlugins;
+
+
+                // some form function tweaks
+                AutoValidate = AutoValidate.EnableAllowFocusChange;
                
             }
 
