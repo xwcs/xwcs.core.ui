@@ -72,20 +72,13 @@ namespace xwcs.core.ui.editors
 					base.Control = null;
 					return;
 				}
-                /*
-				ConstructorInfo cConstructor = value.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.CreateInstance | BindingFlags.NonPublic, null, new Type[] { }, null);
-				if (cConstructor == null)
-				{
-					base.Control = null;
-					return;
-				}
-				base.Control = cConstructor.Invoke(null) as IAnyControlEdit;
-                */
+                
                 base.Control = (IAnyControlEdit)Activator.CreateInstance(value);
                 _controlType = value;
 			} 
 		}
 
+        
 		protected override void Dispose(bool disposing)
 		{
 			if(Control != null) {

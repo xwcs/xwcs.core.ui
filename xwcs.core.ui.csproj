@@ -170,6 +170,7 @@
     <Compile Include="db\fo\FilterDataLayoutBindingSource.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="editors\attributes\UserControlPlaceholderEditAttribute.cs" />
     <Compile Include="editors\attributes\UserControlEditAttribute.cs" />
     <Compile Include="editors\attributes\IntervalEditAttribute.cs" />
     <Compile Include="editors\CustomAnyControlEdit.cs">
@@ -185,6 +186,12 @@
     <None Include="editors\UserControlEditor_sample.cs.off">
       <SubType>Component</SubType>
     </None>
+    <Compile Include="editors\ControlPlaceHolder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="editors\ControlPlaceHolder.Designer.cs">
+      <DependentUpon>ControlPlaceHolder.cs</DependentUpon>
+    </Compile>
     <Compile Include="editors\GridEditControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -239,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="editors\FieldExpressionControl.resx">
       <DependentUpon>FieldExpressionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="editors\ControlPlaceHolder.resx">
+      <DependentUpon>ControlPlaceHolder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="editors\GridEditControl.resx">
       <DependentUpon>GridEditControl.cs</DependentUpon>
