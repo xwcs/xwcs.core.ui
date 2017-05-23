@@ -18,7 +18,7 @@ using DevExpress.XtraGrid.Views.Grid;
 
 namespace xwcs.core.ui.controls
 {
-	public partial class SimpleGridControl : DevExpress.XtraEditors.XtraUserControl
+	public partial class SimpleGridControl : DevExpress.XtraEditors.XtraUserControl, IGridControl
 	{
 		protected static xwcs.core.manager.ILogger _logger = xwcs.core.manager.SLogManager.getInstance().getClassLogger(typeof(SimpleGridControl));
 
@@ -218,7 +218,13 @@ namespace xwcs.core.ui.controls
 		{
 			(e.Panel.Parent as Form).StartPosition = FormStartPosition.CenterScreen;			
 		}
-	}
+
+        public void PostChanges()
+        {
+            gridView.PostEditor();
+            gridView.UpdateCurrentRow();
+        }
+    }
 
 	
 	public class RowEditEventArgs : EventArgs {

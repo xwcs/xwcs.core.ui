@@ -83,7 +83,7 @@ namespace xwcs.core.ui.app
 
 
                 // some form function tweaks
-                AutoValidate = AutoValidate.EnableAllowFocusChange;
+                // AutoValidate = AutoValidate.EnableAllowFocusChange;
                
             }
 

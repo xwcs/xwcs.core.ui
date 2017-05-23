@@ -262,7 +262,7 @@ namespace xwcs.core.ui.db
                 // confront field bits with enable mask arrived from trigger
                 // control remain enable only if all mask (trigger) bits are present allow bitset of field (action target)
                 action.Control.Enabled = (((int)(object)action.Param & (int)(object)mask) == (int)(object)mask);
-                // set back defautl style
+                // set back default style
                 if(action.Control is TextEdit)
                 {
                     (action.Control as TextEdit).StyleController = DefaultStyles.ContainsKey((action.Control as TextEdit)) ? DefaultStyles[(action.Control as TextEdit)] : null;
