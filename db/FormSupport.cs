@@ -10,9 +10,11 @@ using xwcs.core.db;
 using xwcs.core.db.binding;
 using xwcs.core.db.fo;
 using xwcs.core.db.model;
+using xwcs.core.evt;
 
 namespace xwcs.core.ui.db
 {
+
 
 
     public class FormSupport : IFormSupport
@@ -27,6 +29,7 @@ namespace xwcs.core.ui.db
 
         private StyleController _ModifiedStyle  { get; set; } = new StyleController();
 
+        
         public FormSupport()
         {
             //default modified state
@@ -169,6 +172,7 @@ namespace xwcs.core.ui.db
                         MaskedVisible_FireAction(trigger, action, sender, e);
                         break;
                     }
+                
                 default:
 
                     // skip unknown action
@@ -273,7 +277,9 @@ namespace xwcs.core.ui.db
 
         private void MaskedVisible_FireAction(DynamicFormActionTrigger trigger, DynamicFormAction action, object sender, ModelPropertyChangedEventArgs e)
         {
-            
+            throw new NotImplementedException();  
         }
+
+        
     }
 }

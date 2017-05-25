@@ -176,6 +176,12 @@
     <Compile Include="editors\CustomAnyControlEdit.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="editors\custom\MemoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="editors\custom\MemoControl.Designer.cs">
+      <DependentUpon>MemoControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="editors\FieldExpressionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -244,6 +250,9 @@
     <EmbeddedResource Include="controls\VisualControl.resx">
       <DependentUpon>VisualControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="editors\custom\MemoControl.resx">
+      <DependentUpon>MemoControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="editors\FieldExpressionControl.resx">
       <DependentUpon>FieldExpressionControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -268,6 +277,7 @@
       <Name>xwcs.core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -26,18 +26,19 @@ namespace xwcs.core.ui.db.fo
         private List<RepositoryItem> _repositoryItemsWithKeyDownHandler = new List<RepositoryItem>();
 
        
-		public FilterDataLayoutBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { }
-		public FilterDataLayoutBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { }
-		public FilterDataLayoutBindingSource(BarManager bm, object o, string s) : this(null, bm, o, s) { }
+		public FilterDataLayoutBindingSource(BarManager bm) : this((IEditorsHost)null, bm) { start(); }
+		public FilterDataLayoutBindingSource(BarManager bm, IContainer c) : this(null, bm, c) { start(); }
+		public FilterDataLayoutBindingSource(BarManager bm, object o, string s) : this(null, bm, o, s) { start(); }
 		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm) : base(eh) { start(bm); }
 		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm, IContainer c) : base(eh, c) { start(bm); }
 		public FilterDataLayoutBindingSource(IEditorsHost eh, BarManager bm, object o, string s) : base(eh, o, s) { start(bm); }
 
-		private void start(BarManager bm)
+        private void start(BarManager bm = null)
 		{
-            
 
-			_filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
+            LayoutBaseFileName = "search_form";
+            if (ReferenceEquals(null, bm)) return;
+            _filterAspect = new FilterAspectForBindingSource(this, EditorsHost, bm);
 
 		}
 

@@ -21,13 +21,20 @@ using xwcs.core.ui.db.fo;
 
 namespace xwcs.core.ui.editors
 {
-	// this class will be used as custom editor, it will do parent editors host 
+	
+    public interface HasEditValue
+    {
+        object EditValue { get; set; }
+    }
+    
+    // this class will be used as custom editor, it will do parent editors host 
 	// poxing, so all edits here will call main Editors host component
 	// instead of local
-	public partial class ControlPlaceHolder : XtraUserControl, INamedControl, IAnyControlEdit, IEditorsHostProvider, IDataSourceProvider
+	public partial class ControlPlaceHolder : XtraUserControl, INamedControl, IAnyControlEdit, IEditorsHostProvider//, IDataSourceProvider
     {
-		private object _val = null;
-        public string ControlName { get; set; } // this will send to editors host for external component creation
+		public string ControlName { get; set; } // this will send to editors host for external component creation
+        private Control _control;
+
         private IEditorsHost _host;
         public IEditorsHost EditorsHost {
             get
@@ -40,12 +47,12 @@ namespace xwcs.core.ui.editors
                 if (value == null) return;
                 _host = value;
                 // add custom control here
-                Control tmp = _host.GetCustomEditingControl(ControlName);
+                _control = _host.GetCustomEditingControl(ControlName);
 
-                if (!ReferenceEquals(null, tmp))
+                if (!ReferenceEquals(null, _control))
                 {
-                    RecommendedSize = tmp.Size;
-                    Controls.Add(tmp);
+                    Controls.Add(_control);
+                    _control.Dock = DockStyle.Fill;
                 }
             }
         }
@@ -55,11 +62,6 @@ namespace xwcs.core.ui.editors
 		public ControlPlaceHolder()
 		{
 			InitializeComponent();
-
-            
-
-            RecommendedSize = new Size(0,75);
-
 		}
 
 		/// <summary> 
@@ -76,25 +78,23 @@ namespace xwcs.core.ui.editors
 			base.Dispose(disposing);
 		}
 
-		public Size RecommendedSize { get; set; }
-
-        
-
-
-        public object EditValue
+		public object EditValue
 		{
 			get
 			{
-				return _val;
+                if(_control is HasEditValue)
+				    return (_control as HasEditValue)?.EditValue;
+
+                return null;
 			}
 
 			set
 			{
-				if (_val == value) return;
-				
-				if(value != null) {
-					_val = value;
-				}
+                if (_control is HasEditValue && !ReferenceEquals(null, _control))
+                {
+                    (_control as HasEditValue).EditValue = value;
+                    OnEditValueChanged();
+                }                    
 			}
 		}
 
@@ -102,17 +102,7 @@ namespace xwcs.core.ui.editors
         {
             get
             {
-                return _val;
-            }
-
-            set
-            {
-                if (_val == value) return;
-
-                if (value != null)
-                {
-                    _val = value;
-                }
+                return null;
             }
         }
 
@@ -131,7 +121,7 @@ namespace xwcs.core.ui.editors
 
 		public Size CalcSize(Graphics g)
 		{
-			return RecommendedSize;
+			return this.Size;
 		}
 
 		public void Draw(GraphicsCache cache, AnyControlEditViewInfo viewInfo){}
