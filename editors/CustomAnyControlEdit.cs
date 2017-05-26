@@ -13,6 +13,7 @@ using DevExpress.XtraEditors.Popup;
 using DevExpress.XtraEditors.CustomEditor;
 using System.Reflection;
 using System.Windows.Forms;
+using DevExpress.Utils.Drawing;
 
 namespace xwcs.core.ui.editors
 {
@@ -125,7 +126,7 @@ namespace xwcs.core.ui.editors
                 base.Control = (IAnyControlEdit)tmp;
 
                 // do some settings
-                tmp.Dock = System.Windows.Forms.DockStyle.Fill;
+                //tmp.Dock = System.Windows.Forms.DockStyle.Fill;
             }
             else
             {
@@ -149,11 +150,47 @@ namespace xwcs.core.ui.editors
 		}
 	}
 
-    public class CustomAnyControlEditViewInfo : AnyControlEditViewInfo
+    public class CustomAnyControlEditViewInfo : AnyControlEditViewInfo//, IHeightAdaptable
     {
         public CustomAnyControlEditViewInfo(RepositoryItem item) : base(item)
         {
         }
+
+        /*
+        protected delegate Size MD(Graphics g);
+        */
+        /*
+        protected override Size CalcContentSize(Graphics g)
+        {
+            
+            
+            if (this.DrawControlInstance == null)
+            {
+                return base.CalcContentSize(g);
+            }
+
+            return this.DrawControlInstance.CalcSize(g);
+        }
+
+        public override void CalcViewInfo(Graphics g)
+        {
+            base.CalcViewInfo(g);
+        }
+    */
+
+        /*
+        int IHeightAdaptable.CalcHeight(GraphicsCache cache, int width)
+        {
+            BorderObjectInfoArgs borderObjectInfoArgs = new BorderObjectInfoArgs(cache);
+            borderObjectInfoArgs.Bounds = new Rectangle(0, 0, width, 100);
+            Rectangle objectClientRectangle = this.BorderPainter.GetObjectClientRectangle((ObjectInfoArgs)borderObjectInfoArgs);
+            if (!(this.BorderPainter is EmptyBorderPainter) && !(this.BorderPainter is InplaceBorderPainter))
+                objectClientRectangle.Inflate(-1, -1);
+            
+            return objectClientRectangle.Height;
+        }
+        */
+
     }
 
 
@@ -290,6 +327,20 @@ namespace xwcs.core.ui.editors
             base.UpdateViewInfo(g);
         }
 
-
+        protected override void SetBoundsCore(
+            int x,
+            int y,
+            int width,
+            int height,
+            BoundsSpecified specified
+        )
+        {
+            base.SetBoundsCore(x, y, width, height, specified);
+            if(Properties.Control != null && Properties.Control is Control && (specified == BoundsSpecified.Height || specified == BoundsSpecified.Size || specified == BoundsSpecified.All))
+            {
+                (Properties.Control as Control).Height = height;
+            }
+        }
+    
     }
 }
