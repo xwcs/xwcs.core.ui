@@ -18,6 +18,7 @@ using DevExpress.XtraEditors.CustomEditor;
 using DevExpress.Utils.Drawing;
 using xwcs.core.evt;
 using xwcs.core.ui.db.fo;
+using DevExpress.Utils.Controls;
 
 namespace xwcs.core.ui.editors
 {
@@ -30,7 +31,7 @@ namespace xwcs.core.ui.editors
     // this class will be used as custom editor, it will do parent editors host 
 	// poxing, so all edits here will call main Editors host component
 	// instead of local
-	public partial class ControlPlaceHolder : XtraUserControl, INamedControl, IAnyControlEdit, IEditorsHostProvider//, IDataSourceProvider
+	public partial class ControlPlaceHolder : XtraUserControl, IXtraResizableControl, INamedControl, IAnyControlEdit, IEditorsHostProvider//, IDataSourceProvider
     {
 		public string ControlName { get; set; } // this will send to editors host for external component creation
         private Control _control;

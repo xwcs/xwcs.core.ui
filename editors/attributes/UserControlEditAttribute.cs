@@ -24,6 +24,7 @@ namespace xwcs.core.ui.editors.attributes
 	public class UserControlEditAttribute : CustomAttribute
 	{
 		public Type ControlType { get; set; }
+        public string ControlName { get; set; } = "";
 		
 		public override void applyRetrievingAttribute(IDataBindingSource src, FieldRetrievingEventArgs e)
 		{
@@ -32,15 +33,18 @@ namespace xwcs.core.ui.editors.attributes
 
 		public override void applyRetrievedAttribute(IDataBindingSource src, FieldRetrievedEventArgs e)
 		{
-			//manage disconnect and create control
-			(e.RepositoryItem as RepositoryItemCustomAnyControl).ControlType  = ControlType;
+            // connect host in repository => this will forward host also in control later
+            (e.RepositoryItem as RepositoryItemCustomAnyControl).EditorsHost = src.EditorsHost;
 
-			//handle connect
-			IEditorsHostProvider editorsHost = (e.RepositoryItem as RepositoryItemCustomAnyControl).Control as IEditorsHostProvider;
-			if(editorsHost != null)
-			{
-				editorsHost.EditorsHost = src.EditorsHost; // here we connect to main editors host
-			}
+            //manage disconnect and create control
+            if (ControlName.Length > 0)
+            {
+                (e.RepositoryItem as RepositoryItemCustomAnyControl).ControlName = ControlName;
+            }
+            else
+            {
+                (e.RepositoryItem as RepositoryItemCustomAnyControl).ControlType = ControlType;
+            }
 		}
 	}
 }
