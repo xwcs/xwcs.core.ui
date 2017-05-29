@@ -98,6 +98,7 @@
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
+            this.MinimumSize = new System.Drawing.Size(0, 100);
             this.Name = "GridEditControl";
             this.Size = new System.Drawing.Size(369, 100);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
