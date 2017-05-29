@@ -37,16 +37,20 @@ namespace xwcs.core.ui.editors
 		{
 			InitializeComponent();
 			gridViewMain.OptionsView.ShowGroupPanel = false;
-			RecommendedSize = new Size(0,75);
-
 			gridViewMain.PopupMenuShowing += gridViewMain_PopupMenuShowing;
 		}
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
+        private void _bs_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            if (e.ListChangedType != ListChangedType.PropertyDescriptorChanged) return;
+            InvalidateValue();
+        }
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
 		{
 			if (disposing && (components != null))
 			{
@@ -54,17 +58,15 @@ namespace xwcs.core.ui.editors
 			}
 
 			gridViewMain.PopupMenuShowing -= gridViewMain_PopupMenuShowing;
-			_bs?.Dispose();
-			_bs = null;
-
+            if(!ReferenceEquals(null, _bs)){
+                _bs.ListChanged -= _bs_ListChanged;
+                _bs.Dispose();
+                _bs = null;
+            }
 			base.Dispose(disposing);
 		}
 
-		public Size RecommendedSize { get; set; }
-
-        
-
-
+		
         public object EditValue
 		{
 			get
@@ -81,8 +83,10 @@ namespace xwcs.core.ui.editors
 				}else {
 					//Clear data source
 					_bs.Clear();
-					OnEditValueChanged();
-					return;
+
+                    // notify value changed
+                    InvalidateValue();
+                    return;
 				}
 				
 				// changed content
@@ -94,10 +98,13 @@ namespace xwcs.core.ui.editors
 						#endif
 					}
 					_bs = new FilterGridBindingSource(EditorsHost, barManager);
-					_bs.Grid = gridControl;
+                    _bs.ListChanged += _bs_ListChanged;
+                    _bs.Grid = gridControl;
 					_bs.DataSource = _val;
-					OnEditValueChanged();
-				}
+
+                    // notify value changed
+                    InvalidateValue();
+                }
 			}
 		}
 
@@ -120,7 +127,10 @@ namespace xwcs.core.ui.editors
                 {
                     //Clear data source
                     _bs.Clear();
-                    OnEditValueChanged();
+                    
+                    // notify value changed
+                    InvalidateValue();
+                    
                     return;
                 }
 
@@ -135,9 +145,12 @@ namespace xwcs.core.ui.editors
 #endif
                     }
                     _bs = new FilterGridBindingSource(EditorsHost, barManager);
+                    _bs.ListChanged += _bs_ListChanged;
                     _bs.Grid = gridControl;
                     _bs.DataSource = _val;
-                    OnEditValueChanged();
+
+                    // notify value changed
+                    InvalidateValue();
                 }
             }
         }
@@ -146,8 +159,8 @@ namespace xwcs.core.ui.editors
         private readonly WeakEventSource<EventArgs> _wes_EditValueChanged = new WeakEventSource<EventArgs>();
 		public event EventHandler EditValueChanged
 		{
-			add { _wes_EditValueChanged.Subscribe(new EventHandler<EventArgs>(value)); }
-			remove { _wes_EditValueChanged.Unsubscribe(new EventHandler<EventArgs>(value)); }
+			add { _wes_EditValueChanged.Subscribe(value); }
+			remove { _wes_EditValueChanged.Unsubscribe(value); }
 		}
 		
 
@@ -188,7 +201,7 @@ namespace xwcs.core.ui.editors
 
 		public Size CalcSize(Graphics g)
 		{
-			return RecommendedSize;
+			return this.Size;
 		}
 
 		public void Draw(GraphicsCache cache, AnyControlEditViewInfo viewInfo){}
@@ -232,7 +245,27 @@ namespace xwcs.core.ui.editors
 				return true;
 			}
 		}
-	}
+
+        private bool _invaidatingValue = false;
+        protected void InvalidateValue(bool arrivedFromSize = false)
+        {
+            if (_invaidatingValue) return;
+            _invaidatingValue = true;
+            OnEditValueChanged();
+            _invaidatingValue = false;
+        }
+        protected override void SetBoundsCore(
+            int x,
+            int y,
+            int width,
+            int height,
+            BoundsSpecified specified
+        )
+        {
+            base.SetBoundsCore(x, y, width, height, specified);
+            InvalidateValue(true);
+        }
+    }
 
 	public enum PopupMenyType {
 		justAdd,

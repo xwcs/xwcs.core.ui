@@ -17,10 +17,11 @@ using xwcs.core;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraEditors.CustomEditor;
 using DevExpress.Utils.Drawing;
+using xwcs.core.ui.editors;
 
 namespace xwcs.core.ui.controls
 {
-	public partial class SimpleGridControl : DevExpress.XtraEditors.XtraUserControl, IGridControl, IAnyControlEdit
+	public partial class SimpleGridControl : CustomAnyControlBase, IGridControl, core.db.binding.IDataSourceProvider
     {
 		protected static xwcs.core.manager.ILogger _logger = xwcs.core.manager.SLogManager.getInstance().getClassLogger(typeof(SimpleGridControl));
 
@@ -53,9 +54,22 @@ namespace xwcs.core.ui.controls
 			// make template function hook
 			addRowMethod = GetType().GetMethod("addRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
 			deleteRowMethod = GetType().GetMethod("deleteRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
+
+            _bs.ListChanged += _bs_ListChanged;
 		}
 
-		public EditFormUserControl EditControl
+        /// <summary>
+        /// we ned invalidate value so eventual Layout container will handle resize
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _bs_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            if (e.ListChangedType != ListChangedType.PropertyDescriptorChanged) return;
+            InvalidateValue();
+        }
+
+        public EditFormUserControl EditControl
 		{
 			get
 			{
@@ -89,10 +103,12 @@ namespace xwcs.core.ui.controls
 			}
 
 			simpleButton_ADD.Click -= addRow;
-			simpleButton_DELETE.Click -= deleteRow; 
-			//gridView.Click -= GridView_Click;
+			simpleButton_DELETE.Click -= deleteRow;
+            //gridView.Click -= GridView_Click;
 
-			base.Dispose(disposing);
+            _bs.ListChanged -= _bs_ListChanged;
+
+            base.Dispose(disposing);
 		}
 
 		
@@ -127,7 +143,7 @@ namespace xwcs.core.ui.controls
 		public void readOnly(bool bOn)
 		{
 			gridView.OptionsSelection.EnableAppearanceFocusedCell = !bOn;
-			//gridView.OptionsBehavior.Editable = !bOn;
+			gridView.OptionsBehavior.Editable = !bOn;
 			gridView.OptionsBehavior.ReadOnly = bOn;
 			simpleButton_ADD.Enabled = !bOn;
 			simpleButton_DELETE.Enabled = !bOn;
@@ -218,9 +234,7 @@ namespace xwcs.core.ui.controls
 
 		private void gridView_EditFormPrepared(object sender, EditFormPreparedEventArgs e)
 		{
-			(e.Panel.Parent as Form).StartPosition = FormStartPosition.CenterScreen;
-			(e.Panel.Parent as Form).Tag = gridView.OptionsBehavior.ReadOnly;
-			
+			(e.Panel.Parent as Form).StartPosition = FormStartPosition.CenterScreen;			
 		}
 
         public void PostChanges()
@@ -229,79 +243,27 @@ namespace xwcs.core.ui.controls
             gridView.UpdateCurrentRow();
         }
 
-        #region IAnyControlEdit
-        public event EventHandler EditValueChanged;
-        public object EditValue
+        #region IDataSourceProvider
+        public object DataSource
         {
             get
             {
-                return "Multi value";
+                return _bs.DataSource;
             }
 
             set
             {
-                return;
+                return; // cant set anything
             }
         }
+        #endregion
 
-        public bool SupportsDraw
-        {
-            get
-            {
-                return true;
-            }
-        }
+    }
 
-        public bool AllowBorder
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public bool AllowBitmapCache
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public Size CalcSize(Graphics g)
-        {
-            return Size;
-        }
-
-        public void Draw(GraphicsCache cache, AnyControlEditViewInfo viewInfo)
-        {
-            Graphics g1 = CreateGraphics();
-            Bitmap bitmap = new Bitmap(viewInfo.ContentRect.Width, viewInfo.ContentRect.Height, g1);
-            Rectangle rect = new Rectangle(0, 0, viewInfo.ContentRect.Width, viewInfo.ContentRect.Height);
-            DrawToBitmap(bitmap, rect);
-            cache.Graphics.DrawImage(bitmap, viewInfo.ContentRect);
-        }
-
-        public void SetupAsDrawControl() { }
-        public void SetupAsEditControl() { }
-        public string GetDisplayText(object EditValue)
-        {
-            return RepositoryItemAnyControl.GetBasicDisplayText(EditValue);
-        }
-        public bool IsNeededKey(KeyEventArgs e) { return false; }
-        public bool AllowClick(Point point) { return true; }
-
-		#endregion
-
-		private void gridView_EditFormShowing(object sender, EditFormShowingEventArgs e)
-		{
-		}
-	}
-
-	/// <summary>
-	/// Event happen when row is edited
-	/// </summary>
-	public class RowEditEventArgs : EventArgs {
+    /// <summary>
+    /// Event happen when row is edited
+    /// </summary>
+    public class RowEditEventArgs : EventArgs {
 		public object Data = null;
 		public bool IsNew = false;
 

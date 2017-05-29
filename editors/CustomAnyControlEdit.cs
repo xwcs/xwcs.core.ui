@@ -13,6 +13,7 @@ using DevExpress.XtraEditors.Popup;
 using DevExpress.XtraEditors.CustomEditor;
 using System.Reflection;
 using System.Windows.Forms;
+using DevExpress.Utils.Drawing;
 
 namespace xwcs.core.ui.editors
 {
@@ -44,6 +45,7 @@ namespace xwcs.core.ui.editors
 			EditorRegistrationInfo.Default.Editors.Add(new EditorClassInfo(CustomEditName, typeof(CustomAnyControlEdit), typeof(RepositoryItemCustomAnyControl), typeof(CustomAnyControlEditViewInfo), new AnyControlEditPainter(), true, img));
 		}
 
+        /* NOT CALLED */
 		public override void Assign(RepositoryItem item)
 		{
 			BeginUpdate();
@@ -51,8 +53,9 @@ namespace xwcs.core.ui.editors
 			{
 				base.Assign(item);
 				RepositoryItemCustomAnyControl source = item as RepositoryItemCustomAnyControl;
-				if (source == null) return;
-				//
+                if (source != null)
+                {
+                }
 			}
 			finally
 			{
@@ -119,13 +122,8 @@ namespace xwcs.core.ui.editors
                 System.Windows.Forms.Control tmp = EditorsHost.GetCustomEditingControl(_controlName);
 
                 _controlType = tmp.GetType();
-
                 if (!(tmp is IAnyControlEdit)) throw new ApplicationException(string.Format("Control [{0}] must be IAnyControlEdit!", tmp.GetType().Name));
-
                 base.Control = (IAnyControlEdit)tmp;
-
-                // do some settings
-                tmp.Dock = System.Windows.Forms.DockStyle.Fill;
             }
             else
             {
@@ -149,11 +147,26 @@ namespace xwcs.core.ui.editors
 		}
 	}
 
-    public class CustomAnyControlEditViewInfo : AnyControlEditViewInfo
+    public class CustomAnyControlEditViewInfo : AnyControlEditViewInfo//, IHeightAdaptable
     {
         public CustomAnyControlEditViewInfo(RepositoryItem item) : base(item)
         {
         }
+
+        /* used for debug
+        protected override void OnEditValueChanged()
+        {
+            base.OnEditValueChanged();
+            if(this.DrawControlInstance != null)
+            {
+                Console.WriteLine(string.Format("Edit value changed : {0}, {1}", this.EditValue, (this.DrawControlInstance as Control).Size.ToString()));
+            }else
+            {
+                Console.WriteLine(string.Format("Edit value changed : {0}", this.EditValue));
+            }
+            
+        }
+        */
     }
 
 
@@ -170,9 +183,10 @@ namespace xwcs.core.ui.editors
 			RepositoryItemCustomAnyControl.RegisterCustomAnyControl();
 		}
 
-		public CustomAnyControlEdit(){}
+		public CustomAnyControlEdit(){
+        }
 
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public new RepositoryItemCustomAnyControl Properties
 		{
 			get
@@ -197,18 +211,12 @@ namespace xwcs.core.ui.editors
 			}
 			set
 			{
-
 				if (Properties.Control != null)
 				{
 					(Properties.Control as IAnyControlEdit).EditValue = value;
-					base.EditValue = (Properties.Control as IAnyControlEdit).EditValue;
 				}
-				else
-				{
-					base.EditValue = value;
-				}
-
-			}
+                base.EditValue = value;
+            }
 		}
 
         /*
@@ -240,56 +248,40 @@ namespace xwcs.core.ui.editors
             }
         }
 
-        /*
-        public bool IsCaptionVisible {
-            get
-            {
-                if (Properties.Control != null && Properties.Control is DevExpress.Utils.Controls.IXtraResizableControl)
-                {
-                    return (Properties.Control as DevExpress.Utils.Controls.IXtraResizableControl).IsCaptionVisible;
-                }
-
-                return false;
-            }
-        }
-        //
-        // Riepilogo:
-        //     When implemented by a control, specifies its default maximum size which is in
-        //     effect when the control is displayed within a Layout Control.
-        public Size MaxSize
-        {
-            get
-            {
-                if (Properties.Control != null && Properties.Control is DevExpress.Utils.Controls.IXtraResizableControl)
-                {
-                    return (Properties.Control as DevExpress.Utils.Controls.IXtraResizableControl).MaxSize;
-                }
-
-                return MaximumSize;
-            }
-        }
-        //
-        // Riepilogo:
-        //     When implemented by a control, specifies its default minimum size which is in
-        //     effect when the control is displayed within a Layout Control.
-        public Size MinSize
-        {
-            get
-            {
-                if (Properties.Control != null && Properties.Control is DevExpress.Utils.Controls.IXtraResizableControl)
-                {
-                    return (Properties.Control as DevExpress.Utils.Controls.IXtraResizableControl).MinSize;
-                }
-
-                return MaximumSize;
-            }
-        }
-        */
+        /* USE for debug
+         
         protected override void UpdateViewInfo(Graphics g)
         {
             base.UpdateViewInfo(g);
         }
+        protected override void OnAfterUpdateViewInfo()
+        {
+            base.OnAfterUpdateViewInfo();
+            this.UpdateControlBounds();
+        }
+        */
 
-
+        /// <summary>
+        /// This will forward size changed to controll
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="specified"></param>
+        protected override void SetBoundsCore(
+            int x,
+            int y,
+            int width,
+            int height,
+            BoundsSpecified specified
+        )
+        {
+            base.SetBoundsCore(x, y, width, height, specified);
+            if(Properties.Control != null && Properties.Control is Control && (specified == BoundsSpecified.Height || specified == BoundsSpecified.Size || specified == BoundsSpecified.All))
+            {
+                (Properties.Control as Control).Height = height;
+            }
+        }    
     }
 }
