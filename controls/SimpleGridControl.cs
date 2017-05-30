@@ -65,7 +65,7 @@ namespace xwcs.core.ui.controls
         /// <param name="e"></param>
         private void _bs_ListChanged(object sender, ListChangedEventArgs e)
         {
-            if (e.ListChangedType != ListChangedType.PropertyDescriptorChanged) return;
+            if (e.ListChangedType == ListChangedType.PropertyDescriptorChanged) return;
             InvalidateValue();
         }
 
@@ -152,7 +152,7 @@ namespace xwcs.core.ui.controls
 		public  virtual bool RefreshGrid(int movePosition)
 		{
 			int bookmark = _bs.Position;
-
+			
 			if (_container != null)
 			{
                 SEventProxy.BlockModelEvents();
