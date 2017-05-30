@@ -145,6 +145,7 @@
     <Compile Include="controls\ContentSource.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="controls\GridNavigatorManager.cs" />
     <Compile Include="editors\CustomAnyControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
