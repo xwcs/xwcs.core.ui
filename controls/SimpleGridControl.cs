@@ -40,23 +40,38 @@ namespace xwcs.core.ui.controls
 
 		public SimpleGridControl(xwcs.core.db.binding.IEditorsHost host, Type pt, string pn)
 		{
-			InitializeComponent();
-			_propertyType = pt;
-			_propertyName = pn;
-            _host = host;
-			_bs = new xwcs.core.db.binding.GridBindingSource(host);
+            try
+            {
+                _skipInvalidate = true;
 
-			_bs.Grid = gridControl;
-			simpleButton_ADD.Click += addRow;
-			simpleButton_DELETE.Click += deleteRow;
-			//gridView.Click += GridView_Click;
+                InitializeComponent();
+                _propertyType = pt;
+                _propertyName = pn;
+                _host = host;
+                _bs = new xwcs.core.db.binding.GridBindingSource(host);
 
-			// make template function hook
-			addRowMethod = GetType().GetMethod("addRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
-			deleteRowMethod = GetType().GetMethod("deleteRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
+                _bs.Grid = gridControl;
+                simpleButton_ADD.Click += addRow;
+                simpleButton_DELETE.Click += deleteRow;
+                //gridView.Click += GridView_Click;
 
-            _bs.ListChanged += _bs_ListChanged;
+                // make template function hook
+                addRowMethod = GetType().GetMethod("addRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
+                deleteRowMethod = GetType().GetMethod("deleteRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
+
+                _bs.ListChanged += _bs_ListChanged;
+            }
+            finally
+            {
+                _skipInvalidate = false;
+            }
+			
 		}
+
+        protected override void OnRootVisibleChnaged()
+        {
+            _bs.ForceInitializeGrid();
+        }
 
         /// <summary>
         /// we ned invalidate value so eventual Layout container will handle resize

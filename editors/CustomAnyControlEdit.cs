@@ -183,9 +183,12 @@ namespace xwcs.core.ui.editors
 			RepositoryItemCustomAnyControl.RegisterCustomAnyControl();
 		}
 
-		public CustomAnyControlEdit(){
+		public CustomAnyControlEdit()
+        {
+           
         }
 
+        
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public new RepositoryItemCustomAnyControl Properties
 		{

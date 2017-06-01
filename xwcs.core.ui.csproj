@@ -146,6 +146,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="controls\GridNavigatorManager.cs" />
+    <Compile Include="controls\OrderableGridControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="controls\OrderableGridControl.Designer.cs">
+      <DependentUpon>OrderableGridControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="editors\CustomAnyControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -235,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="controls\DockPanelBase.resx">
       <DependentUpon>DockPanelBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="controls\OrderableGridControl.resx">
+      <DependentUpon>OrderableGridControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="controls\SimpleGridControl.resx">
       <DependentUpon>SimpleGridControl.cs</DependentUpon>
