@@ -37,7 +37,7 @@ namespace xwcs.core.ui.controls
 
 		private DevExpress.XtraGrid.Views.Grid.EditFormUserControl _editControl = null;
 
-
+		public SimpleGridControl() {; }
 		public SimpleGridControl(xwcs.core.db.binding.IEditorsHost host, Type pt, string pn)
 		{
             try
@@ -97,6 +97,11 @@ namespace xwcs.core.ui.controls
 				gridView.OptionsEditForm.CustomEditFormLayout = _editControl;
 				gridView.OptionsBehavior.EditingMode = GridEditingMode.EditFormInplace;
 			}
+		}
+
+		public void showGroupPanel(bool bShow)
+		{
+			gridView.OptionsView.ShowGroupPanel = bShow;
 		}
 
 		/*

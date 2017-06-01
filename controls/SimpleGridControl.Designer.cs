@@ -56,12 +56,8 @@
 			this.gridView.Name = "gridView";
 			this.gridView.OptionsBehavior.AllowSortAnimation = DevExpress.Utils.DefaultBoolean.False;
 			this.gridView.OptionsBehavior.ReadOnly = true;
-			this.gridView.OptionsCustomization.AllowFilter = false;
-			this.gridView.OptionsCustomization.AllowGroup = false;
-			this.gridView.OptionsCustomization.AllowSort = false;
 			this.gridView.OptionsSelection.EnableAppearanceFocusedCell = false;
 			this.gridView.OptionsView.RowAutoHeight = true;
-			this.gridView.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
 			this.gridView.OptionsView.ShowGroupPanel = false;
 			this.gridView.EditFormPrepared += new DevExpress.XtraGrid.Views.Grid.EditFormPreparedEventHandler(this.gridView_EditFormPrepared);
 			// 
