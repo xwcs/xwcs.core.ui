@@ -59,7 +59,7 @@ namespace xwcs.core.ui.controls
                 _orederPropertyName = opn;
                 _host = host;
                 _bs = new xwcs.core.db.binding.GridBindingSource(host);
-                _bs.Grid = gridControl;
+                _bs.AttachToGrid(gridControl);
                 simpleButton_UP.Click += moveUp;
                 simpleButton_DOWN.Click += moveDown;
                 simpleButton_ADD.Click += addRow;

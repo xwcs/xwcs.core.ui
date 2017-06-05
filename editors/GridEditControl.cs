@@ -99,7 +99,7 @@ namespace xwcs.core.ui.editors
 					}
 					_bs = new FilterGridBindingSource(EditorsHost, barManager);
                     _bs.ListChanged += _bs_ListChanged;
-                    _bs.Grid = gridControl;
+                    _bs.AttachToGrid(gridControl);
 					_bs.DataSource = _val;
 
                     // notify value changed
@@ -146,7 +146,7 @@ namespace xwcs.core.ui.editors
                     }
                     _bs = new FilterGridBindingSource(EditorsHost, barManager);
                     _bs.ListChanged += _bs_ListChanged;
-                    _bs.Grid = gridControl;
+                    _bs.AttachToGrid(gridControl);
                     _bs.DataSource = _val;
 
                     // notify value changed

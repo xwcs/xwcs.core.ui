@@ -50,7 +50,7 @@ namespace xwcs.core.ui.controls
                 _host = host;
                 _bs = new xwcs.core.db.binding.GridBindingSource(host);
 
-                _bs.Grid = gridControl;
+                _bs.AttachToGrid(gridControl);
                 simpleButton_ADD.Click += addRow;
                 simpleButton_DELETE.Click += deleteRow;
                 //gridView.Click += GridView_Click;
