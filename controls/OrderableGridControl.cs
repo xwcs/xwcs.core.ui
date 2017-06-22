@@ -75,7 +75,7 @@ namespace xwcs.core.ui.controls
                 moveDownMethod = GetType().GetMethod("moveDownGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
 
                 gridView.InvalidValueException += GridView_InvalidValueException;
-                gridView.ValidatingEditor += GridView_ValidatingEditor;
+                //gridView.ValidatingEditor += GridView_ValidatingEditor;
 
                 _bs.ListChanged += _bs_ListChanged;
 
@@ -131,6 +131,7 @@ namespace xwcs.core.ui.controls
             InvalidateValue();
         }
 
+        /*
         private void GridView_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         {
             GridView view = sender as GridView;
@@ -143,6 +144,7 @@ namespace xwcs.core.ui.controls
                 }
             }
         }
+        */
 
         private void GridView_InvalidValueException(object sender, DevExpress.XtraEditors.Controls.InvalidValueExceptionEventArgs e)
         {
