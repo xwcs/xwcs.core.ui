@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>xwcs.core.ui</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>...</authors>
+    <!--owners>...</owners>
+                    <licenseUrl>...</licenseUrl>
+                    <projectUrl>...</projectUrl>
+                    <iconUrl>...</iconUrl-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>xwcs.core.ui</description>
+    <releaseNotes>First release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>xwcs.core.ui</tags>
+    <dependencies>
+      <dependency id="xwcs.core" version="(,0.0.9999]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="xwcs.core.ui.targets" target="Build\xwcs.core.ui.targets" />
+  </files>
+</package>
