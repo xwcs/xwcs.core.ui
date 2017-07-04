@@ -68,7 +68,7 @@ namespace xwcs.core.ui.db.fo
 			);
 		}
 
-		protected override void GetFieldDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
+		protected override void GetFieldDisplayText(object sender, xwcs.core.db.binding.CustomColumnDisplayTextEventArgs e)
 		{
 			try {
 				FilterObjectbase fo = this[e.ListSourceRowIndex] as FilterObjectbase;
