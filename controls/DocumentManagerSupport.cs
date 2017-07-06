@@ -14,10 +14,12 @@ namespace xwcs.core.ui.controls
 	/// Different kind of document controls layout
 	/// </summary>
 	public enum DocumentsLayoutKind {
-		overlap,		// 1 doc visible
-		horizontal,		// 2 docs visible side by side
-		vertical,       // 2 docs visible one over other
-		custom			// 2 manually adjusted layout
+		overlap,		    // 1 doc visible
+		horizontal,		    // 2 docs visible side by side
+		vertical,           // 2 docs visible one over other
+		custom,			    // 2 manually adjusted layout
+        TWOvsONEhorisontal, // 2 vertical on left and one big on right
+        TWOvsONEvertical    // 2 horisontal above one big
 	}
 
 	[DataContract]
