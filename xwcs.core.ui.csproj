@@ -171,6 +171,13 @@
       <DependentUpon>ApplicationRibbonFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="app\AutoWaitCursor.cs" />
+    <Compile Include="cnt\IContent.cs" />
+    <Compile Include="cnt\Rtf.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cnt\Rtf.Designer.cs">
+      <DependentUpon>Rtf.cs</DependentUpon>
+    </Compile>
     <Compile Include="controls\ContentSource.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -269,6 +276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="app\ApplicationRibbonFormBase.resx">
       <DependentUpon>ApplicationRibbonFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cnt\Rtf.resx">
+      <DependentUpon>Rtf.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="controls\DockPanelBase.resx">
       <DependentUpon>DockPanelBase.cs</DependentUpon>
