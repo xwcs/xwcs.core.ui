@@ -29,11 +29,10 @@ namespace xwcs.core.ui.cnt
             }
         }
 
-        public void Load(string Path)
-        {
-            _RtfFilePath = Path;
-            richEditControl1.RtfText = File.ReadAllText(_RtfFilePath);
-
-        }
-    }
+		void IContent.Load(string Path)
+		{
+			_RtfFilePath = Path;
+			richEditControl1.RtfText = File.ReadAllText(_RtfFilePath);			
+		}
+	}
 }

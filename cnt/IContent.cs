@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace xwcs.core.ui.cnt
 {
-    public interface IContent
+    public interface IContent : IDisposable
     {
-    }
+		void Load(string Path);
+
+		System.Windows.Forms.DockStyle Dock { get; set; }
+	}
 }

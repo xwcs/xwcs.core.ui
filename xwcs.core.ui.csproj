@@ -118,6 +118,7 @@
     <Reference Include="DevExpress.XtraGauges.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraGrid.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraNavBar.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPdfViewer.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPivotGrid.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraPrinting.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -171,7 +172,25 @@
       <DependentUpon>ApplicationRibbonFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="app\AutoWaitCursor.cs" />
+    <Compile Include="cnt\Html.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cnt\Html.Designer.cs">
+      <DependentUpon>Html.cs</DependentUpon>
+    </Compile>
     <Compile Include="cnt\IContent.cs" />
+    <Compile Include="cnt\Image.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cnt\Image.Designer.cs">
+      <DependentUpon>Image.cs</DependentUpon>
+    </Compile>
+    <Compile Include="cnt\pdf.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cnt\pdf.Designer.cs">
+      <DependentUpon>pdf.cs</DependentUpon>
+    </Compile>
     <Compile Include="cnt\Rtf.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -276,6 +295,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="app\ApplicationRibbonFormBase.resx">
       <DependentUpon>ApplicationRibbonFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cnt\Html.resx">
+      <DependentUpon>Html.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cnt\Image.resx">
+      <DependentUpon>Image.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cnt\pdf.resx">
+      <DependentUpon>pdf.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="cnt\Rtf.resx">
       <DependentUpon>Rtf.cs</DependentUpon>
