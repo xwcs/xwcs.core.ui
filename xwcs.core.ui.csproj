@@ -207,6 +207,18 @@
     <Compile Include="controls\OrderableGridControl.Designer.cs">
       <DependentUpon>OrderableGridControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="db\fo\FilterOptionsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="db\fo\FilterOptionsControl.Designer.cs">
+      <DependentUpon>FilterOptionsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\fo\FilterOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="db\fo\FilterOptionsForm.Designer.cs">
+      <DependentUpon>FilterOptionsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="editors\CustomAnyControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -320,6 +332,12 @@
     <EmbeddedResource Include="controls\VisualControl.resx">
       <DependentUpon>VisualControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="db\fo\FilterOptionsControl.resx">
+      <DependentUpon>FilterOptionsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="db\fo\FilterOptionsForm.resx">
+      <DependentUpon>FilterOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="editors\FieldExpressionControl.resx">
       <DependentUpon>FieldExpressionControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -342,6 +360,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="assets\xwcs.core.ui.db.fo\layout\FilterOptions_Default.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>pushd $(ProjectDir)
