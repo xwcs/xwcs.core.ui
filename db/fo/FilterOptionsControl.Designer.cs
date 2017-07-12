@@ -17,26 +17,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             DevExpress.XtraLayout.ColumnDefinition columnDefinition1 = new DevExpress.XtraLayout.ColumnDefinition();
             DevExpress.XtraLayout.RowDefinition rowDefinition1 = new DevExpress.XtraLayout.RowDefinition();
             DevExpress.XtraLayout.RowDefinition rowDefinition2 = new DevExpress.XtraLayout.RowDefinition();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.mainContainer = new DevExpress.XtraEditors.PanelControl();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.simpleButtonOk = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.mainContainer = new DevExpress.XtraEditors.PanelControl();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.simpleButtonOk = new DevExpress.XtraEditors.SimpleButton();
+            this.dxErrorProvider = new DevExpress.XtraEditors.DXErrorProvider.DXErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dxErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -52,6 +55,31 @@
             this.layoutControl1.Size = new System.Drawing.Size(529, 303);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // mainContainer
+            // 
+            this.mainContainer.Location = new System.Drawing.Point(7, 7);
+            this.mainContainer.Name = "mainContainer";
+            this.mainContainer.Size = new System.Drawing.Size(515, 251);
+            this.mainContainer.TabIndex = 5;
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Controls.Add(this.simpleButtonOk);
+            this.panelControl1.Location = new System.Drawing.Point(7, 262);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(515, 34);
+            this.panelControl1.TabIndex = 4;
+            // 
+            // simpleButtonOk
+            // 
+            this.simpleButtonOk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.simpleButtonOk.Location = new System.Drawing.Point(435, 5);
+            this.simpleButtonOk.Name = "simpleButtonOk";
+            this.simpleButtonOk.Size = new System.Drawing.Size(75, 23);
+            this.simpleButtonOk.TabIndex = 0;
+            this.simpleButtonOk.Text = "Ok";
             // 
             // layoutControlGroup1
             // 
@@ -89,14 +117,6 @@
             this.layoutControlGroup2.Size = new System.Drawing.Size(519, 293);
             this.layoutControlGroup2.TextVisible = false;
             // 
-            // panelControl1
-            // 
-            this.panelControl1.Controls.Add(this.simpleButtonOk);
-            this.panelControl1.Location = new System.Drawing.Point(7, 262);
-            this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(515, 34);
-            this.panelControl1.TabIndex = 4;
-            // 
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.panelControl1;
@@ -107,13 +127,6 @@
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
-            // mainContainer
-            // 
-            this.mainContainer.Location = new System.Drawing.Point(7, 7);
-            this.mainContainer.Name = "mainContainer";
-            this.mainContainer.Size = new System.Drawing.Size(515, 251);
-            this.mainContainer.TabIndex = 5;
-            // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.mainContainer;
@@ -123,15 +136,9 @@
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
-            // simpleButtonOk
+            // dxErrorProvider
             // 
-            this.simpleButtonOk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.simpleButtonOk.Location = new System.Drawing.Point(435, 5);
-            this.simpleButtonOk.Name = "simpleButtonOk";
-            this.simpleButtonOk.Size = new System.Drawing.Size(75, 23);
-            this.simpleButtonOk.TabIndex = 0;
-            this.simpleButtonOk.Text = "Ok";
+            this.dxErrorProvider.ContainerControl = this;
             // 
             // FilterOptionsControl
             // 
@@ -142,13 +149,14 @@
             this.Size = new System.Drawing.Size(529, 303);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dxErrorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -163,5 +171,6 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraEditors.SimpleButton simpleButtonOk;
+        private DevExpress.XtraEditors.DXErrorProvider.DXErrorProvider dxErrorProvider;
     }
 }

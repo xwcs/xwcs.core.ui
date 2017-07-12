@@ -40,9 +40,13 @@ namespace xwcs.core.ui.db.fo
             _formBindingSource.LayoutContainer = mainContainer;
             _formBindingSource.DataSource = _fo;
             _formBindingSource.LayoutBaseFileName = "FilterOptions";
+
+            dxErrorProvider.DataSource = _formBindingSource;
+
             UpdateLayout();
         }
 
+        
         private void UpdateLayout()
         {
             _formBindingSource.ChangeLayout("_Default");

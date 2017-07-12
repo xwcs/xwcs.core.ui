@@ -78,7 +78,6 @@ namespace xwcs.core.ui.editors
                     {
                         (base.Control as IDisposable).Dispose();
                     }
-                    base.Control = null;
                     return; // we destroy control setting type to NULL
                 }
                 _controlType = value;
