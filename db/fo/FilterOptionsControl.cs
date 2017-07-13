@@ -36,12 +36,11 @@ namespace xwcs.core.ui.db.fo
             simpleButtonOk.Click += SimpleButtonOk_Click;
 
             _formBindingSource = new xwcs.core.db.binding.DataLayoutBindingSource(this);
-            _formBindingSource.LayoutBaseFileName = "FilterOptions";
             _formBindingSource.LayoutContainer = mainContainer;
             _formBindingSource.DataSource = _fo;
             _formBindingSource.LayoutBaseFileName = "FilterOptions";
-
-            dxErrorProvider.DataSource = _formBindingSource;
+            
+            //dxErrorProvider.DataSource = _formBindingSource;
 
             UpdateLayout();
         }
@@ -54,7 +53,10 @@ namespace xwcs.core.ui.db.fo
 
         private void SimpleButtonOk_Click(object sender, EventArgs e)
         {
-            _wes_OptionsDone?.Raise(this, new EventArgs());
+            if (_fo.IsValid())
+            {
+                _wes_OptionsDone?.Raise(this, new EventArgs());
+            }
         }
 
         private WeakEventSource<EventArgs> _wes_OptionsDone = null;
