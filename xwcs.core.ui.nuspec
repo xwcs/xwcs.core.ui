@@ -19,7 +19,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="assets\xwcs.core.ui.db.fo\layout\FilterOptions.xml" target="Build\assets\xwcs.core.ui.db.fo\layout\FilterOptions.xml" />
+    <file src="assets\layout\xwcs.core.ui.db.fo\FilterOptions_Default.xml" target="Build\assets\layout\xwcs.core.ui.db.fo\FilterOptions_Default.xml" />
     <file src="xwcs.core.ui.targets" target="Build\xwcs.core.ui.targets" />
   </files>
 </package>

@@ -361,9 +361,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="assets\xwcs.core.ui.db.fo\layout\FilterOptions_Default.xml">
+    <None Include="assets\layout\xwcs.core.ui.db.fo\FilterOptions_Default.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

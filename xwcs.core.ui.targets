@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)assets\xwcs.core.ui.db.fo\layout\FilterOptions.xml">
-      <Link>assets\xwcs.core.ui.db.fo\layout\FilterOptions.xml</Link>
+    <None Include="$(MSBuildThisFileDirectory)assets\layout\xwcs.core.ui.db.fo\FilterOptions_Default.xml">
+      <Link>assets\layout\xwcs.core.ui.db.fo\FilterOptions_Default.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

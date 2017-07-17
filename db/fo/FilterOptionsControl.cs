@@ -26,7 +26,7 @@ namespace xwcs.core.ui.db.fo
 
         public FilterOptionsControl(core.db.fo.FilterOptions fo)
         {
-            _LayoutAssetPath = SPersistenceManager.getInstance().GetDefaultAssetsPath(GetType(), SPersistenceManager.AssetKind.Layout);
+            _LayoutAssetPath = SPersistenceManager.GetDefaultAssetsPath(SPersistenceManager.AssetKind.Layout, GetType());
             _fo = fo;
             _formSupport = new FormSupport();
             // editing form will not highlight edited field
