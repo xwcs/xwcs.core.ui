@@ -35,5 +35,17 @@ namespace xwcs.core.ui.cnt
 			_PDFFilePath = Path;
 			pdfViewer1.LoadDocument(_PDFFilePath);
 		}
+
+		void IContent.Next()
+		{
+		}
+		void IContent.Prev()
+		{
+		}
+
+		void IContent.Close()
+		{
+			pdfViewer1.CloseDocument();
+		}
 	}
 }

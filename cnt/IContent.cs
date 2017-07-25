@@ -9,6 +9,10 @@ namespace xwcs.core.ui.cnt
     public interface IContent : IDisposable
     {
 		void Load(string Path);
+		void Next();
+		void Prev();
+
+		void Close();
 
 		System.Windows.Forms.DockStyle Dock { get; set; }
 	}

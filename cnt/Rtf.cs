@@ -34,5 +34,16 @@ namespace xwcs.core.ui.cnt
 			_RtfFilePath = Path;
 			richEditControl1.RtfText = File.ReadAllText(_RtfFilePath);			
 		}
+
+		void IContent.Next()
+		{
+		}
+		void IContent.Prev()
+		{
+		}
+
+		void IContent.Close()
+		{
+		}
 	}
 }

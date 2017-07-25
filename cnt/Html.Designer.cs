@@ -53,6 +53,6 @@
 
 		#endregion
 
-		private System.Windows.Forms.WebBrowser webBrowser1;
+		protected System.Windows.Forms.WebBrowser webBrowser1;
 	}
 }
