@@ -99,7 +99,7 @@ namespace xwcs.core.ui.app
             {
                 this.Enabled = false;
                 DevExpress.XtraSplashScreen.SplashScreenManager.ShowDefaultWaitForm("Atendere prego", "Chiusura ...");
-
+                
                 // kill loggers
                 SLogManager.getInstance().Dispose();
 
