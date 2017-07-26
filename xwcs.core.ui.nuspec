@@ -14,9 +14,9 @@
     <releaseNotes>First release</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>xwcs.core.ui</tags>
-    <dependencies>
+    <!--dependencies>
       <dependency id="xwcs.core" version="(,0.0.9999]" />
-    </dependencies>
+    </dependencies-->
   </metadata>
   <files>
     <file src="assets\layout\xwcs.core.ui.db.fo\FilterOptions_Default.xml" target="Build\assets\layout\xwcs.core.ui.db.fo\FilterOptions_Default.xml" />
