@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using xwcs.core.evt;
+using System.Text.RegularExpressions;
 
 namespace xwcs.core.ui.cnt
 {
@@ -17,7 +19,7 @@ namespace xwcs.core.ui.cnt
 			InitializeComponent();
 		}
 
-		private string _HTMLUrl;
+		private string _HTMLUrl = "";
 		public string HTMLUrl
 		{
 			get
@@ -35,5 +37,20 @@ namespace xwcs.core.ui.cnt
 			_HTMLUrl = URL;
 			webBrowser1.Navigate(_HTMLUrl);
 		}
+
+		void IContent.Next()
+		{
+			webBrowser1.GoForward();
+		}
+
+		void IContent.Prev()
+		{
+			webBrowser1.GoBack();			
+		}
+
+		void IContent.Close()
+		{
+		}
+
 	}
 }
