@@ -11,8 +11,9 @@ namespace xwcs.core.ui.cnt
 		void Load(string Path);
 		void Next();
 		void Prev();
-
 		void Close();
+		void First();
+		void Last();
 
 		System.Windows.Forms.DockStyle Dock { get; set; }
 	}

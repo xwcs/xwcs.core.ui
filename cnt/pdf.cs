@@ -47,5 +47,14 @@ namespace xwcs.core.ui.cnt
 		{
 			pdfViewer1.CloseDocument();
 		}
+
+		void IContent.First()
+		{
+		}
+
+		void IContent.Last()
+		{
+		}
+
 	}
 }

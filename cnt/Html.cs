@@ -52,5 +52,13 @@ namespace xwcs.core.ui.cnt
 		{
 		}
 
+		void IContent.First()
+		{
+		}
+
+		void IContent.Last()
+		{
+		}
+
 	}
 }

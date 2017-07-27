@@ -45,5 +45,14 @@ namespace xwcs.core.ui.cnt
 		void IContent.Close()
 		{
 		}
+
+		void IContent.First()
+		{
+		}
+
+		void IContent.Last()
+		{
+		}
+
 	}
 }

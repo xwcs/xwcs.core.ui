@@ -56,5 +56,14 @@ namespace xwcs.core.ui.cnt
 		{
 			if (pictureBox1.Image != null) pictureBox1.Image = null;
 		}
+
+		void IContent.First()
+		{
+		}
+
+		void IContent.Last()
+		{
+		}
+
 	}
 }
