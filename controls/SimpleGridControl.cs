@@ -169,14 +169,14 @@ namespace xwcs.core.ui.controls
 			simpleButton_DELETE.Enabled = !bOn;
 		}
 
-		public  virtual bool RefreshGrid(int movePosition)
+		public  virtual bool RefreshGrid(int movePosition, bool force = false)
 		{
 			int bookmark = _bs.Position;
 			
 			if (_container != null)
 			{
                 SEventProxy.BlockModelEvents();
-                object l = _host.DataCtx.LazyLoadOrDefaultCollection(_container, _propertyName);
+                object l = _host.DataCtx.LazyLoadOrDefaultCollection(_container, _propertyName, force);
                 SEventProxy.AllowModelEvents();
 
                 //this will add columns or reset grid if is null
@@ -196,10 +196,10 @@ namespace xwcs.core.ui.controls
 			return (_bs.Count == 0)?false:true;
 		}
 
-		public bool RefreshGrid(EntityBase cnt, int movePosition)
+		public bool RefreshGrid(EntityBase cnt, int movePosition, bool force = false)
 		{
 			_container = cnt;
-			return RefreshGrid(movePosition);
+			return RefreshGrid(movePosition, force);
 		}
 
 
