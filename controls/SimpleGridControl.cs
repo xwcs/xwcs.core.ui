@@ -232,9 +232,9 @@ namespace xwcs.core.ui.controls
 		protected void deleteRowGeneric<T>() where T : class
 		{
             if (ReferenceEquals(null, _bs.Current)) return;
-            SEventProxy.BlockModelEvents();
+            //SEventProxy.BlockModelEvents();
             _host.DataCtx.DeleteRowGeneric<T>(_propertyName, _bs.Current as T);
-            SEventProxy.AllowModelEvents();
+            //SEventProxy.AllowModelEvents();
 
             RefreshGrid(0);
         }

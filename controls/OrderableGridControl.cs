@@ -355,8 +355,9 @@ namespace xwcs.core.ui.controls
 		protected void deleteRowGeneric<T>() where T : class
         {
             if (ReferenceEquals(null, _bs.Current)) return;
-            //(_host.DataCtx.GetPropertyByName(_propertyName) as DbSet<T>).Remove(_bs.Current as T);
+            //SEventProxy.BlockModelEvents();
             _host.DataCtx.DeleteRowGeneric<T>(_propertyName, _bs.Current as T);
+            //SEventProxy.AllowModelEvents();
             RefreshGrid(0);
 			updateOrdersInGrid();
 
