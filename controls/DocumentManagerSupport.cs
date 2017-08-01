@@ -185,6 +185,8 @@ namespace xwcs.core.ui.controls
 				{
 					//do restore so it will mantain vci
 					VisualControl pluginControl = (VisualControl)vci.restoreInstance();
+                    if (ReferenceEquals(null, pluginControl)) continue; 
+
 					BaseDocument document = _manager.View.AddDocument(pluginControl);
 					document.Caption = vci.Name;
 					document.ControlName = vci.Name;
