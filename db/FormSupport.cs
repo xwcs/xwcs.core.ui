@@ -24,18 +24,20 @@ namespace xwcs.core.ui.db
         private DynamicFormActions _actions = new DynamicFormActions();
         private DynamicFormActionTriggers _triggers = new DynamicFormActionTriggers();
         private List<IDataBindingSource> _bindingSources = new List<IDataBindingSource>();
+		private Control _parent;
 
         public bool HighlightEditedField { get; set; } = false;
 
         private StyleController _ModifiedStyle  { get; set; } = new StyleController();
 
         
-        public FormSupport()
+        public FormSupport(Control p = null)
         {
             //default modified state
             _ModifiedStyle.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
             _ModifiedStyle.LookAndFeel.UseDefaultLookAndFeel = false;
             _ModifiedStyle.Appearance.BackColor = Color.FromArgb(230, 230, 190);
+			_parent = p;
         }
 
         private Dictionary<BaseEdit, IStyleController> _DefaultStyles = new Dictionary<BaseEdit, IStyleController>();
@@ -55,6 +57,24 @@ namespace xwcs.core.ui.db
 				return _ControlsMeta;
 			}
 		}
+
+		public Control Parent
+		{
+			get
+			{
+				return _parent;
+			}
+		}
+
+		public IBehaviorContainer BehaviorContainer
+		{
+			get
+			{
+				if (_parent is IBehaviorContainer) return _parent as IBehaviorContainer;
+				else return null;
+			}
+		}
+
 
 		public void AddBindingSource(IDataBindingSource bs)
         {
