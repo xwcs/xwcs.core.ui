@@ -63,9 +63,10 @@ namespace xwcs.core.ui.app
 				_proxy.addEventHandler<AddToolBarRequestEvent>(EventType.AddToolBarRequestEvent, HandleAddToolbarRequestEvent);
 				_proxy.addEventHandler<OpenPanelRequestEvent>(EventType.OpenPanelRequestEvent, HandleOpenPanelRequestEvent);
 				_proxy.addEventHandler<VisualControlActionEvent>(EventType.VisualControlActionEvent, HandleVisualControlAction);
+				_proxy.addEventHandler<ClosePanelRequestEvent>(EventType.ClosePanelRequestEvent, HandleClosePanelRequestEvent);
 
-                // invocation target for events
-                SEventProxy.InvokeDelegate = this;
+				// invocation target for events
+				SEventProxy.InvokeDelegate = this;
 
 				//do it here before any other plugin will be loaded!!!!!
 				_widgetManager = SWidgetManager.getInstance();
@@ -138,6 +139,14 @@ namespace xwcs.core.ui.app
 			}
 		}
 
+		private void HandleClosePanelRequestEvent(object sender, ClosePanelRequestEvent e)
+		{
+			BaseDocument document = _managerSupport.getDocumentByControl(sender as VisualControl);
+			if (document != null)
+			{
+				documentManager.View.Controller.Close(document);
+			}			
+		}
 
 		private void HandleOpenPanelRequestEvent(object sender, OpenPanelRequestEvent e)
 		{
