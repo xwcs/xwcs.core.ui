@@ -99,7 +99,7 @@ namespace xwcs.core.ui.app
             if (disposing)
             {
                 this.Enabled = false;
-                DevExpress.XtraSplashScreen.SplashScreenManager.ShowDefaultWaitForm("Atendere prego", "Chiusura ...");
+                DevExpress.XtraSplashScreen.SplashScreenManager.ShowDefaultWaitForm("Attendere prego", "Chiusura ...");
                 // unload plugins
                 _loader.Unload();
 
