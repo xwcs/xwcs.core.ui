@@ -148,9 +148,43 @@ namespace xwcs.core.ui.controls
 				_wes_RowEdit?.Subscribe(value);
 			}
 		}
-		
 
-		public xwcs.core.db.binding.GridBindingSource BindingSource
+        private WeakEventSource<RowEditEventArgs> _wes_AfterRowEdit = null;
+        public event EventHandler<RowEditEventArgs> AfterRowEdit
+        {
+            add
+            {
+                if (_wes_AfterRowEdit == null)
+                {
+                    _wes_AfterRowEdit = new WeakEventSource<RowEditEventArgs>();
+                }
+                _wes_AfterRowEdit.Subscribe(value);
+            }
+            remove
+            {
+                _wes_AfterRowEdit?.Subscribe(value);
+            }
+        }
+
+        private WeakEventSource<RowEditEventArgs> _wes_BeforeRowDelete = null;
+        public event EventHandler<RowEditEventArgs> BeforeRowDelete
+        {
+            add
+            {
+                if (_wes_BeforeRowDelete == null)
+                {
+                    _wes_BeforeRowDelete = new WeakEventSource<RowEditEventArgs>();
+                }
+                _wes_BeforeRowDelete.Subscribe(value);
+            }
+            remove
+            {
+                _wes_BeforeRowDelete?.Subscribe(value);
+            }
+        }
+
+
+        public xwcs.core.db.binding.GridBindingSource BindingSource
 		{
 			get
 			{
@@ -220,7 +254,10 @@ namespace xwcs.core.ui.controls
 
 			gridView.ShowEditForm();
 
-			gridView.MoveLast();
+            // this can be use for eventual cleaning after cancel
+            _wes_AfterRowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current, IsNew = true });
+
+            gridView.MoveLast();
 		}
 
 		protected void deleteRow(object sender, EventArgs e)
@@ -232,6 +269,9 @@ namespace xwcs.core.ui.controls
 		protected void deleteRowGeneric<T>() where T : class
 		{
             if (ReferenceEquals(null, _bs.Current)) return;
+
+            _wes_BeforeRowDelete?.Raise(this, new RowEditEventArgs() { Data = _bs.Current });
+
             //SEventProxy.BlockModelEvents();
             _host.DataCtx.DeleteRowGeneric<T>(_propertyName, _bs.Current as T);
             //SEventProxy.AllowModelEvents();
