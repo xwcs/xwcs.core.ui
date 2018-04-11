@@ -149,14 +149,14 @@ namespace xwcs.core.ui.controls
 			}
 		}
 
-        private WeakEventSource<RowEditEventArgs> _wes_AfterRowEdit = null;
-        public event EventHandler<RowEditEventArgs> AfterRowEdit
+        private WeakEventSource<RowAfterEditEventArgs> _wes_AfterRowEdit = null;
+        public event EventHandler<RowAfterEditEventArgs> AfterRowEdit
         {
             add
             {
                 if (_wes_AfterRowEdit == null)
                 {
-                    _wes_AfterRowEdit = new WeakEventSource<RowEditEventArgs>();
+                    _wes_AfterRowEdit = new WeakEventSource<RowAfterEditEventArgs>();
                 }
                 _wes_AfterRowEdit.Subscribe(value);
             }
@@ -166,14 +166,14 @@ namespace xwcs.core.ui.controls
             }
         }
 
-        private WeakEventSource<RowEditEventArgs> _wes_BeforeRowDelete = null;
-        public event EventHandler<RowEditEventArgs> BeforeRowDelete
+        private WeakEventSource<RowDeleteEventArgs> _wes_BeforeRowDelete = null;
+        public event EventHandler<RowDeleteEventArgs> BeforeRowDelete
         {
             add
             {
                 if (_wes_BeforeRowDelete == null)
                 {
-                    _wes_BeforeRowDelete = new WeakEventSource<RowEditEventArgs>();
+                    _wes_BeforeRowDelete = new WeakEventSource<RowDeleteEventArgs>();
                 }
                 _wes_BeforeRowDelete.Subscribe(value);
             }
@@ -254,27 +254,35 @@ namespace xwcs.core.ui.controls
 
 			gridView.ShowEditForm();
 
-            // this can be use for eventual cleaning after cancel
-            _wes_AfterRowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current, IsNew = true });
+            // this can be use for eventual cleaning after cancel, if newCurr is not the same as _bs.Current => means it was canceled in edit form
+            _wes_AfterRowEdit?.Raise(this, new RowAfterEditEventArgs() { Data = newCurr, DoCancel = !ReferenceEquals(newCurr, _bs.Current)});
+
+            // delete object for sure again!!
+            EntityState es = _host.DataCtx.Entry(newCurr).State;
+            if (!ReferenceEquals(newCurr, _bs.Current) && _host.DataCtx.Entry(newCurr).State == EntityState.Added)
+            {
+                deleteRowMethod.Invoke(this, new object[] { newCurr });
+            }
 
             gridView.MoveLast();
 		}
 
 		protected void deleteRow(object sender, EventArgs e)
 		{
-			deleteRowMethod.Invoke(this, null);
+			deleteRowMethod.Invoke(this, new object[] { _bs.Current } );
 		}
 
 
-		protected void deleteRowGeneric<T>() where T : class
+		protected void deleteRowGeneric<T>(object what) where T : class
 		{
-            if (ReferenceEquals(null, _bs.Current)) return;
+            if (ReferenceEquals(null, what)) return;
 
-            _wes_BeforeRowDelete?.Raise(this, new RowEditEventArgs() { Data = _bs.Current });
+            _wes_BeforeRowDelete?.Raise(this, new RowDeleteEventArgs() { Data = what });
 
-            //SEventProxy.BlockModelEvents();
-            _host.DataCtx.DeleteRowGeneric<T>(_propertyName, _bs.Current as T);
-            //SEventProxy.AllowModelEvents();
+            // stop events for infinite getters recursion
+            // SEventProxy.BlockModelEvents();
+            _host.DataCtx.DeleteRowGeneric<T>(_propertyName, what as T);
+            // SEventProxy.AllowModelEvents();
 
             RefreshGrid(0);
         }
@@ -329,4 +337,22 @@ namespace xwcs.core.ui.controls
 		public bool IsNew = false;
 
 	}
+
+    /// <summary>
+    /// Event happen when row is being deleted
+    /// </summary>
+    public class RowDeleteEventArgs : EventArgs
+    {
+        public object Data = null;
+    }
+
+    /// <summary>
+    /// Event happen after row was edited
+    /// </summary>
+    public class RowAfterEditEventArgs : EventArgs
+    {
+        public object Data = null;
+        public bool DoCancel = false;
+
+    }
 }

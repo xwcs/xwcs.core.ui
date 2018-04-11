@@ -61,13 +61,19 @@ namespace xwcs.core.ui.controls
 			this.ResumeLayout(false);
 		}
 
-		
-
-		public virtual void Start(
+        /// <summary>Starts.</summary>
+        ///
+        /// <author>Laco</author>
+        ///
+        /// <param name="startingKind">(Optional) The starting kind.</param>
+        /// <param name="data">        (Optional) The data.</param>
+        ///
+        /// <returns>True if it succeeds, false if it fails.</returns>
+		public virtual bool Start(
 			core.controls.VisualControlStartingKind startingKind = core.controls.VisualControlStartingKind.StartingNew,
 			object data = null
 		) {
-
+            return true;
 		}
 
 
