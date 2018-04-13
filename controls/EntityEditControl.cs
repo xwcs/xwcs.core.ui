@@ -168,5 +168,10 @@ namespace xwcs.core.ui.controls
             }
             base.Dispose(disposing);
         }
+
+        public void onGridConnected(object sender, GridConnectedEventData data)
+        {
+            Console.WriteLine("Grid connected for : " + data.DataType.FullName);
+        }
     }
 }

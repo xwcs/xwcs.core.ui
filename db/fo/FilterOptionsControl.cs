@@ -126,5 +126,9 @@ namespace xwcs.core.ui.db.fo
             }
             base.Dispose(disposing);
         }
+
+        public void onGridConnected(object sender, GridConnectedEventData data)
+        {
+        }
     }
 }

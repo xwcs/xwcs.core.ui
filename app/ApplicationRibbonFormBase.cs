@@ -148,7 +148,32 @@ namespace xwcs.core.ui.app
 			}			
 		}
 
-		private void HandleOpenPanelRequestEvent(object sender, OpenPanelRequestEvent e)
+        Queue<OpenPanelRequestEvent> _openRequests = new Queue<OpenPanelRequestEvent>();
+        bool _working = false;
+        private void ConsumeQueue()
+        {
+            if (_working) return;
+            _working = true;
+
+            try
+            {
+                if (_openRequests.Count == 0) return;
+                OpenPanelInternal(_openRequests.Dequeue());
+            }
+            finally
+            {
+                // it need to be surely turn off
+                _working = false;
+            }
+
+            ConsumeQueue();
+        }
+        private void HandleOpenPanelRequestEvent(object sender, OpenPanelRequestEvent e)
+        {
+            _openRequests.Enqueue(e);
+            ConsumeQueue();
+        }
+        private void OpenPanelInternal(OpenPanelRequestEvent e)
 		{
 			OpenPanelRequest ee = (OpenPanelRequest)e.Data;
 			core.controls.VisualControlInfo vci = ee.Vci;
@@ -172,11 +197,12 @@ namespace xwcs.core.ui.app
 			VisualControl control = (VisualControl)vci.createInstance();
 			if (control != null)
 			{
+                BaseDocument document = null;
 
-				if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_document)
+                if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_document)
 				{
 					documentManager.BeginUpdate();
-					BaseDocument document = documentManager.View.AddDocument(control);
+					document = documentManager.View.AddDocument(control);
 					document.Caption = control.VisualControlInfo.Name;
 					document.ControlName = control.VisualControlInfo.Name;
 					document.Properties.AllowFloat = DevExpress.Utils.DefaultBoolean.False;
@@ -230,8 +256,17 @@ namespace xwcs.core.ui.app
 					dockPanel1.ControlContainer.Controls.Add(control);
 				}
 
-				//start control
-				control.Start(core.controls.VisualControlStartingKind.StartingNew, ee.DataObject);
+                //start control
+                if (!control.Start(core.controls.VisualControlStartingKind.StartingNew, ee.DataObject))
+                {
+                    // remove control it was not good start
+                    if (vci.DockStyle == core.controls.ControlDockStyle.PLGT_document)
+                    {
+                        documentManager.BeginUpdate();
+                        documentManager.View.Controller.Close(document);
+                        documentManager.EndUpdate();
+                    }
+                }   
 			}
 		}
 
