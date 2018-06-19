@@ -197,7 +197,7 @@ namespace xwcs.core.ui.controls
 		public void readOnly(bool bOn)
 		{
 			gridView.OptionsSelection.EnableAppearanceFocusedCell = !bOn;
-			//gridView.OptionsBehavior.Editable = !bOn;
+			// gridView.OptionsBehavior.Editable = !bOn;
 			gridView.OptionsBehavior.ReadOnly = bOn;
 			simpleButton_ADD.Enabled = !bOn;
 			simpleButton_DELETE.Enabled = !bOn;
@@ -302,8 +302,16 @@ namespace xwcs.core.ui.controls
 
 		private void gridView_EditFormPrepared(object sender, EditFormPreparedEventArgs e)
 		{
-			(e.Panel.Parent as Form).StartPosition = FormStartPosition.CenterScreen;
-			(e.Panel.Parent as Form).Tag = gridView.OptionsBehavior.ReadOnly;
+            Form tmp = (e.Panel.Parent as Form);
+            if (tmp == null) return;
+            tmp.StartPosition = FormStartPosition.CenterScreen;
+           
+            foreach(Control bc in e.BindableControls)
+            {
+                bc.Enabled = !gridView.OptionsBehavior.ReadOnly;
+            }
+
+            tmp.Tag = gridView.OptionsBehavior.ReadOnly;
 		}
 
         public void PostChanges()
