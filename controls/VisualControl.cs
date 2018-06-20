@@ -30,7 +30,7 @@ namespace xwcs.core.ui.controls
 
 		public virtual RibbonControl Ribbon { get { return null; }}
 
-        protected CmdQueue _commandsQueue = new CmdQueue();
+        protected CmdQueue _commandsQueue = null;
 
         public void ExecuteLater(CmdQueue.VoidNoParamDelegate d)
         {
@@ -41,6 +41,7 @@ namespace xwcs.core.ui.controls
 		/// Need just for designer
 		/// </summary>
 		public VisualControl() {
+            _commandsQueue = new CmdQueue(this);
 			InitializeComponent();			
 		}
 

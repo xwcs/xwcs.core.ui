@@ -36,7 +36,7 @@ namespace xwcs.core.ui.db
             //default modified state
             _ModifiedStyle.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
             _ModifiedStyle.LookAndFeel.UseDefaultLookAndFeel = false;
-            _ModifiedStyle.Appearance.BackColor = Color.FromArgb(230, 230, 190);
+            _ModifiedStyle.Appearance.BackColor = Color.FromArgb(204, 255, 153);
 			_parent = p;
         }
 

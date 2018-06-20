@@ -38,6 +38,7 @@
             this.richEditControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richEditControl1.Location = new System.Drawing.Point(0, 0);
             this.richEditControl1.Name = "richEditControl1";
+            this.richEditControl1.ReadOnly = true;
             this.richEditControl1.Size = new System.Drawing.Size(551, 374);
             this.richEditControl1.TabIndex = 0;
             // 
@@ -45,6 +46,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CausesValidation = false;
             this.Controls.Add(this.richEditControl1);
             this.Name = "Rtf";
             this.Size = new System.Drawing.Size(551, 374);

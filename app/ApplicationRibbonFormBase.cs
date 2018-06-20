@@ -19,6 +19,7 @@ using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraEditors;
 using System.IO;
 using xwcs.core.controls;
+using DevExpress.Data.Filtering;
 
 namespace xwcs.core.ui.app
 {
@@ -43,7 +44,13 @@ namespace xwcs.core.ui.app
 
 		public ApplicationRibbonFormBase()
 		{
-			InitializeComponent();
+            DevExpress.Data.Linq.CriteriaToEFExpressionConverter.EntityFunctionsType = typeof(System.Data.Entity.DbFunctions);
+            DevExpress.Data.Linq.CriteriaToEFExpressionConverter.SqlFunctionsType = typeof(System.Data.Entity.SqlServer.SqlFunctions);
+            CriteriaOperator.RegisterCustomFunction(new xwcs.core.linq.LikeFunction());
+
+
+
+            InitializeComponent();
 
 			/*
 			 * Assembly locating
