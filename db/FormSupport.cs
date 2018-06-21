@@ -28,15 +28,22 @@ namespace xwcs.core.ui.db
 
         public bool HighlightEditedField { get; set; } = false;
 
-        private StyleController _ModifiedStyle  { get; set; } = new StyleController();
+        private StyleController _ModifiedStyle = new StyleController();
+        public StyleController ModifiedStyle {
+            get
+            {
+                return _ModifiedStyle;
+            }
+        }
 
-        
+
+
         public FormSupport(Control p = null)
         {
             //default modified state
             _ModifiedStyle.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.UltraFlat;
             _ModifiedStyle.LookAndFeel.UseDefaultLookAndFeel = false;
-            _ModifiedStyle.Appearance.BackColor = Color.FromArgb(204, 255, 153);
+            _ModifiedStyle.Appearance.BackColor = Color.FromArgb(230, 255, 230);
 			_parent = p;
         }
 
@@ -157,14 +164,21 @@ namespace xwcs.core.ui.db
                 );
             }
 
-            // handle eventually editbox coloring in case edited value changed
+            // handle eventually edit box coloring in case edited value changed
             if (HighlightEditedField && e.ChangeKind != ModelPropertyChangedEventKind.Reset)
             {
-                TextEdit cnt = FindControlByPropertyName(e.ToString()) as TextEdit;
-                if(!ReferenceEquals(null, cnt))
+                // we have handle real value on eventual filter field
+                // it can have converter which will handle empty string as null
+                // this we need cause there exists UI component which will consider "" as not touched value
+                // DbCheckedCombo behaves as this
+                if(e.Value is ICanBeNull && !(e.Value as ICanBeNull).isNull())
                 {
-                    cnt.StyleController = _ModifiedStyle;
-                }
+                    TextEdit cnt = FindControlByPropertyName(e.ToString()) as TextEdit;
+                    if (!ReferenceEquals(null, cnt))
+                    {
+                        cnt.StyleController =  _ModifiedStyle;
+                    }
+                }                
             }
             
             // enable layout
