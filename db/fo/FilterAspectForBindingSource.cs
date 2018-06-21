@@ -61,14 +61,16 @@ namespace xwcs.core.ui.db.fo
 		private PopupCloseKind _popupCloseKind;
 		private TextEdit _destEdit;
 		private IDataBindingSource _ds;
+        private IEditorsHost _eh;
 
-		public FilterAspectForBindingSource(IDataBindingSource ds, IEditorsHost eh, BarManager bm){
+        public FilterAspectForBindingSource(IDataBindingSource ds, IEditorsHost eh, BarManager bm){
 			_ds = ds;
 			_barManager = bm;
 			_popup = new PopupControlContainer();
             _popup.CloseUp += popup_CloseUp;
             // _fc will be done when needed
             _fc = null;
+            _eh = eh;
 		}
 		
 
@@ -176,6 +178,9 @@ namespace xwcs.core.ui.db.fo
 
 			if (be != null)
 			{
+                // handle changed style
+                be.StyleController = _eh.FormSupport.ModifiedStyle;
+
 				_destEdit = be;
 				DataTable fo = new DataTable();
 
@@ -243,6 +248,9 @@ namespace xwcs.core.ui.db.fo
                                 break;
                             case '*':
                                 _fc.filterEditorControl.FilterString = string.Format("contains([{0}], ?)", ffe.FieldName);
+                                break;
+                            case '=':
+                                _fc.filterEditorControl.FilterString = string.Format("[{0}] = ?", ffe.FieldName);
                                 break;
                         }
                     }
