@@ -27,20 +27,20 @@
             this.simpleButton_DELETE = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton_ADD = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.gridSplitContainer1 = new DevExpress.XtraGrid.GridSplitContainer();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.gridSplitContainer1 = new DevExpress.XtraGrid.GridSplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridSplitContainer1)).BeginInit();
+            this.gridSplitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridSplitContainer1)).BeginInit();
-            this.gridSplitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gridControl
@@ -117,6 +117,15 @@
             this.layoutControl1.TabIndex = 4;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // gridSplitContainer1
+            // 
+            this.gridSplitContainer1.Grid = this.gridControl;
+            this.gridSplitContainer1.Location = new System.Drawing.Point(2, 2);
+            this.gridSplitContainer1.Name = "gridSplitContainer1";
+            this.gridSplitContainer1.Panel1.Controls.Add(this.gridControl);
+            this.gridSplitContainer1.Size = new System.Drawing.Size(373, 189);
+            this.gridSplitContainer1.TabIndex = 4;
+            // 
             // layoutControlGroup1
             // 
             this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
@@ -161,22 +170,13 @@
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
-            // gridSplitContainer1
-            // 
-            this.gridSplitContainer1.Grid = this.gridControl;
-            this.gridSplitContainer1.Location = new System.Drawing.Point(2, 2);
-            this.gridSplitContainer1.Name = "gridSplitContainer1";
-            this.gridSplitContainer1.Panel1.Controls.Add(this.gridControl);
-            this.gridSplitContainer1.Size = new System.Drawing.Size(373, 189);
-            this.gridSplitContainer1.TabIndex = 4;
-            // 
             // SimpleGridControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.Controls.Add(this.layoutControl1);
-            this.EditValue = 41;
+            this.EditValue = 46;
             this.MinimumSize = new System.Drawing.Size(0, 100);
             this.Name = "SimpleGridControl";
             this.Size = new System.Drawing.Size(409, 193);
@@ -185,11 +185,11 @@
             this.tableLayoutPanel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridSplitContainer1)).EndInit();
+            this.gridSplitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridSplitContainer1)).EndInit();
-            this.gridSplitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
