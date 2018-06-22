@@ -18,6 +18,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraEditors.CustomEditor;
 using DevExpress.Utils.Drawing;
 using xwcs.core.ui.editors;
+using DevExpress.XtraGrid.Views.Base;
 
 namespace xwcs.core.ui.controls
 {
@@ -246,7 +247,10 @@ namespace xwcs.core.ui.controls
 
 		protected void addRowGeneric<T>() where T : class
 		{
-			T curr = _bs.Current as T;
+            // disable eventual filters
+            gridView.ActiveFilterEnabled = false;
+
+            T curr = _bs.Current as T;
 			_bs.AddNew();
 			T newCurr = _bs.Current as T;
 
