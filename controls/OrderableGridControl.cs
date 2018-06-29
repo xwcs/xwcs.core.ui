@@ -330,7 +330,13 @@ namespace xwcs.core.ui.controls
             T curr = _bs.Current as T;
             _bs.AddNew();
             T newCurr = _bs.Current as T;
-			
+
+            // handle entity connect to context
+            EntityBase eb = newCurr as EntityBase;
+            if(eb != null)
+            {
+                eb.SetCtx(_host.DataCtx);
+            }
 
             if (curr != null)
             {

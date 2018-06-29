@@ -57,7 +57,6 @@
             this.gridView.GridControl = this.gridControl;
             this.gridView.Name = "gridView";
             this.gridView.OptionsBehavior.AllowSortAnimation = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView.OptionsBehavior.ImmediateUpdateRowPosition = false;
             this.gridView.OptionsBehavior.ReadOnly = true;
             this.gridView.OptionsCustomization.AllowFilter = false;
             this.gridView.OptionsCustomization.AllowGroup = false;
@@ -198,7 +197,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.layoutControl1);
             this.DoubleBuffered = true;
-            this.EditValue = 11;
+            this.EditValue = 16;
             this.MinimumSize = new System.Drawing.Size(150, 100);
             this.Name = "OrderableGridControl";
             this.Size = new System.Drawing.Size(463, 214);
