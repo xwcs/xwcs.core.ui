@@ -254,7 +254,14 @@ namespace xwcs.core.ui.controls
 			_bs.AddNew();
 			T newCurr = _bs.Current as T;
 
-			_wes_RowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current, IsNew = true });
+            // handle entity connect to context
+            EntityBase eb = newCurr as EntityBase;
+            if (eb != null)
+            {
+                eb.SetCtx(_host.DataCtx);
+            }
+
+            _wes_RowEdit?.Raise(this, new RowEditEventArgs() { Data = _bs.Current, IsNew = true });
 
 			gridView.ShowEditForm();
 
