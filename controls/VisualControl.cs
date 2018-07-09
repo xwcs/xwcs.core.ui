@@ -152,8 +152,14 @@ namespace xwcs.core.ui.controls
 		/// Default saving procedure
 		/// </summary>
 		virtual public void SaveChanges() { }
-		#endregion
 
-		
-	}
+        #endregion
+
+        // all can be closed by default
+        virtual public bool checkClosable()
+        {
+            return true;
+        }
+
+    }
 }
