@@ -17,7 +17,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationRibbonFormBase));
             DevExpress.Utils.Animation.PushTransition pushTransition1 = new DevExpress.Utils.Animation.PushTransition();
             this.ribbonControl = new DevExpress.XtraBars.Ribbon.RibbonControl();
@@ -37,9 +36,9 @@
             this.ribbonPageGroupHomeView = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroupHomeTools = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-            this.documentManager = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
-            this.tabbedView = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
-            this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
+            this.documentManager = new DevExpress.XtraBars.Docking2010.DocumentManager();
+            this.tabbedView = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView();
+            this.dockManager = new DevExpress.XtraBars.Docking.DockManager();
             this.workspaceManager = new DevExpress.Utils.WorkspaceManager();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
@@ -215,6 +214,7 @@
             // tabbedView
             // 
             this.tabbedView.RootContainer.Element = null;
+            this.tabbedView.DocumentClosing += new DevExpress.XtraBars.Docking2010.Views.DocumentCancelEventHandler(this.tabbedView_DocumentClosing);
             // 
             // dockManager
             // 
