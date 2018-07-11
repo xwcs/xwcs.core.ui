@@ -41,11 +41,13 @@ namespace xwcs.core.ui.cnt
 		void IContent.Next()
 		{
 			webBrowser1.GoForward();
-		}
+            progressPanel1.Visible = false;
+        }
 
-		void IContent.Prev()
+        void IContent.Prev()
 		{
-			webBrowser1.GoBack();			
+			webBrowser1.GoBack();
+            progressPanel1.Visible = false;		
 		}
 
 		void IContent.Close()

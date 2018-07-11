@@ -92,16 +92,22 @@ namespace xwcs.core.ui.app
 
                 // some form function tweaks
                 // AutoValidate = AutoValidate.EnableAllowFocusChange;
+                this.FormClosing += ApplicationRibbonFormBase_FormClosing;
                
             }
 
         }
 
+        private void ApplicationRibbonFormBase_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !canBeAllDocumentsClosed();
+        }
+
         /// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -422,8 +428,21 @@ namespace xwcs.core.ui.app
 			}
 		}
 
+        private bool canBeAllDocumentsClosed()
+        {
+            foreach(VisualControl vc in documentManager.View.Documents.Select(e => e.Control).Cast<VisualControl>())
+            {
+                if (!vc.checkClosable()) return false;
+            }
+
+            return true;
+        }
+
 		private void barButton_Change_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
+            if (!canBeAllDocumentsClosed()) return; // skip all if not all closable
+           
+
 			//Change workspace
 			if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
 			{
@@ -472,5 +491,15 @@ namespace xwcs.core.ui.app
 		{
 			Close();
 		}
-	}
+
+        private void tabbedView_DocumentClosing(object sender, DocumentCancelEventArgs e)
+        {
+            // tab closed request
+            if(e.Document.Control is VisualControl)
+            {
+                // verify if it is possible to close and cancel event if not
+                e.Cancel = ! (e.Document.Control as VisualControl).checkClosable();
+            }
+        }
+    }
 }
