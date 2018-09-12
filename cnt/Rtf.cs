@@ -29,28 +29,28 @@ namespace xwcs.core.ui.cnt
             }
         }
 
-		void IContent.Load(string Path)
+		public void LoadContent(string Path, bool force = false)
 		{
 			_RtfFilePath = Path;
 			richEditControl1.RtfText = File.ReadAllText(_RtfFilePath);			
 		}
 
-		void IContent.Next()
+		public void Next()
 		{
 		}
-		void IContent.Prev()
-		{
-		}
-
-		void IContent.Close()
+		public void Prev()
 		{
 		}
 
-		void IContent.First()
+		public void Close()
 		{
 		}
 
-		void IContent.Last()
+		public void First()
+		{
+		}
+
+		public void Last()
 		{
 		}
 

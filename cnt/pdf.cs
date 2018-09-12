@@ -30,29 +30,29 @@ namespace xwcs.core.ui.cnt
 			}
 		}
 
-		void IContent.Load(string Path)
+		public void LoadContent(string Path, bool force = false)
 		{
 			_PDFFilePath = Path;
 			pdfViewer1.LoadDocument(_PDFFilePath);
 		}
 
-		void IContent.Next()
+		public void Next()
 		{
 		}
-		void IContent.Prev()
+		public void Prev()
 		{
 		}
 
-		void IContent.Close()
+		public void Close()
 		{
 			pdfViewer1.CloseDocument();
 		}
 
-		void IContent.First()
+		public void First()
 		{
 		}
 
-		void IContent.Last()
+		public void Last()
 		{
 		}
 

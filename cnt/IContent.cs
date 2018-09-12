@@ -8,7 +8,7 @@ namespace xwcs.core.ui.cnt
 {
     public interface IContent : IDisposable
     {
-		void Load(string Path);
+		void LoadContent(string Path, bool force = false);
 		void Next();
 		void Prev();
 		void Close();
