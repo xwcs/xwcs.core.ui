@@ -31,7 +31,7 @@ namespace xwcs.core.ui.cnt
 			}
 		}
 
-		void IContent.Load(string Path)
+		public void LoadContent(string Path, bool force = false)
 		{
 			_PictureFilePath = Path;
 
@@ -44,24 +44,24 @@ namespace xwcs.core.ui.cnt
 			pictureBox1.Image = image1;
 		}
 
-		void IContent.Next()
+        public void Next()
 		{		
 		}
 
-		void IContent.Prev()
+        public void Prev()
 		{		
 		}
 
-		void IContent.Close()
+        public void Close()
 		{
 			if (pictureBox1.Image != null) pictureBox1.Image = null;
 		}
 
-		void IContent.First()
+        public void First()
 		{
 		}
 
-		void IContent.Last()
+        public void Last()
 		{
 		}
 

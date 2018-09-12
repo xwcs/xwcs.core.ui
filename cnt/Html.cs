@@ -32,33 +32,33 @@ namespace xwcs.core.ui.cnt
 			}
 		}
 
-		void IContent.Load(string URL)
+		public virtual void LoadContent(string URL, bool force = false)
 		{
 			_HTMLUrl = URL;
 			webBrowser1.Navigate(_HTMLUrl);
 		}
 
-		void IContent.Next()
+		public void Next()
 		{
 			webBrowser1.GoForward();
             progressPanel1.Visible = false;
         }
 
-        void IContent.Prev()
+        public void Prev()
 		{
 			webBrowser1.GoBack();
             progressPanel1.Visible = false;		
 		}
 
-		void IContent.Close()
+		public void Close()
 		{
 		}
 
-		void IContent.First()
+		public void First()
 		{
 		}
 
-		void IContent.Last()
+		public void Last()
 		{
 		}
 
