@@ -32,14 +32,12 @@ namespace xwcs.core.ui.controls
 
         private void _eec_EditCancel(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
         private void _eec_EditDone(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
             DialogResult = DialogResult.OK;
             Close();
         }

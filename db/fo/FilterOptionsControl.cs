@@ -130,5 +130,10 @@ namespace xwcs.core.ui.db.fo
         public void onGridConnected(object sender, GridConnectedEventData data)
         {
         }
+
+        public void onSetupLookUpGridEventData(object sender, SetupLookUpGridEventData data)
+        {
+            //only for implement interface
+        }
     }
 }
