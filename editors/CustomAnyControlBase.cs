@@ -140,7 +140,7 @@ namespace xwcs.core.ui.editors
 
         public void Draw(GraphicsCache cache, AnyControlEditViewInfo viewInfo)
         {
-            //throw new NotImplementedException();
+            //only for implement interface
         }
         #endregion
 
