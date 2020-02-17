@@ -261,7 +261,7 @@ namespace xwcs.core.ui.app
             }
             catch (Exception ex)
             {                
-                SLogManager.getInstance().Error(ex.Message);
+                SLogManager.getInstance().Error(ex.ToString());
             }
             finally
             {
@@ -284,7 +284,7 @@ namespace xwcs.core.ui.app
             }
             catch (Exception ex)
             {
-                SLogManager.getInstance().Error(ex.Message);
+                SLogManager.getInstance().Error(ex.ToString());
             }
             finally
             {
@@ -317,7 +317,7 @@ namespace xwcs.core.ui.app
                 }
                 catch (Exception ex)
                 {
-                    SLogManager.getInstance().Error(ex.Message);
+                    SLogManager.getInstance().Error(ex.ToString());
                 }
             }
         }
@@ -349,11 +349,11 @@ namespace xwcs.core.ui.app
                 catch (IOException ex)
                 {
                     MessageBox.Show("This is not workspace's folder!");
-                    SLogManager.getInstance().Info(ex.Message);
+                    SLogManager.getInstance().Info(ex.ToString());
                 }
                 catch (Exception ex)
                 {
-                    SLogManager.getInstance().Error(ex.Message);
+                    SLogManager.getInstance().Error(ex.ToString());
                 }
             }
         }

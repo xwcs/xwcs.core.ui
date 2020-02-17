@@ -84,7 +84,7 @@ namespace xwcs.core.ui.db.fo
 			}
 #if DEBUG_TRACE_LOG_ON
             catch(Exception ex) {
-                SLogManager.getInstance().getClassLogger(GetType()).Debug(ex.Message);
+                SLogManager.getInstance().getClassLogger(GetType()).Debug(ex.ToString());
 #else
             catch (Exception ) {
 #endif
