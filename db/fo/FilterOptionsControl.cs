@@ -131,12 +131,9 @@ namespace xwcs.core.ui.db.fo
         {
         }
 
-        /*
         public void onSetupLookUpGridEventData(object sender, SetupLookUpGridEventData data)
         {
             //only for implement interface
         }
-        */
     }
-
 }

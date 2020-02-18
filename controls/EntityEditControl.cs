@@ -174,11 +174,10 @@ namespace xwcs.core.ui.controls
             Console.WriteLine("Grid connected for : " + data.DataType.FullName);
         }
 
-        /*
+        
         public void onSetupLookUpGridEventData(object sender, SetupLookUpGridEventData data)
         {
             //only for imlpement of interface
         }
-        */
     }
 }
