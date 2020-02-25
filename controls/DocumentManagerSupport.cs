@@ -171,7 +171,7 @@ namespace xwcs.core.ui.controls
 			}
 			catch (Exception ex)
 			{
-				SLogManager.getInstance().Error(ex.Message);
+				SLogManager.getInstance().Error(ex.ToString());
 			}
 		}
 

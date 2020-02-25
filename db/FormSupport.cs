@@ -248,7 +248,7 @@ namespace xwcs.core.ui.db
                     }
                 }catch(Exception ex)
                 {
-                    _logger.Error(string.Format("Form support unknown action! {1}", ex.Message));
+                    _logger.Error(string.Format("Form support unknown action! {1}", ex.ToString()));
                 }
                 
             }
