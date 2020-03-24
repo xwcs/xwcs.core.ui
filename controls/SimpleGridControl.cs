@@ -61,6 +61,7 @@ namespace xwcs.core.ui.controls
                 deleteRowMethod = GetType().GetMethod("deleteRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
 
                 _bs.ListChanged += _bs_ListChanged;
+                gridView.RowUpdated += GridView_RowUpdated;
             }
             finally
             {
@@ -68,6 +69,11 @@ namespace xwcs.core.ui.controls
             }
 			
 		}
+
+        private void GridView_RowUpdated(object sender, RowObjectEventArgs e)
+        {
+            _wes_RowUpdated?.Raise(this, e);
+        }
 
         protected override void OnRootVisibleChnaged()
         {
@@ -164,6 +170,23 @@ namespace xwcs.core.ui.controls
             remove
             {
                 _wes_AfterRowEdit?.Subscribe(value);
+            }
+        }
+
+        private WeakEventSource<RowObjectEventArgs> _wes_RowUpdated = null;
+        public event EventHandler<RowObjectEventArgs> RowUpdate
+        {
+            add
+            {
+                if (_wes_RowUpdated == null)
+                {
+                    _wes_RowUpdated = new WeakEventSource<RowObjectEventArgs>();
+                }
+                _wes_RowUpdated.Subscribe(value);
+            }
+            remove
+            {
+                _wes_RowUpdated?.Subscribe(value);
             }
         }
 

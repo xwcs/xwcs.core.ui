@@ -12,6 +12,7 @@ using xwcs.core.db;
 using xwcs.core.db.binding;
 using xwcs.core.manager;
 using xwcs.core.evt;
+using DevExpress.XtraEditors.Controls;
 
 namespace xwcs.core.ui.db.fo
 {
@@ -134,6 +135,11 @@ namespace xwcs.core.ui.db.fo
         public void onSetupLookUpGridEventData(object sender, SetupLookUpGridEventData data)
         {
             //only for implement interface
+        }
+
+        public void onButtonEditClick(object sender, ButtonPressedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
