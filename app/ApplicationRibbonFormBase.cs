@@ -380,21 +380,17 @@ namespace xwcs.core.ui.app
 			//https://www.devexpress.com/Support/Center/Example/Details/T190543
 			if (DesignMode) return;
 
-			Stream writer = null;
 			try
 			{
-				writer = SPersistenceManager.getInstance().GetWriter("DefaultWorkspace");
-				workspaceManager.CaptureWorkspace("DefaultWorkspace");
-				workspaceManager.CloseStreamOnWorkspaceSaving = DevExpress.Utils.DefaultBoolean.True;
-				workspaceManager.SaveWorkspace(workspaceManager.Workspaces[0].Name, writer, true);
+				using(Stream writer = SPersistenceManager.getInstance().GetWriter("DefaultWorkspace")){
+                    workspaceManager.CaptureWorkspace("DefaultWorkspace");
+                    workspaceManager.CloseStreamOnWorkspaceSaving = DevExpress.Utils.DefaultBoolean.True;
+                    workspaceManager.SaveWorkspace(workspaceManager.Workspaces[0].Name, writer, true);
+                }
 			}
 			catch (Exception ex)
 			{
 				SLogManager.getInstance().Error(ex.ToString());
-			}
-			finally
-			{
-				if (writer != null) writer.Close();
 			}
 		}
 

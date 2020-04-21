@@ -294,4 +294,73 @@
   <data name="tabbedView.AppearancePage.HeaderActive.Image" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ApplicationFormBase</value>
+  </data>
+  <data name="barButton_Change.Caption" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="barButton_Close.Caption" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="barMenu.Text" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="barSubItem_Tools.Caption" xml:space="preserve">
+    <value>ApplicationFormBase</value>
+  </data>
+  <data name="barStatus.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="barSubItem_Edit.Caption" xml:space="preserve">
+    <value>Other Windows</value>
+  </data>
+  <data name="barSubItem_OtherWindows.Caption" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="barButton_Status.Caption" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="barButton_Options.Caption" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="barButton_CloseAll.Caption" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="barSubItem_View.Caption" xml:space="preserve">
+    <value>Create new</value>
+  </data>
+  <data name="barButton_Createnew.Caption" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="barSubItem_Workspace.Caption" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="barSubItem_About.Caption" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="barButton_Exit.Caption" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="barButton_Properties.Caption" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="barWorkspaceMenuItem1.Caption" xml:space="preserve">
+    <value>Save All</value>
+  </data>
+  <data name="barButton_SaveAll.Caption" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="barToolButtons.Text" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="barSubItem_File.Caption" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="barButton_Save.Caption" xml:space="preserve">
+    <value>Start page</value>
+  </data>
+  <data name="barButton_Startpage.Caption" xml:space="preserve">
+    <value>Save</value>
+  </data>
 </root>

@@ -165,4 +165,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>ApplicationRibbonFormBase</value>
   </data>
+  <data name="ribbonPageTools.Text" xml:space="preserve">
+    <value>ApplicationRibbonFormBase</value>
+  </data>
 </root>

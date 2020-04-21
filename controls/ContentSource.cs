@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace xwcs.core.ui.controls
 {
-	public class Content<V> : XtraUserControl where V : VisualControl
+	public class Content<V> : XtraUserControl where V : xwcs.core.ui.controls.VisualControl
 	{
 		public V Root { get; set; } = null;
 		public ContentSource CntSrc { get; set; } = null;
