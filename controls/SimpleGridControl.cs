@@ -61,6 +61,7 @@ namespace xwcs.core.ui.controls
                 deleteRowMethod = GetType().GetMethod("deleteRowGeneric", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(pt);
 
                 _bs.ListChanged += _bs_ListChanged;
+                _bs.CurrentChanged += _bs_CurrentChanged;
                 gridView.RowUpdated += GridView_RowUpdated;
             }
             finally
@@ -89,6 +90,25 @@ namespace xwcs.core.ui.controls
         {
             if (e.ListChangedType == ListChangedType.PropertyDescriptorChanged) return;
             InvalidateValue();
+        }
+
+
+        private void _bs_CurrentChanged(object sender, EventArgs e)
+        {
+            if (!_ReadOnly)
+            {
+                bool enable_delete = !_ReadOnly;
+                if (_bs.Current is IVocabularyElement)
+                {
+                    IVocabularyElement voc = (IVocabularyElement)_bs.Current;
+                    if (voc.Occorrenze > 0 || !voc.IsDeletable())
+                    {
+                        enable_delete = false;
+                    }
+                }
+                simpleButton_DELETE.Enabled = enable_delete;
+            }
+            
         }
 
         public EditFormUserControl EditControl
@@ -134,7 +154,7 @@ namespace xwcs.core.ui.controls
             //gridView.Click -= GridView_Click;
 
             _bs.ListChanged -= _bs_ListChanged;
-
+            _bs.CurrentChanged -= _bs_CurrentChanged;
             base.Dispose(disposing);
 		}
 
@@ -217,14 +237,24 @@ namespace xwcs.core.ui.controls
 		}
 
 
-
+        private bool _ReadOnly = true;
 		public void readOnly(bool bOn)
 		{
 			gridView.OptionsSelection.EnableAppearanceFocusedCell = !bOn;
-			// gridView.OptionsBehavior.Editable = !bOn;
-			gridView.OptionsBehavior.ReadOnly = bOn;
+            // gridView.OptionsBehavior.Editable = !bOn;
+            _ReadOnly = bOn;
+            gridView.OptionsBehavior.ReadOnly = bOn;
 			simpleButton_ADD.Enabled = !bOn;
-			simpleButton_DELETE.Enabled = !bOn;
+            simpleButton_DELETE.Enabled = !bOn;
+            if (_bs.Current is IVocabularyElement)
+            {
+                IVocabularyElement voc = (IVocabularyElement)_bs.Current;
+                if (voc.Occorrenze > 0 || !voc.IsDeletable())
+                {
+                    simpleButton_DELETE.Enabled = false;
+                }
+            }
+            
 		}
 
 		public  virtual bool RefreshGrid(int movePosition, bool force = false)
@@ -274,7 +304,14 @@ namespace xwcs.core.ui.controls
             gridView.ActiveFilterEnabled = false;
 
             T curr = _bs.Current as T;
-			_bs.AddNew();
+            if (curr is IVocabularyElement)
+            {
+                _bs.Add(((IVocabularyElement)curr).GetFirstFree());
+            }
+            else
+            {
+                _bs.AddNew();
+            }
 			T newCurr = _bs.Current as T;
 
             // handle entity connect to context
@@ -310,7 +347,14 @@ namespace xwcs.core.ui.controls
 		protected void deleteRowGeneric<T>(object what) where T : class
 		{
             if (ReferenceEquals(null, what)) return;
-
+            if (what is IVocabularyElement)
+            {
+                IVocabularyElement voc = (IVocabularyElement)what;
+                if (voc.Occorrenze>0 || !voc.IsDeletable())
+                {
+                    return;
+                }
+            }
             _wes_BeforeRowDelete?.Raise(this, new RowDeleteEventArgs() { Data = what });
 
             // stop events for infinite getters recursion
