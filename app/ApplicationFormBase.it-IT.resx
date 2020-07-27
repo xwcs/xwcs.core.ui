@@ -301,66 +301,66 @@
     <value>Change</value>
   </data>
   <data name="barButton_Close.Caption" xml:space="preserve">
-    <value>Close</value>
+    <value>Chiudi</value>
   </data>
   <data name="barMenu.Text" xml:space="preserve">
-    <value>Tools</value>
+    <value>Menu principlae</value>
   </data>
   <data name="barSubItem_Tools.Caption" xml:space="preserve">
-    <value>ApplicationFormBase</value>
+    <value>Strumenti</value>
   </data>
   <data name="barStatus.Text" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="barSubItem_Edit.Caption" xml:space="preserve">
-    <value>Other Windows</value>
-  </data>
-  <data name="barSubItem_OtherWindows.Caption" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="barSubItem_Edit.Caption" xml:space="preserve">
+    <value>Modifica</value>
+  </data>
+  <data name="barSubItem_OtherWindows.Caption" xml:space="preserve">
+    <value>Altre finestre</value>
+  </data>
   <data name="barButton_Status.Caption" xml:space="preserve">
-    <value>Change</value>
+    <value>Stato</value>
   </data>
   <data name="barButton_Options.Caption" xml:space="preserve">
-    <value>Close</value>
+    <value>Opzioni</value>
   </data>
   <data name="barButton_CloseAll.Caption" xml:space="preserve">
-    <value>View</value>
+    <value>Chiudi tutto</value>
   </data>
   <data name="barSubItem_View.Caption" xml:space="preserve">
-    <value>Create new</value>
+    <value>Vista</value>
   </data>
   <data name="barButton_Createnew.Caption" xml:space="preserve">
-    <value>Workspace</value>
+    <value>Crea nuovo</value>
   </data>
   <data name="barSubItem_Workspace.Caption" xml:space="preserve">
-    <value>Open</value>
+    <value>Area di lavoro</value>
   </data>
   <data name="barSubItem_About.Caption" xml:space="preserve">
-    <value>Exit</value>
+    <value>Circa</value>
   </data>
   <data name="barButton_Exit.Caption" xml:space="preserve">
-    <value>Properties</value>
+    <value>Esci</value>
   </data>
   <data name="barButton_Properties.Caption" xml:space="preserve">
-    <value>Layout</value>
+    <value>Proprietà</value>
   </data>
   <data name="barWorkspaceMenuItem1.Caption" xml:space="preserve">
-    <value>Save All</value>
+    <value>Disposizione</value>
   </data>
   <data name="barButton_SaveAll.Caption" xml:space="preserve">
-    <value>Tools</value>
+    <value>Salva tutto</value>
   </data>
   <data name="barToolButtons.Text" xml:space="preserve">
-    <value>File</value>
+    <value>Strumenti</value>
   </data>
   <data name="barSubItem_File.Caption" xml:space="preserve">
-    <value>Save</value>
+    <value>File</value>
   </data>
   <data name="barButton_Save.Caption" xml:space="preserve">
-    <value>Start page</value>
+    <value>Salva</value>
   </data>
   <data name="barButton_Startpage.Caption" xml:space="preserve">
-    <value>Save</value>
+    <value>Pagina iniziale</value>
   </data>
 </root>
