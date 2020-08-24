@@ -378,6 +378,16 @@ namespace xwcs.core.ui.controls
 
 		}
 
+        protected void LockTable<T>()
+        {
+            var lr = _host.DataCtx.TableLock(typeof(T).Name);
+        }
+
+        protected void UnlockTable<T>()
+        {
+            var lr = _host.DataCtx.TableUnlock(typeof(T).Name);
+        }
+
 		private void gridView_EditFormPrepared(object sender, EditFormPreparedEventArgs e)
 		{
             Form tmp = (e.Panel.Parent as Form);
