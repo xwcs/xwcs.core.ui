@@ -35,7 +35,9 @@ namespace xwcs.core.ui.controls
             // editing form will not highlight edited field
             _formSupport.HighlightEditedField = false;
             InitializeComponent();
-
+            simpleButtonCancel.CausesValidation = false;
+            simpleButtonCancel.AllowFocus = false;
+            simpleButtonOk.AllowFocus = false;
             simpleButtonOk.Click += SimpleButtonOk_Click;
             simpleButtonCancel.Click += SimpleButtonCancel_Click;
             _formBindingSource = new xwcs.core.db.binding.DataLayoutBindingSource(this);

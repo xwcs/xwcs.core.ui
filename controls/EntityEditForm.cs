@@ -27,6 +27,16 @@ namespace xwcs.core.ui.controls
             _eec.EditCancel += _eec_EditCancel;
             Controls.Add(_eec);
             _eec.Dock = DockStyle.Fill;
+            var descriptions = (DescriptionAttribute[])
+                        model.GetType().GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (descriptions.Any())
+            {
+                this.Text = descriptions.First().Description??_model.GetType().Name;
+            } else {
+                this.Text = _model.GetType().Name;
+            }
+            
+
 
         }
 

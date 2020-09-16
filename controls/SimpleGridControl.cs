@@ -62,6 +62,8 @@ namespace xwcs.core.ui.controls
 
                 _bs.ListChanged += _bs_ListChanged;
                 _bs.CurrentChanged += _bs_CurrentChanged;
+                gridView.InvalidRowException += GridView_InvalidRowException;
+                gridView.ValidateRow += GridView_ValidateRow;
                 gridView.RowUpdated += GridView_RowUpdated;
             }
             finally
@@ -70,6 +72,29 @@ namespace xwcs.core.ui.controls
             }
 			
 		}
+
+        private void GridView_InvalidRowException(object sender, InvalidRowExceptionEventArgs e)
+        {
+            EntityBase ent = (EntityBase)_bs.Current;
+            e.ErrorText = ent.ErrorMessage();
+            e.ExceptionMode = DevExpress.XtraEditors.Controls.ExceptionMode.NoAction;
+            gridView.SetColumnError(null, e.ErrorText, DevExpress.XtraEditors.DXErrorProvider.ErrorType.Critical);
+
+        }
+        
+        private void GridView_ValidateRow(object sender, ValidateRowEventArgs e)
+        {
+            if (_bs.Current is  EntityBase)
+            {
+                EntityBase ent = (EntityBase)_bs.Current;
+                if (!ent.IsValid())
+                {
+                    e.Valid = false;
+                    e.ErrorText = ent.ErrorMessage();
+                    return;
+                }
+            }
+        }
 
         private void GridView_RowUpdated(object sender, RowObjectEventArgs e)
         {
