@@ -126,7 +126,7 @@ namespace xwcs.core.ui.controls
                 if (_bs.Current is IVocabularyElement)
                 {
                     IVocabularyElement voc = (IVocabularyElement)_bs.Current;
-                    if (voc.Occorrenze > 0 || !voc.IsDeletable())
+                    if (voc.GetOccorrenze() > 0 || !voc.IsDeletable())
                     {
                         enable_delete = false;
                     }
@@ -274,7 +274,7 @@ namespace xwcs.core.ui.controls
             if (_bs.Current is IVocabularyElement)
             {
                 IVocabularyElement voc = (IVocabularyElement)_bs.Current;
-                if (voc.Occorrenze > 0 || !voc.IsDeletable())
+                if (voc.GetOccorrenze() > 0 || !voc.IsDeletable())
                 {
                     simpleButton_DELETE.Enabled = false;
                 }
@@ -375,7 +375,7 @@ namespace xwcs.core.ui.controls
             if (what is IVocabularyElement)
             {
                 IVocabularyElement voc = (IVocabularyElement)what;
-                if (voc.Occorrenze>0 || !voc.IsDeletable())
+                if (voc.GetOccorrenze()>0 || !voc.IsDeletable())
                 {
                     return;
                 }
