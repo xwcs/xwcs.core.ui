@@ -130,8 +130,8 @@ namespace xwcs.core.ui.controls
                     {
                         enable_delete = false;
                     }
-                } else if (_bs.Current is IDeletable){
-                    if (!((IDeletable)_bs.Current).IsDeletable())
+                } else if (_bs.Current is IPreventDelete){
+                    if (!((IPreventDelete)_bs.Current).IsDeletable())
                     {
                         enable_delete = false;
                     }
@@ -284,9 +284,9 @@ namespace xwcs.core.ui.controls
                 {
                     simpleButton_DELETE.Enabled = false;
                 }
-            } else if(_bs.Current is IDeletable)
+            } else if(_bs.Current is IPreventDelete)
             {
-                if (!((IDeletable)_bs.Current).IsDeletable())
+                if (!((IPreventDelete)_bs.Current).IsDeletable())
                 {
                     simpleButton_DELETE.Enabled = false;
                 }
@@ -393,9 +393,9 @@ namespace xwcs.core.ui.controls
                     return;
                 }
             }
-            else if (_bs.Current is IDeletable)
+            else if (_bs.Current is IPreventDelete)
             {
-                if (!((IDeletable)_bs.Current).IsDeletable())
+                if (!((IPreventDelete)_bs.Current).IsDeletable())
                 {
                     return;
                 }
