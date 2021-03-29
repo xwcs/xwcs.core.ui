@@ -78,7 +78,9 @@ namespace xwcs.core.ui.controls
                 //gridView.ValidatingEditor += GridView_ValidatingEditor;
 
                 _bs.ListChanged += _bs_ListChanged;
-
+                gridView.OptionsSelection.MultiSelect = true;
+                gridView.OptionsSelection.MultiSelectMode = GridMultiSelectMode.RowSelect;
+                gridView.SelectionChanged += GridView_SelectionChanged;
                 ResizeRedraw = true;
             }
             finally
@@ -87,6 +89,14 @@ namespace xwcs.core.ui.controls
             }
 
             
+        }
+
+        private void GridView_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
+        {
+            if (gridView.OptionsBehavior.ReadOnly) return;
+            simpleButton_UP.Enabled = (gridView.SelectedRowsCount == 1);
+            simpleButton_DOWN.Enabled = (gridView.SelectedRowsCount == 1);
+            simpleButton_DELETE.Enabled = (gridView.SelectedRowsCount == 1);
         }
 
         private void makeGEtterSetter<T>() where T : class
@@ -271,12 +281,14 @@ namespace xwcs.core.ui.controls
         // EVENTS
         protected void moveUp(object sender, EventArgs e)
         {
+            if (gridView.SelectedRowsCount != 1) return;
             moveUpMethod.Invoke(this, null);
         }
 
 
         protected void moveUpGeneric<T>() where T : class
         {
+            if (gridView.SelectedRowsCount != 1) return;
             int iRowSelect = gridView.FocusedRowHandle;
 
             if (iRowSelect >= 0)
@@ -295,12 +307,14 @@ namespace xwcs.core.ui.controls
         }
         protected void moveDown(object sender, EventArgs e)
         {
+            if (gridView.SelectedRowsCount != 1) return;
             moveDownMethod.Invoke(this, null);
         }
 
 
         protected void moveDownGeneric<T>() where T : class
         {
+            if (gridView.SelectedRowsCount != 1) return;
             int iRowSelect = gridView.FocusedRowHandle;
 
             if (iRowSelect >= 0)
@@ -355,11 +369,13 @@ namespace xwcs.core.ui.controls
 
 		protected void deleteRow(object sender, EventArgs e)
         {
+            if (gridView.SelectedRowsCount != 1) return;
             deleteRowMethod.Invoke(this, null);
         }
 
 		protected void deleteRowGeneric<T>() where T : class
         {
+            if (gridView.SelectedRowsCount != 1) return;
             if (ReferenceEquals(null, _bs.Current)) return;
             //SEventProxy.BlockModelEvents();
             _host.DataCtx.DeleteRowGeneric<T>(_propertyName, _bs.Current as T);

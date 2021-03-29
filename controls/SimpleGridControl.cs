@@ -65,6 +65,9 @@ namespace xwcs.core.ui.controls
                 gridView.InvalidRowException += GridView_InvalidRowException;
                 gridView.ValidateRow += GridView_ValidateRow;
                 gridView.RowUpdated += GridView_RowUpdated;
+                gridView.OptionsSelection.MultiSelect = true;
+                gridView.OptionsSelection.MultiSelectMode = GridMultiSelectMode.RowSelect;
+                gridView.SelectionChanged += GridView_SelectionChanged;
             }
             finally
             {
@@ -72,6 +75,12 @@ namespace xwcs.core.ui.controls
             }
 			
 		}
+
+        private void GridView_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
+        {
+            if (gridView.OptionsBehavior.ReadOnly) return;
+            simpleButton_DELETE.Enabled = (gridView.SelectedRowsCount == 1);
+        }
 
         private void GridView_InvalidRowException(object sender, InvalidRowExceptionEventArgs e)
         {
@@ -378,12 +387,14 @@ namespace xwcs.core.ui.controls
 
 		protected void deleteRow(object sender, EventArgs e)
 		{
-			deleteRowMethod.Invoke(this, new object[] { _bs.Current } );
+            if (gridView.SelectedRowsCount != 1) return;
+            deleteRowMethod.Invoke(this, new object[] { _bs.Current });
 		}
 
 
 		protected void deleteRowGeneric<T>(object what) where T : class
 		{
+            if (gridView.SelectedRowsCount != 1) return;
             if (ReferenceEquals(null, what)) return;
             if (what is IVocabularyElement)
             {
