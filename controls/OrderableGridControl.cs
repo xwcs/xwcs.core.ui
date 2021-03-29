@@ -94,9 +94,9 @@ namespace xwcs.core.ui.controls
         private void GridView_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
         {
             if (gridView.OptionsBehavior.ReadOnly) return;
-            simpleButton_UP.Enabled = (gridView.SelectedRowsCount == 1);
-            simpleButton_DOWN.Enabled = (gridView.SelectedRowsCount == 1);
-            simpleButton_DELETE.Enabled = (gridView.SelectedRowsCount == 1);
+            simpleButton_UP.Enabled = _isMoveable();
+            simpleButton_DOWN.Enabled = _isMoveable();
+            simpleButton_DELETE.Enabled = _isDeletable();
         }
 
         private void makeGEtterSetter<T>() where T : class
@@ -194,20 +194,61 @@ namespace xwcs.core.ui.controls
             simpleButton_ADD.Click -= addRow;
             simpleButton_DELETE.Click -= deleteRow;
             _bs.ListChanged -= _bs_ListChanged;
+            gridView.SelectionChanged -= GridView_SelectionChanged;
 
             base.Dispose(disposing);
         }
+        private bool _isChangeable()
+        {
+            if (_ReadOnly) return false;
+            if (gridView.SelectedRowsCount != 1) return false;
+            return true;
+        }
+
+        private bool _isMoveable()
+        {
+            if (_ReadOnly) return false;
+            if (gridView.SelectedRowsCount != 1) return false;
+            return true;
+        }
+        private bool _isDeletable()
+        {
+            
+            if (_ReadOnly) return false;
+            if (gridView.SelectedRowsCount != 1) return false;
+            if (ReferenceEquals(_bs, null)) return true;
+            if (ReferenceEquals(_bs.Current, null)) return true;
+            if (_bs.Current is IVocabularyElement)
+            {
+                IVocabularyElement voc = (IVocabularyElement)_bs.Current;
+                if (voc.GetOccorrenze() > 0 || !voc.IsDeletable())
+                {
+                    return false;
+                }
+            }
+            else if (_bs.Current is IPreventDelete)
+            {
+                if (!((IPreventDelete)_bs.Current).IsDeletable())
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
 
 
+        private bool _ReadOnly = true;
         public void SetReadOnly(bool bOn)
         {
+            _ReadOnly = bOn;
             gridView.OptionsSelection.EnableAppearanceFocusedCell = !bOn;
             //gridView.OptionsBehavior.Editable = !bOn;
             gridView.OptionsBehavior.ReadOnly = bOn;
-            simpleButton_UP.Enabled = !bOn;
-            simpleButton_DOWN.Enabled = !bOn;
+            simpleButton_UP.Enabled = _isMoveable();
+            simpleButton_DOWN.Enabled = _isMoveable();
             simpleButton_ADD.Enabled = !bOn;
-            simpleButton_DELETE.Enabled = !bOn;
+            simpleButton_DELETE.Enabled = _isDeletable();
         }
 
 		protected bool RefreshGrid(int movePosition, bool force = false)
