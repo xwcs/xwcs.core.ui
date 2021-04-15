@@ -53,7 +53,7 @@ namespace xwcs.core.ui.db.fo
 
         private void repItemKeyDownHandler(object sender, KeyEventArgs ke)
         {
-            if(ke.Control && ke.KeyCode == Keys.Delete)
+            if((ke.Control && ke.KeyCode == Keys.Delete) || ((ke.KeyCode==Keys.Delete || ke.KeyCode == Keys.Back) && (sender as TextEdit)?.Text?.Length==0))
             {
                 // reset field
                 FilterObjectbase fo = Current as FilterObjectbase;
