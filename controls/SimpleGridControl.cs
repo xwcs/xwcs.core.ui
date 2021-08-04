@@ -439,10 +439,28 @@ namespace xwcs.core.ui.controls
             Form tmp = (e.Panel.Parent as Form);
             if (tmp == null) return;
             tmp.StartPosition = FormStartPosition.CenterScreen;
-           
-            foreach(Control bc in e.BindableControls)
+
+            foreach (Control bc in e.BindableControls)
             {
-                bc.Enabled = !gridView.OptionsBehavior.ReadOnly;
+                if (bc is DevExpress.XtraEditors.BaseEdit)
+                {
+                    ((DevExpress.XtraEditors.BaseEdit)bc).ReadOnly = gridView.OptionsBehavior.ReadOnly;
+                } else if (bc is DevExpress.XtraRichEdit.RichEditControl) {
+                    ((DevExpress.XtraRichEdit.RichEditControl)bc).ReadOnly = gridView.OptionsBehavior.ReadOnly;
+                } else {
+                    try
+                    {
+                        var prl = bc.GetType().GetProperties().Where(p => p.Name.Equals("ReadOnly") && p.GetType().IsAssignableFrom(true.GetType()) && p.CanWrite).ToList();
+                        if (prl.Count==1) {
+                            prl[0].SetValue(bc, gridView.OptionsBehavior.ReadOnly);
+                        } else
+                        {
+                            bc.Enabled = !gridView.OptionsBehavior.ReadOnly;
+                        }
+                    } catch {
+                        bc.Enabled = !gridView.OptionsBehavior.ReadOnly;
+                    }
+                }
             }
 
             tmp.Tag = gridView.OptionsBehavior.ReadOnly;
