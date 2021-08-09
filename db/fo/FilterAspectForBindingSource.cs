@@ -55,14 +55,16 @@ namespace xwcs.core.ui.db.fo
 	}
 
 	public class FilterAspectForBindingSource : IDisposable {
-		private PopupControlContainer _popup;
+        private static xwcs.core.manager.ILogger _logger = xwcs.core.manager.SLogManager.getInstance().getClassLogger(typeof(FilterAspectForBindingSource));
+
+        private PopupControlContainer _popup;
 		private FieldExpressionControl _fc;
 		private BarManager _barManager;
 		private PopupCloseKind _popupCloseKind;
 		private TextEdit _destEdit;
 		private IDataBindingSource _ds;
         private IEditorsHost _eh;
-
+        
         public FilterAspectForBindingSource(IDataBindingSource ds, IEditorsHost eh, BarManager bm){
 			_ds = ds;
 			_barManager = bm;
@@ -224,8 +226,14 @@ namespace xwcs.core.ui.db.fo
 
                 if(_fc.CurrentFieldName == "v_xwbo_iter.extra" || _fc.CurrentFieldName == "v_xwbo_note.extra")
                 {
-                    
-                    _fc.filterEditorControl.FilterCriteria = CriteriaOperator.Parse(field.ToString());
+                    try
+                    {
+                        _fc.filterEditorControl.FilterCriteria = CriteriaOperator.Parse(field.ToString());
+                    } catch(Exception e)
+                    {
+                        _logger.Error(e.ToString());
+                        _fc.filterEditorControl.FilterCriteria = null;
+                    }
                 }   
                 else
                 {

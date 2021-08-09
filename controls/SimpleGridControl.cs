@@ -65,6 +65,11 @@ namespace xwcs.core.ui.controls
                 gridView.InvalidRowException += GridView_InvalidRowException;
                 gridView.ValidateRow += GridView_ValidateRow;
                 gridView.RowUpdated += GridView_RowUpdated;
+                gridView.OptionsSelection.MultiSelect = true;
+                gridView.OptionsSelection.MultiSelectMode = GridMultiSelectMode.RowSelect;
+                gridView.SelectionChanged += GridView_SelectionChanged;
+                gridView.DoubleClick += GridView_DoubleClick;
+                gridView.GotFocus += GridView_GotFocus;
             }
             finally
             {
@@ -72,6 +77,11 @@ namespace xwcs.core.ui.controls
             }
 			
 		}
+
+        private void GridView_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
+        {
+            simpleButton_DELETE.Enabled = _isDeletable(); 
+        }
 
         private void GridView_InvalidRowException(object sender, InvalidRowExceptionEventArgs e)
         {
@@ -120,20 +130,7 @@ namespace xwcs.core.ui.controls
 
         private void _bs_CurrentChanged(object sender, EventArgs e)
         {
-            if (!_ReadOnly)
-            {
-                bool enable_delete = !_ReadOnly;
-                if (_bs.Current is IVocabularyElement)
-                {
-                    IVocabularyElement voc = (IVocabularyElement)_bs.Current;
-                    if (voc.GetOccorrenze() > 0 || !voc.IsDeletable())
-                    {
-                        enable_delete = false;
-                    }
-                }
-                simpleButton_DELETE.Enabled = enable_delete;
-            }
-            
+            simpleButton_DELETE.Enabled = _isDeletable();
         }
 
         public EditFormUserControl EditControl
@@ -177,7 +174,9 @@ namespace xwcs.core.ui.controls
 			simpleButton_ADD.Click -= addRow;
 			simpleButton_DELETE.Click -= deleteRow;
             //gridView.Click -= GridView_Click;
-
+            gridView.SelectionChanged -= GridView_SelectionChanged;
+            gridView.DoubleClick -= GridView_DoubleClick;
+            gridView.GotFocus -= GridView_GotFocus;
             _bs.ListChanged -= _bs_ListChanged;
             _bs.CurrentChanged -= _bs_CurrentChanged;
             base.Dispose(disposing);
@@ -261,28 +260,57 @@ namespace xwcs.core.ui.controls
 			}
 		}
 
-
-        private bool _ReadOnly = true;
-		public void readOnly(bool bOn)
-		{
-			gridView.OptionsSelection.EnableAppearanceFocusedCell = !bOn;
-            // gridView.OptionsBehavior.Editable = !bOn;
-            _ReadOnly = bOn;
-            gridView.OptionsBehavior.ReadOnly = bOn;
-			simpleButton_ADD.Enabled = !bOn;
-            simpleButton_DELETE.Enabled = !bOn;
+        private bool _isDeletable()
+        {
+            if (_ReadOnly) return false;
+            if (gridView.SelectedRowsCount != 1) return false;
+            if (ReferenceEquals(_bs, null)) return true;
+            if (ReferenceEquals(_bs.Current, null)) return true;
             if (_bs.Current is IVocabularyElement)
             {
                 IVocabularyElement voc = (IVocabularyElement)_bs.Current;
                 if (voc.GetOccorrenze() > 0 || !voc.IsDeletable())
                 {
-                    simpleButton_DELETE.Enabled = false;
+                    return false;
                 }
             }
-            
+            else if (_bs.Current is IPreventDelete)
+            {
+                if (!((IPreventDelete)_bs.Current).IsDeletable())
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
+        private bool _ReadOnly = true;
+		public void readOnly(bool bOn)
+		{
+            _ReadOnly = bOn;
+            gridView.OptionsBehavior.ReadOnly = _ReadOnly;
+            gridView.OptionsSelection.EnableAppearanceFocusedCell = _ReadOnly;
+            gridView.OptionsBehavior.EditingMode = (_ReadOnly || ReferenceEquals(gridView.OptionsEditForm.CustomEditFormLayout, null) ? GridEditingMode.Inplace : GridEditingMode.EditForm);
+            simpleButton_ADD.Enabled = !_ReadOnly;
+            simpleButton_DELETE.Enabled = _isDeletable();
 		}
 
-		public  virtual bool RefreshGrid(int movePosition, bool force = false)
+        private void GridView_DoubleClick(object sender, EventArgs e)
+        {
+            if (_ReadOnly && !ReferenceEquals(_editControl, null))
+            {
+                gridView.OptionsBehavior.EditingMode = GridEditingMode.EditForm;
+                gridView.ShowEditForm();
+            }
+        }
+
+        private void GridView_GotFocus(object sender, EventArgs e)
+        {
+            if (_ReadOnly) gridView.OptionsBehavior.EditingMode = GridEditingMode.Inplace;
+        }
+
+        public  virtual bool RefreshGrid(int movePosition, bool force = false)
 		{
 			int bookmark = _bs.Position;
 			
@@ -365,12 +393,14 @@ namespace xwcs.core.ui.controls
 
 		protected void deleteRow(object sender, EventArgs e)
 		{
-			deleteRowMethod.Invoke(this, new object[] { _bs.Current } );
+            if (gridView.SelectedRowsCount != 1) return;
+            deleteRowMethod.Invoke(this, new object[] { _bs.Current });
 		}
 
 
 		protected void deleteRowGeneric<T>(object what) where T : class
 		{
+            if (gridView.SelectedRowsCount != 1) return;
             if (ReferenceEquals(null, what)) return;
             if (what is IVocabularyElement)
             {
@@ -379,6 +409,14 @@ namespace xwcs.core.ui.controls
                 {
                     return;
                 }
+            }
+            else if (_bs.Current is IPreventDelete)
+            {
+                if (!((IPreventDelete)_bs.Current).IsDeletable())
+                {
+                    return;
+                }
+
             }
             _wes_BeforeRowDelete?.Raise(this, new RowDeleteEventArgs() { Data = what });
 
@@ -418,10 +456,28 @@ namespace xwcs.core.ui.controls
             Form tmp = (e.Panel.Parent as Form);
             if (tmp == null) return;
             tmp.StartPosition = FormStartPosition.CenterScreen;
-           
-            foreach(Control bc in e.BindableControls)
+
+            foreach (Control bc in e.BindableControls)
             {
-                bc.Enabled = !gridView.OptionsBehavior.ReadOnly;
+                if (bc is DevExpress.XtraEditors.BaseEdit)
+                {
+                    ((DevExpress.XtraEditors.BaseEdit)bc).ReadOnly = gridView.OptionsBehavior.ReadOnly;
+                } else if (bc is DevExpress.XtraRichEdit.RichEditControl) {
+                    ((DevExpress.XtraRichEdit.RichEditControl)bc).ReadOnly = gridView.OptionsBehavior.ReadOnly;
+                } else {
+                    try
+                    {
+                        var prl = bc.GetType().GetProperties().Where(p => p.Name.Equals("ReadOnly") && p.GetType().IsAssignableFrom(true.GetType()) && p.CanWrite).ToList();
+                        if (prl.Count==1) {
+                            prl[0].SetValue(bc, gridView.OptionsBehavior.ReadOnly);
+                        } else
+                        {
+                            bc.Enabled = !gridView.OptionsBehavior.ReadOnly;
+                        }
+                    } catch {
+                        bc.Enabled = !gridView.OptionsBehavior.ReadOnly;
+                    }
+                }
             }
 
             tmp.Tag = gridView.OptionsBehavior.ReadOnly;
