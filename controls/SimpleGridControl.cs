@@ -68,6 +68,8 @@ namespace xwcs.core.ui.controls
                 gridView.OptionsSelection.MultiSelect = true;
                 gridView.OptionsSelection.MultiSelectMode = GridMultiSelectMode.RowSelect;
                 gridView.SelectionChanged += GridView_SelectionChanged;
+                gridView.DoubleClick += GridView_DoubleClick;
+                gridView.GotFocus += GridView_GotFocus;
             }
             finally
             {
@@ -173,6 +175,8 @@ namespace xwcs.core.ui.controls
 			simpleButton_DELETE.Click -= deleteRow;
             //gridView.Click -= GridView_Click;
             gridView.SelectionChanged -= GridView_SelectionChanged;
+            gridView.DoubleClick -= GridView_DoubleClick;
+            gridView.GotFocus -= GridView_GotFocus;
             _bs.ListChanged -= _bs_ListChanged;
             _bs.CurrentChanged -= _bs_CurrentChanged;
             base.Dispose(disposing);
@@ -284,16 +288,29 @@ namespace xwcs.core.ui.controls
         private bool _ReadOnly = true;
 		public void readOnly(bool bOn)
 		{
-			gridView.OptionsSelection.EnableAppearanceFocusedCell = !bOn;
-            // gridView.OptionsBehavior.Editable = !bOn;
             _ReadOnly = bOn;
-            gridView.OptionsBehavior.ReadOnly = bOn;
-			simpleButton_ADD.Enabled = !bOn;
+            gridView.OptionsBehavior.ReadOnly = _ReadOnly;
+            gridView.OptionsSelection.EnableAppearanceFocusedCell = _ReadOnly;
+            gridView.OptionsBehavior.EditingMode = (_ReadOnly || ReferenceEquals(gridView.OptionsEditForm.CustomEditFormLayout, null) ? GridEditingMode.Inplace : GridEditingMode.EditForm);
+            simpleButton_ADD.Enabled = !_ReadOnly;
             simpleButton_DELETE.Enabled = _isDeletable();
-            
 		}
 
-		public  virtual bool RefreshGrid(int movePosition, bool force = false)
+        private void GridView_DoubleClick(object sender, EventArgs e)
+        {
+            if (_ReadOnly && !ReferenceEquals(_editControl, null))
+            {
+                gridView.OptionsBehavior.EditingMode = GridEditingMode.EditForm;
+                gridView.ShowEditForm();
+            }
+        }
+
+        private void GridView_GotFocus(object sender, EventArgs e)
+        {
+            if (_ReadOnly) gridView.OptionsBehavior.EditingMode = GridEditingMode.Inplace;
+        }
+
+        public  virtual bool RefreshGrid(int movePosition, bool force = false)
 		{
 			int bookmark = _bs.Position;
 			
