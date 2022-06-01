@@ -26,11 +26,17 @@ namespace xwcs.core.ui.controls
         private xwcs.core.db.binding.DataLayoutBindingSource _formBindingSource = null;
         private string _LayoutAssetPath = "";
         private FormSupport _formSupport;
+        public EntityEditControl(): base()
+        {
 
+        }
         public EntityEditControl(ModelType model)
         {
             _LayoutAssetPath = SPersistenceManager.GetDefaultAssetsPath(SPersistenceManager.AssetKind.Layout, GetType());
             _model = model;
+            if (_model is EntityBase) {
+                _DataCtx = (_model as EntityBase).GetCtx();
+            }
             _formSupport = new FormSupport(this);
             // editing form will not highlight edited field
             _formSupport.HighlightEditedField = false;
@@ -49,7 +55,14 @@ namespace xwcs.core.ui.controls
 
             UpdateLayout();
         }
-
+        public void DisableDone()
+        {
+            this.simpleButtonOk.Enabled = false;
+        }
+        public void EnableDone()
+        {
+            this.simpleButtonOk.Enabled = true;
+        }
         private void SimpleButtonCancel_Click(object sender, EventArgs e)
         {
             _wes_EditCancel?.Raise(this, new EventArgs());
@@ -111,12 +124,12 @@ namespace xwcs.core.ui.controls
                 _wes_EditCancel?.Unsubscribe(value);
             }
         }
-
+        DBContextBase _DataCtx;
         public DBContextBase DataCtx
         {
             get
             {
-                return null;
+                return _DataCtx;
             }
         }
 
@@ -149,11 +162,11 @@ namespace xwcs.core.ui.controls
             return null;
         }
 
-        public void onGetFieldDisplayText(object sender, CustomColumnDisplayTextEventArgs cc)
+        public virtual void onGetFieldDisplayText(object sender, CustomColumnDisplayTextEventArgs cc)
         {
         }
 
-        public void onGetOptionsList(object sender, GetFieldOptionsListEventData qd)
+        public virtual void onGetOptionsList(object sender, GetFieldOptionsListEventData qd)
         {
         }
 
@@ -172,20 +185,17 @@ namespace xwcs.core.ui.controls
             base.Dispose(disposing);
         }
 
-        public void onGridConnected(object sender, GridConnectedEventData data)
+        public virtual void onGridConnected(object sender, GridConnectedEventData data)
         {
-            Console.WriteLine("Grid connected for : " + data.DataType.FullName);
         }
 
         
-        public void onSetupLookUpGridEventData(object sender, SetupLookUpGridEventData data)
+        public virtual void onSetupLookUpGridEventData(object sender, SetupLookUpGridEventData data)
         {
-            //only for imlpement of interface
         }
 
-        public void onButtonEditClick(object sender, ButtonPressedEventArgs e)
+        public virtual void onButtonEditClick(object sender, ButtonPressedEventArgs e)
         {
-            throw new NotImplementedException();
         }
     }
 }
