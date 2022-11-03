@@ -53,34 +53,42 @@ namespace xwcs.core.ui.db.fo
 
         private void repItemKeyDownHandler(object sender, KeyEventArgs ke)
         {
-            if((ke.Control && ke.KeyCode == Keys.Delete) || ((ke.KeyCode==Keys.Delete || ke.KeyCode == Keys.Back) && (((sender as TextEdit)?.Text?.Length==0) || (!sender.GetType().IsAssignableFrom(typeof(TextEdit))))))
+            if (ke.KeyCode == Keys.Delete || ke.KeyCode == Keys.Back)
             {
-                // reset field
-                FilterObjectbase fo = Current as FilterObjectbase;
-                if (fo != null)
+                if (
+                    (ke.Control)
+                    || ((sender as TextEdit)?.Text?.Length == 0) 
+                    || !(sender is TextEdit)
+                   )
+
                 {
-                    // get field using binding
-                    if ((sender as Control).DataBindings.Count > 0)
+                    // reset field
+                    FilterObjectbase fo = Current as FilterObjectbase;
+                    if (fo != null)
                     {
-                        string FieldName = (sender as Control).DataBindings[0].BindingMemberInfo.BindingMember;
-
-                        // avoid value kick back due to binder will react on PropertyChanged event and will pull 
-                        // control data back from UI to model
-                        // UI is not cleared 
-                        (sender as Control).DataBindings[0].DataSourceUpdateMode = DataSourceUpdateMode.Never;
-                        // reset field
-                        fo.ResetFieldByName(FieldName);
-                        // turn back DS update mode
-                        (sender as Control).DataBindings[0].DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
-                        // eventual null prompt
-                        TextEdit te = sender as TextEdit;
-                        if(te != null)
+                        // get field using binding
+                        if ((sender as Control).DataBindings.Count > 0)
                         {
-                            te.Properties.NullValuePrompt = "";
+                            string FieldName = (sender as Control).DataBindings[0].BindingMemberInfo.BindingMember;
 
-                            te.StyleController = EditorsHost.FormSupport.DefaultStyles.ContainsKey(te) ? EditorsHost.FormSupport.DefaultStyles[te] : null;
+                            // avoid value kick back due to binder will react on PropertyChanged event and will pull 
+                            // control data back from UI to model
+                            // UI is not cleared 
+                            (sender as Control).DataBindings[0].DataSourceUpdateMode = DataSourceUpdateMode.Never;
+                            // reset field
+                            fo.ResetFieldByName(FieldName);
+                            // turn back DS update mode
+                            (sender as Control).DataBindings[0].DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
+                            // eventual null prompt
+                            TextEdit te = sender as TextEdit;
+                            if (te != null)
+                            {
+                                te.Properties.NullValuePrompt = "";
+
+                                te.StyleController = EditorsHost.FormSupport.DefaultStyles.ContainsKey(te) ? EditorsHost.FormSupport.DefaultStyles[te] : null;
+                            }
+                            ke.Handled = true;
                         }
-                        ke.Handled = true;
                     }
                 }
             }
