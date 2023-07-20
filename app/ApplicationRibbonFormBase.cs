@@ -350,12 +350,17 @@ namespace xwcs.core.ui.app
 		{
 			_managerSupport.LoadState();
 		}
-
-		private void loadWorkSpace()
+        private bool _useWorkSpace = true;
+        public bool UseWorkSpace
+        {
+            get { return _useWorkSpace; }
+            set { _useWorkSpace = value; }
+        }
+		private void LoadWorkSpace()
 		{
 			if (DesignMode) return;
-
-			Stream reader = null;
+            if (!this.UseWorkSpace) return;
+            Stream reader = null;
 			try
 			{
 				reader = SPersistenceManager.getInstance().GetReader("DefaultWorkspace");
@@ -363,7 +368,7 @@ namespace xwcs.core.ui.app
 				workspaceManager.CloseStreamOnWorkspaceLoading = DevExpress.Utils.DefaultBoolean.True;
 				workspaceManager.TransitionType = new DevExpress.Utils.Animation.ShapeTransition();
 				workspaceManager.TransitionType.Parameters.FrameCount = 1000;
-				workspaceManager.ApplyWorkspace("DefaultWorkspace");
+                workspaceManager.ApplyWorkspace("DefaultWorkspace");
 			}
 			catch (Exception ex)
 			{
@@ -379,8 +384,8 @@ namespace xwcs.core.ui.app
 		{
 			//https://www.devexpress.com/Support/Center/Example/Details/T190543
 			if (DesignMode) return;
-
-			try
+            if (!this.UseWorkSpace) return;
+            try
 			{
 				using(Stream writer = SPersistenceManager.getInstance().GetWriter("DefaultWorkspace")){
                     workspaceManager.CaptureWorkspace("DefaultWorkspace");
@@ -401,7 +406,7 @@ namespace xwcs.core.ui.app
 
 		protected void ApplicationFormBase_Shown(object sender, EventArgs e)
 		{
-			loadWorkSpace();
+			LoadWorkSpace();
 			_proxy.fireEvent(new Event(this, EventType.WorkSpaceLoadedEvent, null));
 		}
 
@@ -459,7 +464,7 @@ namespace xwcs.core.ui.app
 
 					documentManager.View.Controller.CloseAll();
 					workspaceManager.RemoveWorkspace("DefaultWorkspace");
-					loadWorkSpace();
+					LoadWorkSpace();
 				}
 				catch (IOException ex)
 				{
